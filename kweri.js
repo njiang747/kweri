@@ -7,17 +7,32 @@ Questions = new Mongo.Collection("questions");
 // Set the routing info (info for different "pages")
 // Use layout template main for all pages
 Router.configure({
-    layoutTemplate: 'main'
+  layoutTemplate: 'main',
+  loadingTemplate: 'loading'
 });
 // Use template login for default page
 Router.route('/', {
-  name: 'home',
-  template: 'home'
+  name: 'login',
+  template: 'login'
 });
 // Use template questions for /questions
-Router.route('/questions');
-// Use template profmain for /profmain
-Router.route('/profmain');
+Router.route('/questions', {
+  waitOn: function(){
+    return Meteor.subscribe('questions');
+  }
+});
+// Use template profileProf for /profileProf
+Router.route('/profileProf', {
+  waitOn: function(){
+    return Meteor.subscribe('classes', true, Meteor._id);
+  }
+});
+// Use template profileStud for /profileStud
+Router.route('/profileStud', {
+  waitOn: function(){
+    return Meteor.subscribe('classes', false, Meteor._id);
+  }
+});
 
 if (Meteor.isClient) {
   // Define helper functions/variables that are accessible in the
@@ -27,6 +42,15 @@ if (Meteor.isClient) {
     // and decreasing creation date
     questions: function() {
       return Questions.find({}, {sort: {value: -1, createdAt: -1}});
+    }
+  });
+
+  // Define helper functions/variables that are accessible in the
+  // body section of the html
+  Template.classlist.helpers({
+    // classes returns a list of classess
+    classes: function() {
+      return Classes.find();
     }
   });
 
@@ -89,5 +113,13 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+    Meteor.publish('questions', function(){
+      return Questions.find({value: {$ne: 0}});
+    });
+    // code to run on server at startup
+    Meteor.publish('classes', function(isProf, id){
+      if (isProf) return Questions.find({profs: id});
+      else return Questions.find({students: id});
+    });
   });
 }

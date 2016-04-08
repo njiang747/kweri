@@ -1,0 +1,15 @@
+<template name="classlist">
+  <div class="container2">
+    <ul>
+      {{#each classes}}
+        {{> class}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="class">
+  <li>
+    <div>{{name}}</div>
+  </li>
+</template>

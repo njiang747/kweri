@@ -1,6 +1,6 @@
 <template name="main">
     <div class = "title-bar">
-      <a href="{{pathFor route='home'}}">KWERI</a>
+      <a href="{{pathFor route='profileStud'}}">KWERI</a>
       {{> loginButtons}}
     </div>
     {{> yield}}
@@ -10,58 +10,19 @@
     </footer>
 </template>
 
-<template name="questions">
-  <head>
-    <title>Kweri</title>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>Questions</h1>
-        {{#if currentUser}}
-          {{> questionbox}}
-        {{/if}}
-      </header>
-      {{> questionlist}}
-    </div>
-  </body>
+<template name="login">
+  <h1>Login Page</h1>
 </template>
 
-<template name="questionbox">
-  <form class="new-question">
-    <input type="text" name="qText" placeholder="Post new question">
-    <input type="submit" class="submit" value="submit">
-  </form>
-</template>
-
-<template name="questionlist">
-  <div class="container2">
-    <ul>
-      {{#each questions}}
-        {{> question}}
-      {{/each}}
-    </ul>
-  </div>
-</template>
-
-<template name="question">
-  <li>
-    <div class = "infoContainer">
-      <div class="text">{{qText}}</div>
-      <div class="dateText">{{createdAtToString}}</div>
-    </div>
-    <div class="scoreContainer">
-      <button class="arrowDown">&lt;</button>
-      <span class="value">{{value}}</span>
-      <button class="arrowUp">&gt;</button>
-    </div>
-  </li>
-</template>
-
-<template name="home">
-  <h1>Home Page</h1>
-</template>
-
-<template name="profmain">
+<template name="profileProf">
   <h1>Professor Main Page</h1>
+  <div>Username: {{currentUser.username}}</div>
+  {{> classlist}}
 </template>
+
+<template name="profileStud">
+  <h1>Student Main Page</h1>
+  <div>Username: {{currentUser.username}}</div>
+  {{> classlist}}
+</template>
+
