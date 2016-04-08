@@ -1,39 +1,54 @@
-<head>
-  <title>Kweri</title>
-</head>
-
-<body>
-  <form>
-
-  </form>
-  <div class="container">
-    <header>
-      <h1>Questions</h1>
-
+<template name="main">
+    <div class = "title-bar">
+      <a href="{{pathFor route='home'}}">KWERI</a>
       {{> loginButtons}}
-
-      {{#if currentUser}}
-        <form class="new-question">
-          <input type="text" name="qText" placeholder="Post new question">
-          <input type="submit" class="submit" value="submit">
-        </form>
-      {{/if}}
-    </header>
-    <div class="container2">
-      <ul>
-        {{#each questions}}
-          {{> question}}
-        {{/each}}
-      </ul>
     </div>
+    {{> yield}}
+    <footer>
+      <hr />
+      Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
+    </footer>
+</template>
+
+<template name="questions">
+  <head>
+    <title>Kweri</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Questions</h1>
+        {{#if currentUser}}
+          {{> questionbox}}
+        {{/if}}
+      </header>
+      {{> questionlist}}
+    </div>
+  </body>
+</template>
+
+<template name="questionbox">
+  <form class="new-question">
+    <input type="text" name="qText" placeholder="Post new question">
+    <input type="submit" class="submit" value="submit">
+  </form>
+</template>
+
+<template name="questionlist">
+  <div class="container2">
+    <ul>
+      {{#each questions}}
+        {{> question}}
+      {{/each}}
+    </ul>
   </div>
-</body>
+</template>
 
 <template name="question">
   <li>
     <div class = "infoContainer">
       <div class="text">{{qText}}</div>
-      <div class="dateText">{{createdAt}}</div>
+      <div class="dateText">{{createdAtToString}}</div>
     </div>
     <div class="scoreContainer">
       <button class="arrowDown">&lt;</button>
@@ -41,4 +56,12 @@
       <button class="arrowUp">&gt;</button>
     </div>
   </li>
+</template>
+
+<template name="home">
+  <h1>Home Page</h1>
+</template>
+
+<template name="profmain">
+  <h1>Professor Main Page</h1>
 </template>
