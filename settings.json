@@ -1,0 +1,13 @@
+{"cas": {
+    "baseUrl": "https://fed.princeton.edu/cas/",
+    "autoClose": true
+},
+"public": {
+    "cas": {
+        "loginUrl": "https://fed.princeton.edu/cas/login",
+        "serviceParam": "http:google.com",
+        "popupWidth": 810,
+        "popupHeight": 610
+    }
+}
+}

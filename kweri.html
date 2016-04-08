@@ -8,11 +8,15 @@
   </form>
   <div class="container">
     <header>
-      <h1>Questions</h1>
+      <h1>Questioaans</h1>
 
-      {{> loginButtons}}
-
+      {{#unless currentUser}}
+        <button type = "button" class="btn">Login</button>
+      {{/unless}}
       {{#if currentUser}}
+        <button type = "button" class="btn">Logout</button>
+
+         <p>Welcome {{userName}}</p>
         <form class="new-question">
           <input type="text" name="qText" placeholder="Post new question">
           <input type="submit" class="submit" value="submit">
@@ -28,7 +32,6 @@
     </div>
   </div>
 </body>
-
 <template name="question">
   <li>
     <div class = "infoContainer">
