@@ -1,0 +1,24 @@
+<template name="classlist">
+  <div class="container2">
+    <ul>
+      {{#each classes}}
+        {{> class}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="class">
+  <li>
+    <div>{{listing}}</div>
+    <div>{{name}}</div>
+  </li>
+</template>
+
+<template name="addClass">
+  <form class="new-class">
+    <input type="text" placeholder="class listing" name="listing">
+    <input type="text" placeholder="class name" name="name">
+    <input type="submit" class="class-submit" value="submit">
+  </form>
+</template>

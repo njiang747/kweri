@@ -1,16 +1,3 @@
-<template name="questions">
-  <title>Kweri</title>
-  <div class="questions-container">
-    <header>
-      <h1>Questions</h1>
-      {{#if currentUser}}
-        {{> questionbox}}
-      {{/if}}
-    </header>
-    {{> questionlist}}
-  </div>
-</template>
-
 <template name="questionbox">
   <form class="questions-newQuestion">
     <input type="text" name="qText" placeholder="Post new question">
@@ -35,9 +22,12 @@
       <div class="questions-dateText">{{createdAtToString}}</div>
     </div>
     <div class="questions-scoreContainer">
-      <button class="questions-arrowDown">&lt;</button>
       <span class="questions-value">{{value}}</span>
-      <button class="questions-arrowUp">&gt;</button>
+      {{#if upvoted}}
+        <button class="questions-arrowDown">&lt;</button>
+      {{else}}
+        <button class="questions-arrowUp">&gt;</button>
+      {{/if}}
     </div>
   </li>
 </template>

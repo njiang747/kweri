@@ -1,0 +1,58 @@
+<template name="main">
+    <div class = "title-bar">
+      <a href="{{pathFor route='login'}}">KWERI</a>
+      {{> loginButtons}}
+    </div>
+    {{> yield}}
+    <footer>
+      <hr />
+      Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
+    </footer>
+</template>
+
+<template name="loading">
+  <div class="loader">Loading...</div>
+  <div class="loader">Loading...</div>
+  <div class="loader">Loading...</div>
+  <div class="loader">Loading...</div>
+</template>
+
+<template name="login">
+  <!-- {{> loginPage}} -->
+  <h1>Login Page</h1>
+  <a href="{{pathFor route='questions'}}">Questions</a>
+  <br>
+  <a href="{{pathFor route='profileStud'}}">Student Profile</a>
+  <br>
+  <a href="{{pathFor route='profileProf'}}">Professor Profile</a>
+  <br>
+</template>
+
+<template name="questions">
+  <title>Kweri</title>
+  <div class="questions-container">
+    <header>
+      <h1>Questions</h1>
+      {{#if currentUser}}
+        {{> questionbox}}
+      {{/if}}
+    </header>
+    {{> questionlist}}
+  </div>
+</template>
+
+<template name="profileProf">
+  <h1>Professor Main Page</h1>
+  <div>Username: {{currentUser.username}}</div>
+  <div>Classes you teach:</div>
+  {{> classlist}}
+  {{> addClass}}
+</template>
+
+<template name="profileStud">
+  <h1>Student Main Page</h1>
+  <div>Username: {{currentUser.username}}</div>
+  <div>Classes you take:</div>
+  {{> classlist}}
+</template>
+
