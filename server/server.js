@@ -1,4 +1,4 @@
-/***** Meteor Server Section **************************************************/
+/***** Meteor Server File *****************************************************/
 /* Code to be run server side */
 
 Meteor.startup(function () {
@@ -8,7 +8,10 @@ Meteor.startup(function () {
     return Questions.find({}); //value: {$ne: 0}
   });
   Meteor.publish('classes', function(isProf, id){
-    if (isProf) return Classes.find({profs: id}, {sort: {listing: 1}});
-    else return Classes.find({students: id}, {sort: {listing: 1}});
+    if (isProf) return Classes.find({profs: id});
+    else return Classes.find({students: id});
+  });
+  Meteor.publish('lectures', function(class_id){
+    return Lectures.find({class_id: class_id});
   });
 });

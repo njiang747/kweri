@@ -1,4 +1,4 @@
-/***** MongoDB Database Section ***********************************************/
+/***** MongoDB Database File **************************************************/
 /* Set up access to databases */
 
 /* Create a mongoDB collections if they doesn't exist, otherwise load the 

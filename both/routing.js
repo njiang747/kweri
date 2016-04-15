@@ -1,4 +1,4 @@
-/***** Iron Router Routing Section ********************************************/
+/***** Iron Router Routing File ***********************************************/
 /* Handles different "pages" based on URL extensions */
 
 /* Use layout template, main, for all pages, and use 
@@ -24,9 +24,11 @@ Router.route('/profileStud', {
     return Meteor.subscribe('classes', false, Meteor.userId());
   }
 });
-Router.route('/class', {
+Router.route('/class/:_id', {
+  name: 'class',
   waitOn: function(){
-    return Meteor.subscribe('lectures', Session.get("class"), Meteor.userId());
+    return [Meteor.subscribe('lectures', this.params._id), 
+            Meteor.subscribe('classes', true, Meteor.userId())];
   }
 });
 Router.route('/questions', {

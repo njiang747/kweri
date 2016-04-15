@@ -28,19 +28,6 @@
   <br>
 </template>
 
-<template name="questions">
-  <title>Kweri</title>
-  <div class="questions-container">
-    <header>
-      <h1>Questions</h1>
-      {{#if currentUser}}
-        {{> questionbox}}
-      {{/if}}
-    </header>
-    {{> questionlist}}
-  </div>
-</template>
-
 <template name="profileProf">
   <h1>Professor Main Page</h1>
   <div>Username: {{currentUser.username}}</div>
@@ -54,5 +41,25 @@
   <div>Username: {{currentUser.username}}</div>
   <div>Classes you take:</div>
   {{> classlist}}
+</template>
+
+<template name="class">
+  <h1>{{listing}}: {{name}}</h1>
+  <div>Lectures in this class:</div>
+  {{> lecturelist}}
+  {{> addLecture}}
+</template>
+
+<template name="questions">
+  <title>Kweri</title>
+  <div class="questions-container">
+    <header>
+      <h1>Questions</h1>
+      {{#if currentUser}}
+        {{> questionbox}}
+      {{/if}}
+    </header>
+    {{> questionlist}}
+  </div>
 </template>
 

@@ -1,0 +1,23 @@
+<template name="lecturelist">
+  <div class="container2">
+    <ul>
+      {{#each lectures}}
+        {{> lectureElem}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="lectureElem">
+  <li>
+    <div>Lecture {{number}}: {{name}}</div>
+  </li>
+</template>
+
+<template name="addLecture">
+  <form class="new-lecture">
+    <input type="text" placeholder="lecture number" name="number">
+    <input type="text" placeholder="lecture name" name="name">
+    <input type="submit" class="lecture-submit" value="submit">
+  </form>
+</template>

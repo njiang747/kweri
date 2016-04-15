@@ -2,14 +2,14 @@
   <div class="container2">
     <ul>
       {{#each classes}}
-        {{> class}}
+        {{> classElem}}
       {{/each}}
     </ul>
   </div>
 </template>
 
-<template name="class">
-  <li>
+<template name="classElem">
+  <li class="class-listing">
     <div>{{listing}}</div>
     <div>{{name}}</div>
   </li>

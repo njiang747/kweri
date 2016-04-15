@@ -8,7 +8,7 @@
 <template name="questionlist">
   <div class="questions-listContainer">
     <ul class="questions-list">
-      {{#each questions}}
+      {{#each questionsTop}}
         {{> question}}
       {{/each}}
     </ul>
@@ -21,13 +21,10 @@
       <div class="questions-text">{{qText}}</div>
       <div class="questions-dateText">{{createdAtToString}}</div>
     </div>
-    <div class="questions-scoreContainer">
-      <span class="questions-value">{{value}}</span>
-      {{#if upvoted}}
-        <button class="questions-arrowDown">&lt;</button>
-      {{else}}
-        <button class="questions-arrowUp">&gt;</button>
-      {{/if}}
-    </div>
+    {{#if upvoted}}
+      <button class="questions-down">{{value}}</button>
+    {{else}}
+      <button class="questions-up">{{value}}</button>
+    {{/if}}
   </li>
 </template>
