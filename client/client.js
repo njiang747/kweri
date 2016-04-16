@@ -151,6 +151,12 @@ Template.question.events({
   }
 });
 
+Template.home.events({
+  'click .btnlogin': function() {
+    Router.go('/login');
+  }
+});
+
 /* Account requires a username and password */
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_ONLY"
