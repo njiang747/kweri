@@ -9,14 +9,14 @@
 </template>
 
 <template name="lectureElem">
-  <li>
+  <li class="lecture-listing">
     <div>Lecture {{number}}: {{name}}</div>
   </li>
 </template>
 
 <template name="addLecture">
   <form class="new-lecture">
-    <input type="text" placeholder="lecture number" name="number">
+    <input type="number" placeholder="lecture number" name="number">
     <input type="text" placeholder="lecture name" name="name">
     <input type="submit" class="lecture-submit" value="submit">
   </form>

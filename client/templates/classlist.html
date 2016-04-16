@@ -10,14 +10,14 @@
 
 <template name="classElem">
   <li class="class-listing">
-    <div>{{listing}}</div>
-    <div>{{name}}</div>
+    <div>{{department}} {{number}}: {{name}}</div>
   </li>
 </template>
 
 <template name="addClass">
   <form class="new-class">
-    <input type="text" placeholder="class listing" name="listing">
+    <input type="text" placeholder="department" name="department">
+    <input type="number" placeholder="class number" name="number">
     <input type="text" placeholder="class name" name="name">
     <input type="submit" class="class-submit" value="submit">
   </form>

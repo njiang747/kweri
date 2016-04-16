@@ -1,7 +1,12 @@
 <template name="main">
-    <div class = "title-bar">
+    <div class="title-bar">
       <a href="{{pathFor route='login'}}">KWERI</a>
-      {{> loginButtons}}
+      {{#if currentUser}}
+        <a class="title-profile-arrow">&nbsp;&#x25BE;</a>
+        <a href="{{pathFor route='profileStud'}}" class="title-profile-link">{{username}}</a>
+      {{else}}
+        <a class="title-login">Login</a>
+      {{/if}}
     </div>
     {{> yield}}
     <footer>
@@ -20,7 +25,7 @@
 <template name="login">
   <!-- {{> loginPage}} -->
   <h1>Login Page</h1>
-  <a href="{{pathFor route='questions'}}">Questions</a>
+  <button class="login-button">Login/Logout</button>
   <br>
   <a href="{{pathFor route='profileStud'}}">Student Profile</a>
   <br>
@@ -30,7 +35,7 @@
 
 <template name="profileProf">
   <h1>Professor Main Page</h1>
-  <div>Username: {{currentUser.username}}</div>
+  <div>Username: {{currentUser.profile.name}}</div>
   <div>Classes you teach:</div>
   {{> classlist}}
   {{> addClass}}
@@ -38,23 +43,27 @@
 
 <template name="profileStud">
   <h1>Student Main Page</h1>
-  <div>Username: {{currentUser.username}}</div>
+  <div>Username: {{currentUser.profile.name}}</div>
   <div>Classes you take:</div>
   {{> classlist}}
 </template>
 
 <template name="class">
-  <h1>{{listing}}: {{name}}</h1>
+  <h1>{{department}} {{number}}: {{name}}</h1>
   <div>Lectures in this class:</div>
   {{> lecturelist}}
   {{> addLecture}}
 </template>
 
-<template name="questions">
+<template name="lecture">
   <title>Kweri</title>
   <div class="questions-container">
     <header>
-      <h1>Questions</h1>
+      <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+      <br>
+      <h3>Lecture {{lNum}}: {{lName}}</h3>
+      <h3 class="questions-dateString">{{dateString}}</h3>
+      {{> questionConCounter}}
       {{#if currentUser}}
         {{> questionbox}}
       {{/if}}

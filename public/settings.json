@@ -1,0 +1,13 @@
+{"cas": {
+    "baseUrl": "https://fed.princeton.edu/cas/",
+    "autoClose": true
+},
+"public": {
+    "cas": {
+        "loginUrl": "https://fed.princeton.edu/cas/login",
+        "serviceParam": "https://www.cs.princeton.edu/sites/all/modules/custom/cs_people/generate_thumbnail.php?id=1062&thumb=",
+        "popupWidth": 810,
+        "popupHeight": 610
+    }
+}
+}

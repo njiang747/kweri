@@ -24,10 +24,18 @@ Router.route('/profileStud', {
     return Meteor.subscribe('classes', false, Meteor.userId());
   }
 });
-Router.route('/class/:_id', {
+Router.route('/class/:class_id', {
   name: 'class',
   waitOn: function(){
-    return [Meteor.subscribe('lectures', this.params._id), 
+    return [Meteor.subscribe('lectures', this.params.class_id), 
+            Meteor.subscribe('classes', true, Meteor.userId())];
+  }
+});
+Router.route('/lecture/:class_id/:lecture_id', {
+  name: 'lecture',
+  waitOn: function(){
+    return [Meteor.subscribe('questions', this.params.lecture_id), 
+            Meteor.subscribe('lectures', this.params.class_id), 
             Meteor.subscribe('classes', true, Meteor.userId())];
   }
 });

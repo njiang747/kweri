@@ -2,6 +2,7 @@
   <form class="questions-newQuestion">
     <input type="text" name="qText" placeholder="Post new question">
     <input type="submit" class="questions-submit" value="submit">
+    <button class="questions-con-button">I'm Confused</button>
   </form>
 </template>
 
@@ -27,4 +28,12 @@
       <button class="questions-up">{{value}}</button>
     {{/if}}
   </li>
+</template>
+
+<template name="questionConCounter">
+  <div class="questions-barContainer">
+    <div class="questions-vertical progress">
+      <div class="progress-bar {{color}}" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;"></div>
+    </div>
+  </div>
 </template>
