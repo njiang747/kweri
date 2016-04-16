@@ -11,9 +11,11 @@ Router.configure({
 /* Set the routing info, by default, uses the template with same name as the
  * extension */
 Router.route('/', {
-  name: 'login',
-  template: 'login'
+  layoutTemplate: '',
+  name: 'home',
+  template: 'home'
 });
+
 Router.route('/profileProf', {
   waitOn: function(){
     return Meteor.subscribe('classes', true, Meteor.userId());
