@@ -22,3 +22,6 @@ dburles:collection-helpers
 iron:router
 standard-minifier-css
 standard-minifier-js
+atoy40:accounts-cas
+random
+twbs:bootstrap

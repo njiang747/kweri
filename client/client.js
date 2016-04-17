@@ -5,6 +5,59 @@
  * Helpers define variables/functions used within templates
  * Events define actions to be taken upon events within templates */
 
+/***** Main Layout ************************************************************/
+Template.main.helpers({
+  username: function() {
+    return Meteor.user().profile.name;
+  }
+});
+
+Template.main.events({
+  'click .title-login': function(event) {
+    Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
+    return false;
+  },
+  'click .title-profile-arrow': function(event) {
+    if(Meteor.user()){
+      Meteor.logout();
+      openCenteredPopup(
+        "https://fed.princeton.edu/cas/logout",
+        810 || 800,
+        610 || 600);
+      Router.go('home');
+    } 
+    return false;
+  }
+});
+
+/***** Home Page **************************************************************/
+Template.home.events({
+  'click .btnloginProf': function(event) {
+    if(Meteor.user()){
+      Router.go('profileProf');
+    } else {
+      Meteor.loginWithCas(
+        function(err){
+          if(err)alert("Failed to login");
+          else Router.go('profileProf');
+      });
+    }
+    return false;
+  },
+  'click .btnloginStud': function(event) {
+    if(Meteor.user()){
+      Router.go('profileStud');
+    } else {
+      Meteor.loginWithCas(
+        function(err){
+          if(err)alert("Failed to login");
+          else Router.go('profileStud');
+      });
+    }
+    return false;
+  }
+});
+
 /***** Profile Page ***********************************************************/
 Template.classlist.helpers({
   /* classes returns a list of classes */
@@ -16,22 +69,25 @@ Template.classlist.helpers({
 Template.classlist.events({
   /* clicking on a class redirects to that class's page */
   'click .class-listing': function() {
-    Router.go('class', {_id: this._id});
+    Router.go('class', {class_id: this._id});
   }
 });
 
 Template.addClass.events({
   /* insert a new class into the Classes collection */
   'submit .new-class': function(event) {
-    var listing = event.target.listing.value;
+    var department = event.target.department.value.toUpperCase();
+    var number = parseInt(event.target.number.value);
     var name = event.target.name.value;
     Classes.insert({
-      listing: listing,
+      department: department,
+      number: number,
       name: name,
-      profs: [Meteor.userId()],
+      profs: [Meteor.userId()], 
       students: []
     });
-    event.target.listing.value = "";
+    event.target.department.value = "";
+    event.target.number.value = "";
     event.target.name.value = "";
     return false
   }
@@ -39,13 +95,17 @@ Template.addClass.events({
 
 /***** Class Page *************************************************************/
 Template.class.helpers({
-  /* returns the listing of the current class */
-  listing: function() {
-    return Classes.findOne(Router.current().params._id).listing;
+  /* returns the department of the current class */
+  department: function() {
+    return Classes.findOne(Router.current().params.class_id).department;
+  },
+  /* returns the number of the current class */
+  number: function() {
+    return Classes.findOne(Router.current().params.class_id).number;
   },
   /* returns the name of the current class */
   name: function() {
-    return Classes.findOne(Router.current().params._id).name;
+    return Classes.findOne(Router.current().params.class_id).name;
   }
 });
 
@@ -56,17 +116,24 @@ Template.lecturelist.helpers({
   }
 });
 
+Template.lecturelist.events({
+  /* clicking on a lecture redirects to that lecture's page */
+  'click .lecture-listing': function() {
+    Router.go('lecture', {class_id: Router.current().params.class_id, lecture_id: this._id});
+  }
+});
+
 Template.addLecture.events({
   /* insert a new lecture into the Lectures collection */
   'submit .new-lecture': function(event) {
     var number = parseInt(event.target.number.value);
     var name = event.target.name.value;
     Lectures.insert({
-      class_id: Router.current().params._id,
+      class_id: Router.current().params.class_id,
       number: number,
       name: name,
-      confuseNum: 0,
-      totalNum: 0,
+      confuseList: [],
+      totalList: [Meteor.userId()],
       date: new Date(),
       openStatus: true
 
@@ -78,6 +145,28 @@ Template.addLecture.events({
 });
 
 /***** Lecture Page ***********************************************************/
+Template.lecture.helpers({
+  cDpt: function() {
+    return Classes.findOne(Router.current().params.class_id).department;
+  },
+  cNum: function() {
+    return Classes.findOne(Router.current().params.class_id).number;
+  },
+  cName: function() {
+    return Classes.findOne(Router.current().params.class_id).name;
+  },
+  lNum: function() {
+    return Lectures.findOne(Router.current().params.lecture_id).number;
+  },
+  lName: function() {
+    return Lectures.findOne(Router.current().params.lecture_id).name;
+  },
+  dateString: function() {
+    var date = Lectures.findOne(Router.current().params.lecture_id).date;
+    return date.toDateString();
+  }
+});
+
 Template.questionlist.helpers({
   /* questions returns a list of questions sorted by decreasing score
    * and decreasing creation date */
@@ -97,6 +186,7 @@ Template.questionbox.events({
     if (qText == "") return false;
     // insert the question into the database
     Questions.insert({ 
+      lecture_id: Router.current().params.lecture_id,
       qText: qText,
       value: 1,
       createdAt: new Date(),
@@ -105,6 +195,23 @@ Template.questionbox.events({
     });
     // clear the question field
     event.target.qText.value = "";
+    return false;
+  },
+  'click .questions-con-button': function(){
+    console.log("TEST");
+    var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    console.log(lecture);
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      Lectures.update(Router.current().params.lecture_id, 
+        {
+          $push: {confuseList: Meteor.userId()}
+        });
+    } else {
+      Lectures.update(Router.current().params.lecture_id, 
+        {
+          $pull: {confuseList: Meteor.userId()}
+        });
+    }
     return false;
   }
 });
@@ -151,13 +258,44 @@ Template.question.events({
   }
 });
 
-Template.home.events({
-  'click .btnlogin': function() {
-    Router.go('/login');
+Template.questionConCounter.helpers({
+  percent: function(){
+    var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    return Math.floor(lecture.confuseList.length/lecture.totalList.length*100);
+  },
+  color: function() {
+    var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    var per = Math.floor(lecture.confuseList.length/lecture.totalList.length*100);
+    if (per <= 25){
+      return "progress-bar-success";
+    } else if (per <= 50){
+      return "progress-bar-warning";
+    } else {
+      return "progress-bar-danger";
+    }
   }
 });
 
-/* Account requires a username and password */
-Accounts.ui.config({
-  passwordSignupFields: "USERNAME_ONLY"
-});
+var openCenteredPopup = function(url, width, height) {
+  var screenX = typeof window.screenX !== 'undefined'
+  ? window.screenX : window.screenLeft;
+  var screenY = typeof window.screenY !== 'undefined'
+  ? window.screenY : window.screenTop;
+  var outerWidth = typeof window.outerWidth !== 'undefined'
+  ? window.outerWidth : document.body.clientWidth;
+  var outerHeight = typeof window.outerHeight !== 'undefined'
+  ? window.outerHeight : (document.body.clientHeight - 22);
+  // XXX what is the 22?
+
+  // Use `outerWidth - width` and `outerHeight - height` for help in
+  // positioning the popup centered relative to the current window
+  var left = screenX + (outerWidth - width) / 2;
+  var top = screenY + (outerHeight - height) / 2;
+  var features = ('width=' + width + ',height=' + height +
+      ',left=' + left + ',top=' + top + ',scrollbars=yes');
+
+  var newwindow = window.open(url, '_blank', features);
+  if (newwindow.focus)
+    newwindow.focus();
+return newwindow;
+};

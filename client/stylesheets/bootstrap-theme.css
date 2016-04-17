@@ -80,7 +80,7 @@ fieldset[disabled] .btn-danger {
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   background-repeat: repeat-x;
   border-color: #dbdbdb;
-  text-shadow: 0 1px 0 #fff;
+  /*text-shadow: 0 1px 0 #fff;*/
   border-color: #ccc;
 }
 .btn-default:hover,
