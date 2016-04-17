@@ -8,27 +8,15 @@ body{
 	width: 100%;
 }
 
-.home-main {
-	width: 100%;
-	height: 100%;
-	color: #B6D53B;
-	background-image: url("4.jpg");
-	background-size: cover;
-}
-
-.row .btn-login {
-	background-color: #B6D53B !important;
-}
 #home {
-  background-size: cover;
-  background-position: center;
+  background: #222222;
   color: #ffffff;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
   -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   height: 100vh;
   text-align: center;
 }
@@ -50,12 +38,13 @@ body{
   font-weight: bold;
   letter-spacing: 2px;
   padding: 12px 42px;
-  margin-top: 40px;
+  margin-top: 30px;
   margin-right: 16px;
   transition: all 0.4s ease-in-out;
 }
 #home .btn:hover {
   background: #00c6d7;
+  /*background: radial-gradient(rgba(0, 198, 215, 0.1) 10%, rgba(0, 198, 215, 1)) 60%;  */
   border-color: transparent;
 }
 #home .btn-danger {
@@ -64,13 +53,13 @@ body{
 }
 #home .btn-danger:hover {
   border: 4px solid #ffffff;
-    border-radius: 0;
+  border-radius: 0;
   background: transparent;
-    color: #ffffff;
+  color: #ffffff;
 }
 .custom-navbar {
-    background: #4B4B4B;
-    margin-bottom: 0;
+  background: #4B4B4B;
+  margin-bottom: 0;
 }
 .custom-navbar .navbar-brand  {
   color: #00c6d7;
@@ -78,45 +67,95 @@ body{
   font-size: 24px;
 }
 .custom-navbar .navbar-brand .navbar-toggle {
-    background: #00c6d7;
-    padding: 4px 6px;
-    font-size: 16px;
-    color: #fff;
-    }
+  background: #00c6d7;
+  padding: 4px 6px;
+  font-size: 16px;
+  color: #fff;
+}
 .custom-navbar .nav li a {
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 500;
-    }
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+}
 .custom-navbar .nav li a:hover {
-    background: transparent;
-   color: #eeeeee;
+  background: transparent;
+  color: #00c6d7;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.2);
 }
 .custom-navbar .nav > li > a:focus {
   background-color: transparent;
-  color: #ffffff;
+  /*color: #ffffff;*/
   outline: none;
 }
 .custom-navbar .nav li.active > a {
-      color: #00c6d7;
-    }
+  color: #00c6d7;
+}
 .custom-navbar .navbar-toggle {
-        border: none;
-        padding-top: 10px;
-    }
+  border: none;
+  padding-top: 10px;
+}
 .custom-navbar .navbar-toggle .icon-bar {
-        background: #00c6d7;
-        border-color: transparent;
-    }
+  background: #00c6d7;
+  border-color: transparent;
+}
 @media(min-width:768px){
-    .custom-navbar {
-            background: #4B4B4B;
-            padding: 10px;
-            border-bottom: 0;
-            background: 0 0;
-         }
-    .custom-navbar.top-nav-collapse {
-            padding: 8px;
-            background: #4B4B4B;
-        }
-    }
+  .custom-navbar {
+    background: #4B4B4B;
+
+    background: linear-gradient(90deg, rgba(150, 150, 150, 0.05) 0%, rgba(150, 150, 150, 0.3) 25%, rgba(150, 150, 150, 0.3) 75%, rgba(150, 150, 150, 0.05) 100%);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.5);
+
+    /*padding: 10px;*/
+    border-bottom: 0;
+    /*background: 0 0;*/
+  }
+  .custom-navbar.top-nav-collapse {
+    padding: 8px;
+    background: #4B4B4B;
+  }
+}
+
+.cb-slideshow {
+  list-style: none
+}
+.cb-slideshow li span {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: transparent;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: none;
+    opacity: 0;
+    z-index: 0;
+    animation: imageAnimation 30s linear infinite 0s; 
+}
+.cb-slideshow li:nth-child(1) span { 
+    background-image: url(/1.jpg) 
+}
+.cb-slideshow li:nth-child(2) span { 
+    background-image: url(/2.jpg);
+    animation-delay: 6s; 
+}
+.cb-slideshow li:nth-child(3) span { 
+    background-image: url(/3.jpg);
+    animation-delay: 12s; 
+}
+.cb-slideshow li:nth-child(4) span { 
+    background-image: url(/4.jpg);
+    animation-delay: 18s; 
+}
+.cb-slideshow li:nth-child(5) span { 
+    background-image: url(/5.jpg);
+    animation-delay: 24s; 
+}
+@keyframes imageAnimation { 
+    0% { opacity: 0; animation-timing-function: ease-in; }
+    10% { opacity: 1; animation-timing-function: ease-out; }
+    20% { opacity: 1 }
+    40% { opacity: 0 }
+    100% { opacity: 0 }
+}
