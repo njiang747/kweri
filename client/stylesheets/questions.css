@@ -125,6 +125,13 @@ li.questions-listItem .questions-upvote {
   color: #4CBB17;
 }
 
+li.questions-listItem .questions-undoupvote {
+  background: none;
+  border: none;
+  font-size: 0.8em;
+  color: #FF6666;
+}
+
 li.questions-listItem .questions-delete {
   background: none;
   border: none;

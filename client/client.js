@@ -188,10 +188,12 @@ Template.questionbox.events({
     Questions.insert({ 
       lecture_id: Router.current().params.lecture_id,
       qText: qText,
-      value: 1,
+      // value: 1,
+      value: 0,
       createdAt: new Date(),
       createdBy: Meteor.userId(),
-      upvotedBy: [Meteor.userId()]
+      // upvotedBy: [Meteor.userId()]
+      upvotedBy: []
     });
     // clear the question field
     event.target.qText.value = "";
@@ -257,6 +259,17 @@ Template.question.events({
   },
   /* clicking the downvote button decreases the question's value by 1 */
   'click .questions-down': function() {
+    if (this.upvotedBy != undefined && 
+        this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+      Questions.update(this._id, 
+        {
+          $set: {value: this.value - 1}, 
+          $pull: {upvotedBy: Meteor.userId()}
+        });
+    }
+    return false;
+  },
+  'click .questions-undoupvote': function() {
     if (this.upvotedBy != undefined && 
         this.upvotedBy.indexOf(Meteor.userId()) != -1) {
       Questions.update(this._id, 
