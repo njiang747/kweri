@@ -6,7 +6,15 @@
   </form>
 </template>
 
+<template name="questionsort">
+  <button class="questions-sortbytime">Newest</button>
+  <button class="questions-sortbyvotes">Highest Votes</button>
+</template>
+
 <template name="questionlist">
+  <div class="questions-sorter">
+    {{> questionsort}}
+  </div>
   <div class="questions-listContainer">
     <ul class="questions-list">
       {{#each questionsTop}}
@@ -17,6 +25,7 @@
 </template>
 
 <template name="question">
+
   <li class="questions-listItem">
 
     <div class="questions-infoContainer">

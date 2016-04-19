@@ -218,6 +218,13 @@ Template.questionbox.events({
   }
 });
 
+Template.questionsort.events({
+  'click .questions-sortbytime': function() {
+
+    return false;
+  }
+});
+
 Template.question.helpers({
   /* Function that converts a date to a string */
   createdAtToString: function() {
