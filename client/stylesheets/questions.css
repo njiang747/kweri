@@ -111,41 +111,6 @@ li.questions-listItem .questions-dateText {
   color: #888888;
 }
 
-li.questions-listItem .questions-options {
-  clear: both;
-  position: relative;
-  margin-top: 1px;
-  margin-left: 10px;
-}
-
-li.questions-listItem .questions-upvote {
-  background: none;
-  border: none;
-  font-size: 0.8em;
-  color: #4CBB17;
-}
-
-li.questions-listItem .questions-undoupvote {
-  background: none;
-  border: none;
-  font-size: 0.8em;
-  color: #FF6666;
-}
-
-li.questions-listItem .questions-delete {
-  background: none;
-  border: none;
-  font-size: 0.8em;
-  color: #FF6666;
-}
-
-li.questions-listItem .questions-markasimportant {
-  background: none;
-  border: none;
-  font-size: 0.8em;
-  color: #33A1DE
-}
-
 li.questions-listItem .questions-vote {
   float: right;
   vertical-align: middle;
@@ -183,6 +148,48 @@ li.questions-listItem .questions-up {
   /*float: right;*/
   font-size: 1.8em;
 }
+
+li.questions-listItem .questions-options {
+  clear: both;
+  position: relative;
+  margin-top: 1px;
+  margin-left: 10px;
+  border-top: 1px solid #DDDDDD;
+}
+
+li.questions-listItem .questions-upvote {
+  background: none;
+  width: 90px;
+  text-align: left;
+  border: none;
+  font-size: 0.8em;
+  color: #4CBB17;
+}
+
+li.questions-listItem .questions-undoupvote {
+  background: none;
+  width: 90px;
+  text-align: left;
+  border: none;
+  font-size: 0.8em;
+  color: #FF6666;
+}
+
+li.questions-listItem .questions-delete {
+  background: none;
+  border: none;
+  font-size: 0.8em;
+  color: #FF6666;
+}
+
+li.questions-listItem .questions-markasimportant {
+  background: none;
+  border: none;
+  font-size: 0.8em;
+  color: #33A1DE
+}
+
+
 
 .questions-con-button {
   background: #777777;
