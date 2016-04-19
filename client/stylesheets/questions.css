@@ -165,3 +165,12 @@ li.questions-listItem .questions-up {
 .progress-bar {
   box-shadow: inset 0px 4px 6px rgba(100,100,100,0.6);
 }
+
+.questions-delete {
+  float: left;
+  font-weight: bold;
+  background: none;
+  font-size: 1em;
+  border: none;
+  position: relative;
+}
