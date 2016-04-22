@@ -27,6 +27,17 @@ Template.main.events({
       Router.go('home');
     } 
     return false;
+  },
+  'click .menu-logout': function(event) {
+    if(Meteor.user()){
+      Meteor.logout();
+      openCenteredPopup(
+        "https://fed.princeton.edu/cas/logout",
+        810 || 800,
+        610 || 600);
+      Router.go('home');
+    } 
+    return false;
   }
 });
 
@@ -56,6 +67,7 @@ Template.home.events({
     }
     return false;
   }
+
 });
 
 /***** Profile Page ***********************************************************/
