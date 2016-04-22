@@ -5,7 +5,8 @@
  * loadingt emplate, loading, while loading pages */
 Router.configure({
   layoutTemplate: 'main',
-  loadingTemplate: 'loading'
+  loadingTemplate: 'loading',
+  notFoundTemplate: 'loading'
 });
 
 /* Set the routing info, by default, uses the template with same name as the
@@ -18,19 +19,19 @@ Router.route('/', {
 
 Router.route('/profileProf', {
   waitOn: function(){
-    return Meteor.subscribe('classes', true, Meteor.userId());
+    return Meteor.subscribe('classes', Meteor.user().profile.profStatus, Meteor.userId());
   }
 });
 Router.route('/profileStud', {
   waitOn: function(){
-    return Meteor.subscribe('classes', false, Meteor.userId());
+    return Meteor.subscribe('allClasses');
   }
 });
 Router.route('/class/:class_id', {
   name: 'class',
   waitOn: function(){
     return [Meteor.subscribe('lectures', this.params.class_id), 
-            Meteor.subscribe('classes', true, Meteor.userId())];
+            Meteor.subscribe('classes', Meteor.user().profile.profStatus, Meteor.userId())];
   }
 });
 Router.route('/lecture/:class_id/:lecture_id', {
@@ -38,7 +39,7 @@ Router.route('/lecture/:class_id/:lecture_id', {
   waitOn: function(){
     return [Meteor.subscribe('questions', this.params.lecture_id), 
             Meteor.subscribe('lectures', this.params.class_id), 
-            Meteor.subscribe('classes', true, Meteor.userId())];
+            Meteor.subscribe('classes', Meteor.user().profile.profStatus, Meteor.userId())];
   }
 });
 Router.route('/questions', {
