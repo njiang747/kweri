@@ -267,6 +267,10 @@ Template.question.events({
         });
     }
     return false;
+  },
+
+  "click .questions-delete": function () {
+    Questions.remove(this._id);
   }
 });
 
