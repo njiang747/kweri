@@ -125,6 +125,7 @@ body{
 .dropdown-navbar {
   float: right;
 }
-.custom-navbar .nav li a {
+
+.custom-navbar .nav .dropdown-menu li a {
   color: black;
 }
