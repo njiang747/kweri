@@ -7,7 +7,7 @@
 </template>
 
 <template name="questionlist">
-  <div class="questions-listContainer">
+  <div class="questions-listContainer" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
     <ul class="questions-list">
       {{#each questionsTop}}
         {{> question}}
