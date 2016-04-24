@@ -17,7 +17,6 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 insecure                # Allow all DB writes from clients (for prototyping)
 accounts-password
-accounts-ui
 dburles:collection-helpers
 iron:router
 standard-minifier-css
