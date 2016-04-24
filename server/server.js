@@ -4,6 +4,13 @@
 Meteor.startup(function () {
   /* Server publishes subsets of collections to be accessed by the client */
 
+  Meteor.publish('users', function() {
+    return Users.find({});
+  })
+  /* Return all the classes but hide the students field */
+  Meteor.publish('allClasses', function() {
+    return Classes.find();
+  })
   Meteor.publish('classes', function(isProf, id){
     if (isProf) return Classes.find({profs: id});
     else return Classes.find({students: id});

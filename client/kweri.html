@@ -1,4 +1,7 @@
 <template name="main">
+  {{#unless currentUser}}
+    {{> home}}
+  {{else}}
     <div class="title-bar">
       <a href="{{pathFor route='home'}}">KWERI</a>
       {{#if currentUser}}
@@ -13,6 +16,7 @@
       <hr />
       Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
     </footer>
+  {{/unless}}
 </template>
 
 <template name="loading">
@@ -20,17 +24,6 @@
   <div class="loader">Loading...</div>
   <div class="loader">Loading...</div>
   <div class="loader">Loading...</div>
-</template>
-
-<template name="login">
-  <!-- {{> loginPage}} -->
-  <h1>Login Page</h1>
-  <button class="login-button">Login/Logout</button>
-  <br>
-  <a href="{{pathFor route='profileStud'}}">Student Profile</a>
-  <br>
-  <a href="{{pathFor route='profileProf'}}">Professor Profile</a>
-  <br>
 </template>
 
 <template name="profileProf">
@@ -44,6 +37,10 @@
 <template name="profileStud">
   <h1>Student Main Page</h1>
   <div>Username: {{currentUser.profile.name}}</div>
+  <div>Search for classes:</div>
+  {{> classSearch}}
+  <br>
+  {{> searchClasslist}}
   <div>Classes you take:</div>
   {{> classlist}}
 </template>
