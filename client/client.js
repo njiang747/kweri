@@ -280,6 +280,18 @@ Template.questionConCounter.helpers({
   }
 });
 
+Template.questionConCounter.events({
+    'click .questions-conReset-button': function(){
+    console.log("TEST");
+
+      var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+      Lectures.update(Router.current().params.lecture_id, { $set : {confuseList: [] }} , {multi:true} );
+
+    return false;
+  }
+
+});
+
 var openCenteredPopup = function(url, width, height) {
   var screenX = typeof window.screenX !== 'undefined'
   ? window.screenX : window.screenLeft;
