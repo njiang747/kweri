@@ -111,9 +111,12 @@ body{
     /*background: 0 0;*/
   }
   .custom-navbar.top-nav-collapse {
-    padding: 8px;
     background: #4B4B4B;
   }
+}
+
+.custom-navbar .nav .dropdown-menu li a {
+  color: black;
 }
 
 .cb-slideshow {
