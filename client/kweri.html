@@ -2,16 +2,10 @@
   {{#unless currentUser}}
     {{> home}}
   {{else}}
-    <div class="title-bar">
-      <a href="{{pathFor route='home'}}">KWERI</a>
-      {{#if currentUser}}
-        <a class="title-profile-arrow">&nbsp;&#x25BE;</a>
-        <a href="{{pathFor route='profileStud'}}" class="title-profile-link">{{username}}</a>
-      {{else}}
-        <a class="title-login">Login</a>
-      {{/if}}
+    {{> navbar}}
+    <div class="main-container">
+      {{> yield}}
     </div>
-    {{> yield}}
     <footer>
       <hr />
       Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
@@ -60,7 +54,7 @@
       <br>
       <h3>Lecture {{lNum}}: {{lName}}</h3>
       <h3 class="questions-dateString">{{dateString}}</h3>
-      {{> questionConCounter}}
+      <!-- {{> questionConCounter}} -->
       {{#if currentUser}}
         {{> questionbox}}
       {{/if}}

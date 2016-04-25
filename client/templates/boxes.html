@@ -1,0 +1,25 @@
+<template name="boxeslist">
+  <div class="boxes-listContainer">
+      {{#each boxItems}}
+        {{> box}}
+      {{/each}}
+  </div>
+</template>
+
+<template name="box">
+
+  <div class="span3 box-div ">
+    <div class="box-header">
+      <h2>{{title}}</h2>
+    </div>
+    <div class="box-features">
+      <p><strong>Great</strong> Classroom Tool</p>
+      <p><strong>Real-time</strong> Updates</p>
+      <p><strong>Unlimited</strong> Questions</p>
+      <p><strong>Safe</strong> Environment</p>
+    </div>
+    <div class="box-continue">
+      <p><a href="{{pathFor route='questions'}}">Continue</a></p>
+    </div>
+  </div>
+</template>
