@@ -165,6 +165,18 @@ li.questions-listItem .questions-up {
   float: right;
   margin-top: 5px;
 }
+.questions-conReset-button {
+  background: #777777;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  float: right;
+  margin-top: 5px;
+}
 
 .questions-barContainer {
   padding-top: 20px;
