@@ -198,7 +198,7 @@ Template.questionbox.events({
     return false;
   },
   'click .questions-con-button': function(){
-    console.log("TEST");
+
     var lecture =  Lectures.findOne(Router.current().params.lecture_id);
     console.log(lecture);
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
@@ -206,6 +206,7 @@ Template.questionbox.events({
         {
           $push: {confuseList: Meteor.userId()}
         });
+      setTimeout(confuseTimer, 3000);
     } else {
       Lectures.update(Router.current().params.lecture_id, 
         {
@@ -215,7 +216,13 @@ Template.questionbox.events({
     return false;
   }
 });
-
+var confuseTimer = function() {
+      alert("1 minute elapsed, confusion status cleared");
+      Lectures.update(Router.current().params.lecture_id, 
+        {
+          $pull: {confuseList: Meteor.userId()}
+        });
+}
 Template.question.helpers({
   /* Function that converts a date to a string */
   createdAtToString: function() {
