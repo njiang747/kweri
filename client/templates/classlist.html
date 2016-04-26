@@ -1,12 +1,13 @@
-<!--crazy-->
 <template name="classlist">
-  <div class="container2">
+  {{#if classes}}
     <ul>
       {{#each classes}}
         {{> classElem}}
       {{/each}}
     </ul>
-  </div>
+  {{else}}
+    <div>No Classes</div>
+  {{/if}}
 </template>
 
 <template name="classElem">
@@ -22,4 +23,36 @@
     <input type="text" placeholder="class name" name="name">
     <input type="submit" class="class-submit" value="submit">
   </form>
+</template>
+
+<template name="classSearch">
+  <form class="class-search">
+    <input type="text" class="searchTerm">
+    <input type="submit" class="search-submit" value="submit">
+  </form>
+</template>
+
+<template name="searchClasslist">
+  {{#if classes}}
+    <ul>
+      {{#each classes}}
+        {{> searchClassElem}}
+      {{/each}}
+    </ul>
+  {{else}}
+    <div>0 Search Results</div>
+    <br>
+  {{/if}}
+</template>
+
+<template name="searchClassElem">
+  <li class="search-class-listing">
+    <div>{{department}} {{number}}: {{name}}</div>
+    <div>Professors: 
+      {{#each prof_names}}
+        {{profile.name}} 
+      {{/each}}
+    </div>
+    <button class="enroll">Enroll</button>
+  </li>
 </template>
