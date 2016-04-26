@@ -261,10 +261,12 @@ Template.questionbox.events({
     Questions.insert({ 
       lecture_id: Router.current().params.lecture_id,
       qText: qText,
-      value: 1,
+      // value: 1,
+      value: 0,
       createdAt: new Date(),
       createdBy: Meteor.userId(),
-      upvotedBy: [Meteor.userId()]
+      // upvotedBy: [Meteor.userId()]
+      upvotedBy: []
     });
     // clear the question field
     event.target.qText.value = "";
@@ -277,7 +279,7 @@ Template.questionbox.events({
         {
           $push: {confuseList: Meteor.userId()}
         });
-      var confuseTimerReset = setTimeout(confuseTimer(lecture), 60000);
+      var confuseTimerReset = setTimeout(confuseTimer, 60000);
     } else {
       Lectures.update(Router.current().params.lecture_id, 
         {
@@ -287,16 +289,22 @@ Template.questionbox.events({
     return false;
   }
 });
-var confuseTimer = function(lecture) {
-    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      return;
-    }
-      alert("1 minute elapsed, confusion status cleared");
-      Lectures.update(Router.current().params.lecture_id, 
-        {
-          $pull: {confuseList: Meteor.userId()}
-        });
+
+var confuseTimer = function() {
+    alert("1 minute elapsed, confusion status cleared");
+    Lectures.update(Router.current().params.lecture_id, 
+      {
+        $pull: {confuseList: Meteor.userId()}
+      });
 }
+
+Template.questionsort.events({
+  'click .questions-sortbytime': function() {
+
+    return false;
+  }
+});
+
 Template.question.helpers({
   /* Function that converts a date to a string */
   createdAtToString: function() {
@@ -325,8 +333,30 @@ Template.question.events({
     }
     return false;
   },
+  'click .questions-upvote': function() {
+    if (this.upvotedBy == undefined || 
+        this.upvotedBy.indexOf(Meteor.userId()) == -1) {
+      Questions.update(this._id, 
+        {
+          $set: {value: this.value + 1}, 
+          $push: {upvotedBy: Meteor.userId()}
+        });
+    }
+    return false;
+  },
   /* clicking the downvote button decreases the question's value by 1 */
   'click .questions-down': function() {
+    if (this.upvotedBy != undefined && 
+        this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+      Questions.update(this._id, 
+        {
+          $set: {value: this.value - 1}, 
+          $pull: {upvotedBy: Meteor.userId()}
+        });
+    }
+    return false;
+  },
+  'click .questions-undoupvote': function() {
     if (this.upvotedBy != undefined && 
         this.upvotedBy.indexOf(Meteor.userId()) != -1) {
       Questions.update(this._id, 
