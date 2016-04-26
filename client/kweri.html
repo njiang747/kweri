@@ -1,18 +1,16 @@
 <template name="main">
-    <div class="title-bar">
-      <a href="{{pathFor route='home'}}">KWERI</a>
-      {{#if currentUser}}
-        <a class="title-profile-arrow">&nbsp;&#x25BE;</a>
-        <a href="{{pathFor route='profileStud'}}" class="title-profile-link">{{username}}</a>
-      {{else}}
-        <a class="title-login">Login</a>
-      {{/if}}
+  {{#unless currentUser}}
+    {{> home}}
+  {{else}}
+    {{> navbar}}
+    <div class="main-container">
+      {{> yield}}
     </div>
-    {{> yield}}
     <footer>
       <hr />
       Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
     </footer>
+  {{/unless}}
 </template>
 
 <template name="loading">
@@ -22,30 +20,28 @@
   <div class="loader">Loading...</div>
 </template>
 
-<template name="login">
-  <!-- {{> loginPage}} -->
-  <h1>Login Page</h1>
-  <button class="login-button">Login/Logout</button>
-  <br>
-  <a href="{{pathFor route='profileStud'}}">Student Profile</a>
-  <br>
-  <a href="{{pathFor route='profileProf'}}">Professor Profile</a>
-  <br>
-</template>
-
 <template name="profileProf">
-  <h1>Professor Main Page</h1>
-  <div>Username: {{currentUser.profile.name}}</div>
-  <div>Classes you teach:</div>
-  {{> classlist}}
-  {{> addClass}}
+  <div class="container-fluid text-center">
+    <h1 class="h1-label">Professor Main Page</h1>
+    <div>Your classes:</div>
+    {{> classlist}}
+    <div>Add a class:</div>
+    {{> addClass}}
+  </div>
 </template>
 
 <template name="profileStud">
-  <h1>Student Main Page</h1>
-  <div>Username: {{currentUser.profile.name}}</div>
-  <div>Classes you take:</div>
-  {{> classlist}}
+  <div class="container-fluid text-center">
+    <h1 class="h1-label">Student Main Page</h1>
+    <div>Username: {{currentUser.profile.name}}</div>
+    <div>Search for classes:</div>
+    {{> classSearch}}
+    <br>
+    {{> searchClasslist}}
+    <br>
+    <div>Classes you take:</div>
+    {{> classlist}}
+  </div>
 </template>
 
 <template name="class">
