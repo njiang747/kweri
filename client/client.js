@@ -277,6 +277,7 @@ Template.questionbox.events({
         {
           $push: {confuseList: Meteor.userId()}
         });
+      var confuseTimerReset = setTimeout(confuseTimer(lecture), 60000);
     } else {
       Lectures.update(Router.current().params.lecture_id, 
         {
@@ -286,7 +287,16 @@ Template.questionbox.events({
     return false;
   }
 });
-
+var confuseTimer = function(lecture) {
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      return;
+    }
+      alert("1 minute elapsed, confusion status cleared");
+      Lectures.update(Router.current().params.lecture_id, 
+        {
+          $pull: {confuseList: Meteor.userId()}
+        });
+}
 Template.question.helpers({
   /* Function that converts a date to a string */
   createdAtToString: function() {
@@ -350,6 +360,16 @@ Template.questionConCounter.helpers({
       return "progress-bar-danger";
     }
   }
+});
+
+Template.questionConCounter.events({
+    /* Reset cc counter */
+    'click .questions-conReset-button': function(){
+      var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+      Lectures.update(Router.current().params.lecture_id, { $set : {confuseList: [] }} , {multi:true} );
+    return false;
+  }
+
 });
 
 var openCenteredPopup = function(url, width, height) {
