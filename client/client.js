@@ -261,10 +261,12 @@ Template.questionbox.events({
     Questions.insert({ 
       lecture_id: Router.current().params.lecture_id,
       qText: qText,
-      value: 1,
+      // value: 1,
+      value: 0,
       createdAt: new Date(),
       createdBy: Meteor.userId(),
-      upvotedBy: [Meteor.userId()]
+      // upvotedBy: [Meteor.userId()]
+      upvotedBy: []
     });
     // clear the question field
     event.target.qText.value = "";
@@ -283,6 +285,13 @@ Template.questionbox.events({
           $pull: {confuseList: Meteor.userId()}
         });
     }
+    return false;
+  }
+});
+
+Template.questionsort.events({
+  'click .questions-sortbytime': function() {
+
     return false;
   }
 });
