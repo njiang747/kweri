@@ -21,7 +21,7 @@ Meteor.startup(function () {
   Meteor.publish('questions', function(lecture_id){
     return Questions.find({lecture_id: lecture_id});
   });
-  Meteor.publish('presence', function() {
-    return Presences.find({}, { fields: { state: true, userId: true }});
-  });
+  // Meteor.publish('presence', function() {
+  //   return Presences.find({}, { fields: { state: true, userId: true }});
+  // });
 });
