@@ -277,7 +277,7 @@ Template.questionbox.events({
         {
           $push: {confuseList: Meteor.userId()}
         });
-      var confuseTimerReset = setTimeout(confuseTimer(lecture), 60000);
+      var confuseTimerReset = setTimeout(confuseTimer, 60000);
     } else {
       Lectures.update(Router.current().params.lecture_id, 
         {
@@ -287,15 +287,12 @@ Template.questionbox.events({
     return false;
   }
 });
-var confuseTimer = function(lecture) {
-    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      return;
-    }
-      alert("1 minute elapsed, confusion status cleared");
-      Lectures.update(Router.current().params.lecture_id, 
-        {
-          $pull: {confuseList: Meteor.userId()}
-        });
+var confuseTimer = function() {
+    alert("1 minute elapsed, confusion status cleared");
+    Lectures.update(Router.current().params.lecture_id, 
+      {
+        $pull: {confuseList: Meteor.userId()}
+      });
 }
 Template.question.helpers({
   /* Function that converts a date to a string */
