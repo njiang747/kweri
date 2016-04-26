@@ -17,17 +17,6 @@ Template.main.events({
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
   },
-  'click .title-profile-arrow': function(event) {
-    if(Meteor.user()){
-      Meteor.logout();
-      openCenteredPopup(
-        "https://fed.princeton.edu/cas/logout",
-        810 || 800,
-        610 || 600);
-      Router.go('home');
-    } 
-    return false;
-  },
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       Meteor.logout();
@@ -73,6 +62,17 @@ Template.home.events({
           }
       });
     }
+    return false;
+  },
+  'click .menu-logout': function(event) {
+    if(Meteor.user()){
+      Meteor.logout();
+      openCenteredPopup(
+        "https://fed.princeton.edu/cas/logout",
+        810 || 800,
+        610 || 600);
+      Router.go('home');
+    } 
     return false;
   }
 
