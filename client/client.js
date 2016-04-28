@@ -183,15 +183,14 @@ Template.class.helpers({
   }, 
 });
 Template.classElem.helpers({
-  /*selectedClass: function() {
-    var userid = this._id;
-    console.log(Meteor.users.find({_id: userid}, {fields:{"profile.selectedClass": 1}}));
-    if ("BDausZhp8mkS8Qf9X" == Meteor.users.get("name") {
-      console.log("it works");
+  selectedClass: function() {
+    var current = this._id;
+    if (current == Meteor.user().profile.selectedClass) {
+      console.log("it worked");
+      return "selectedClass";
     }
-    console.log()
-  }*/
-})
+  }
+});
 Template.lecturelist.helpers({
   /* lectures returns a list of lectures */
   lectures: function() {
