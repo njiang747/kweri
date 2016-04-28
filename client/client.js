@@ -16,7 +16,16 @@ Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
-  },
+  }
+});
+
+Template.navbar.helpers({
+  username: function() {
+    return Meteor.user().profile.name;
+  }
+});
+
+Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       Meteor.logout();
@@ -27,24 +36,22 @@ Template.main.events({
       Router.go('home');
     } 
     return false;
-  }, 
+  },
   'click .menu-profile': function(event) {
     if(!Meteor.user().profile.profStatus) {
-      //Router.go('profileProf');
-      console.log("stud");
       Router.go('profileStud');
     }
     else {
-      console.log("prof");
       Router.go('profileProf');
     }
+    return false;
   }
 });
 
 /***** Home Page **************************************************************/
 Template.home.events({
   'click .btnloginProf': function(event) {
-    if(Meteor.user()){
+    if (Meteor.user()){
       Router.go('profileProf');
     } else {
       Meteor.loginWithCas(
@@ -74,21 +81,8 @@ Template.home.events({
       });
     }
     return false;
-  },
-  'click .menu-logout': function(event) {
-    if(Meteor.user()){
-      Meteor.logout();
-      openCenteredPopup(
-        "https://fed.princeton.edu/cas/logout",
-        810 || 800,
-        610 || 600);
-      Router.go('home');
-    } 
-    return false;
   }
-
 });
-
 
 /***** Profile Page ***********************************************************/
 Template.classlist.helpers({
@@ -104,8 +98,6 @@ Template.classlist.helpers({
 Template.classlist.events({
   /* clicking on a class redirects to that class's page */
   'click .class-listing': function() {
-    Meteor.users.update(Meteor.userId(), 
-      {$set: {"profile.selectedClass": this._id}});
     Router.go('class', {class_id: this._id});
   }
 });
@@ -192,17 +184,9 @@ Template.class.helpers({
   /* returns the name of the current class */
   name: function() {
     return Classes.findOne(Router.current().params.class_id).name;
-  }, 
-});
-Template.classElem.helpers({
-  selectedClass: function() {
-    var current = this._id;
-    if (current == Meteor.user().profile.selectedClass) {
-      console.log("it worked");
-      return "selectedClass";
-    }
   }
 });
+
 Template.lecturelist.helpers({
   /* lectures returns a list of lectures */
   lectures: function() {
