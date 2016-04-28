@@ -27,6 +27,17 @@ Template.main.events({
       Router.go('home');
     } 
     return false;
+  }, 
+  'click .menu-profile': function(event) {
+    if(!Meteor.user().profile.profStatus) {
+      //Router.go('profileProf');
+      console.log("stud");
+      Router.go('profileStud');
+    }
+    else {
+      console.log("prof");
+      Router.go('profileProf');
+    }
   }
 });
 
@@ -77,6 +88,7 @@ Template.home.events({
   }
 
 });
+
 
 /***** Profile Page ***********************************************************/
 Template.classlist.helpers({
