@@ -1,0 +1,8 @@
+.class-listing {
+	color: black;
+}
+
+.selectedClass {
+	background-color: white;
+	color: blue;
+}
