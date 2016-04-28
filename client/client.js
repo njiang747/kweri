@@ -16,7 +16,16 @@ Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
-  },
+  }
+});
+
+Template.navbar.helpers({
+  username: function() {
+    return Meteor.user().profile.name;
+  }
+});
+
+Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       Meteor.logout();
@@ -26,6 +35,15 @@ Template.main.events({
         610 || 600);
       Router.go('home');
     } 
+    return false;
+  },
+  'click .menu-profile': function(event) {
+    if(!Meteor.user().profile.profStatus) {
+      Router.go('profileStud');
+    }
+    else {
+      Router.go('profileProf');
+    }
     return false;
   }
 });
@@ -70,19 +88,7 @@ Template.home.events({
       });
     }
     return false;
-  },
-  'click .menu-logout': function(event) {
-    if(Meteor.user()){
-      Meteor.logout();
-      openCenteredPopup(
-        "https://fed.princeton.edu/cas/logout",
-        810 || 800,
-        610 || 600);
-      Router.go('home');
-    } 
-    return false;
   }
-
 });
 
 /***** Profile Page ***********************************************************/
