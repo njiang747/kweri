@@ -30,10 +30,16 @@ Template.main.events({
   }
 });
 
+Template.navbar.helpers({
+  username: function() {
+    return Meteor.user().profile.name;
+  }
+});
+
 /***** Home Page **************************************************************/
 Template.home.events({
   'click .btnloginProf': function(event) {
-    if(Meteor.user()){
+    if (Meteor.user()){
       Router.go('profileProf');
     } else {
       Meteor.loginWithCas(
