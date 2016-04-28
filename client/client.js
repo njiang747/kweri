@@ -97,8 +97,10 @@ Template.classlist.helpers({
 
 Template.classlist.events({
   /* clicking on a class redirects to that class's page */
-  'click .class-listing': function() {
+  'click .class-list': function() {
     Router.go('class', {class_id: this._id});
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedClass": this._id}});
   }
 });
 
@@ -185,6 +187,16 @@ Template.class.helpers({
   name: function() {
     return Classes.findOne(Router.current().params.class_id).name;
   }
+
+});
+
+Template.classElem.helpers({
+  selectedClass: function() {
+    var current = this._id;
+    if (current == Meteor.user().profile.selectedClass) {
+      return "selectedClass";
+    }
+  }
 });
 
 Template.lecturelist.helpers({
@@ -198,7 +210,7 @@ Template.lecturelist.events({
   /* clicking on a lecture redirects to that lecture's page */
   'click .lecture-listing': function() {
     Router.go('lecture', 
-      {class_id: Router.current().params.class_id, lecture_id: this._id});
+      {class_id: Router.current().params.class_id, lecture_id: this._id}); 
   }
 });
 

@@ -3,9 +3,11 @@
   <div class="row">
     <div class="col-sm-2 col-md-offset-1">
       <p>Your classes:</p>
-        {{#each classes}}
-          {{> classElem}}
-        {{/each}}
+        <ul class="list-group">
+          {{#each classes}}
+            {{> classElem}}
+          {{/each}}
+        </ul>
       <a class="btn btn-primary btn-block" role="button">Add class</a>
     </div>
   </div>
@@ -15,8 +17,8 @@
 </template>
 
 <template name="classElem">
-  <li class="class-listing {{selectedClass}}">
-    <div>{{department}} {{number}}: {{name}}</div>
+  <li class="list-group-item class-list {{selectedClass}}">
+    {{department}} {{number}}: {{name}}
   </li>
 </template>
 
