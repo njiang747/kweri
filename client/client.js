@@ -374,7 +374,7 @@ Template.question.events({
     }
     return false;
   },
-  'click .questions-undoupvote': function() {
+  'click .questions-unvote': function() {
     if (this.upvotedBy != undefined && 
         this.upvotedBy.indexOf(Meteor.userId()) != -1) {
       Questions.update(this._id, 
