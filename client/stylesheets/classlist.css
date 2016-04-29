@@ -1,8 +1,9 @@
-.class-listing {
+.class-list{
 	color: black;
+	background-color: gray;
 }
 
 .selectedClass {
+	font-weight: bold;
 	background-color: white;
-	color: blue;
 }
