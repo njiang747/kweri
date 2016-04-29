@@ -19,7 +19,11 @@ Router.route('/', {
 
 Router.route('/profileProf', {
   waitOn: function(){
-    return Meteor.subscribe('classes', Meteor.user().profile.profStatus, Meteor.userId());
+    if (Meteor.user()) 
+      return Meteor.subscribe('classes', 
+        Meteor.user().profile.profStatus, 
+        Meteor.userId());
+    else return;
   }
 });
 Router.route('/profileStud', {
@@ -30,16 +34,24 @@ Router.route('/profileStud', {
 Router.route('/class/:class_id', {
   name: 'class',
   waitOn: function(){
-    return [Meteor.subscribe('lectures', this.params.class_id), 
-            Meteor.subscribe('classes', Meteor.user().profile.profStatus, Meteor.userId())];
+    if (Meteor.user()) 
+      return [Meteor.subscribe('lectures', this.params.class_id), 
+        Meteor.subscribe('classes', 
+        Meteor.user().profile.profStatus, 
+        Meteor.userId())];
+    else return Meteor.subscribe('lectures', this.params.class_id);
   }
 });
 Router.route('/lecture/:class_id/:lecture_id', {
   name: 'lecture',
   waitOn: function(){
-    return [Meteor.subscribe('questions', this.params.lecture_id), 
+    if (Meteor.user()) 
+      return [Meteor.subscribe('questions', this.params.lecture_id), 
             Meteor.subscribe('lectures', this.params.class_id), 
-            Meteor.subscribe('classes', Meteor.user().profile.profStatus, Meteor.userId())];
+            Meteor.subscribe('classes', Meteor.user().profile.profStatus, 
+              Meteor.userId())];
+    else return Meteor.subscribe('questions', this.params.lecture_id), 
+            Meteor.subscribe('lectures', this.params.class_id);
   }
 });
 Router.route('/questions', {

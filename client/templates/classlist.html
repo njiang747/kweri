@@ -1,7 +1,8 @@
 <template name="classlist">
   {{#if classes}}
   <div class="row">
-    <div class="col-sm-2 col-md-offset-1">
+    <!-- <div class="col-sm-2 col-md-offset-1"> -->
+    <div class="col-sm-2 col-md-offset-5">
       <p>Your classes:</p>
         {{#each classes}}
           {{> classElem}}
@@ -45,7 +46,6 @@
     </ul>
   {{else}}
     <div>0 Search Results</div>
-    <br>
   {{/if}}
 </template>
 
