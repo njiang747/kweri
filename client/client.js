@@ -266,6 +266,13 @@ Template.questionlist.helpers({
   },
   questionsNew: function() {
     return Questions.find({}, {sort: {createdAt: -1}});
+  },
+  sortkeytime: function() {
+    var sortkey = Session.get('questionsortkey')
+    if ( sortkey != null && sortkey == 'byvotes') {
+      return true;
+    }
+    return false;
   }
 });
 
@@ -322,9 +329,36 @@ var confuseTimer = function() {
       });
 }
 
-Template.questionsort.events({
-  'click .questions-sortbytime': function() {
+Template.questionsort.helpers({
+  'selectedtimesorter': function() {
+    if ( Session.get('questionsortkey') == 'bytime' ) {
+      return "questions-selectedsorter";
+    }
+    return "";
+  },
 
+  'selectedvotesorter': function() {
+    if ( Session.get('questionsortkey') == 'byvotes' ) {
+      return "questions-selectedsorter";
+    }
+    return "";
+  }
+});
+
+Template.questionsort.events({
+  'click #questions-sortbytime': function() {
+    Session.set('questionsortkey', 'bytime');
+    var button = document.getElementById('questions-sortbytime');
+    console.log(button);
+    console.log(button.css);
+    return false;
+  },
+
+  'click #questions-sortbyvotes': function() {
+    Session.set('questionsortkey', 'byvotes');
+    var button = document.getElementById('questions-sortbyvotes');
+    console.log(button);
+    console.log(button.css);
     return false;
   }
 });
