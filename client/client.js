@@ -355,17 +355,11 @@ Template.questionsort.helpers({
 Template.questionsort.events({
   'click #questions-sortbytime': function() {
     Session.set('questionsortkey', 'bytime');
-    var button = document.getElementById('questions-sortbytime');
-    console.log(button);
-    console.log(button.css);
     return false;
   },
 
   'click #questions-sortbyvotes': function() {
     Session.set('questionsortkey', 'byvotes');
-    var button = document.getElementById('questions-sortbyvotes');
-    console.log(button);
-    console.log(button.css);
     return false;
   }
 });
@@ -385,6 +379,15 @@ Template.question.helpers({
   /* returns true if the user has upvoted the question and false otherwise */
   upvoted: function() {
     return this.upvotedBy && this.upvotedBy.indexOf(Meteor.userId()) != -1;
+  },
+
+  markedasimportant: function() {
+    var importantquestions = Session.get('importantquestions');
+    if ( importantquestions == null ) return "";
+    for ( var i = 0; i < importantquestions.length; i++ ) {
+      if ( this._id == importantquestions[i] ) return "questions-markedasimportant"
+    }
+    return "";
   }
 });
 
@@ -394,51 +397,65 @@ Template.question.events({
     if (this.upvotedBy == undefined || 
       this.upvotedBy.indexOf(Meteor.userId()) == -1) {
       Questions.update(this._id, 
+        {
+          $set: {value: this.value - 1}, 
+          $pull: {upvotedBy: Meteor.userId()}
+        });
+    }
+    return false;
+  },
+
+  'click .questions-delete': function () {
+    Questions.remove(this._id);
+  },
+
+  'click .questions-markasimportant': function() {
+    var importantquestions = Session.get('importantquestions');
+    if ( importantquestions == null ) {
+      importantquestions = [];
+    }
+    importantquestions.push( this._id );
+    Session.set('importantquestions', importantquestions);
+    return false;
+  },
+  'click .questions-upvote': function() {
+    if (this.upvotedBy == undefined || 
+      this.upvotedBy.indexOf(Meteor.userId()) == -1) {
+      Questions.update(this._id, 
       {
         $set: {value: this.value + 1}, 
         $push: {upvotedBy: Meteor.userId()}
       });
-  }
-  return false;
-},
-'click .questions-upvote': function() {
-  if (this.upvotedBy == undefined || 
-    this.upvotedBy.indexOf(Meteor.userId()) == -1) {
-    Questions.update(this._id, 
-    {
-      $set: {value: this.value + 1}, 
-      $push: {upvotedBy: Meteor.userId()}
-    });
-}
-return false;
-},
-/* clicking the downvote button decreases the question's value by 1 */
-'click .questions-down': function() {
-  if (this.upvotedBy != undefined && 
-    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-    Questions.update(this._id, 
-    {
-      $set: {value: this.value - 1}, 
-      $pull: {upvotedBy: Meteor.userId()}
-    });
-}
-return false;
-},
-'click .questions-unvote': function() {
-  if (this.upvotedBy != undefined && 
-    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-    Questions.update(this._id, 
-    {
-      $set: {value: this.value - 1}, 
-      $pull: {upvotedBy: Meteor.userId()}
-    });
-}
-return false;
-},
+    }
+    return false;
+  },
+  /* clicking the downvote button decreases the question's value by 1 */
+  'click .questions-down': function() {
+    if (this.upvotedBy != undefined && 
+      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+      Questions.update(this._id, 
+      {
+        $set: {value: this.value - 1}, 
+        $pull: {upvotedBy: Meteor.userId()}
+      });
+    }
+    return false;
+  },
+  'click .questions-unvote': function() {
+    if (this.upvotedBy != undefined && 
+      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+      Questions.update(this._id, 
+      {
+        $set: {value: this.value - 1}, 
+        $pull: {upvotedBy: Meteor.userId()}
+      });
+    }
+    return false;
+  },
 
-"click .questions-delete": function () {
-  Questions.remove(this._id);
-}
+  'click .questions-delete': function () {
+    Questions.remove(this._id);
+  }
 });
 
 Template.questionConCounter.helpers({
