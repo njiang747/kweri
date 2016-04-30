@@ -277,7 +277,7 @@ Template.questionbox.events({
         {
           $push: {confuseList: Meteor.userId()}
         });
-      var confuseTimerReset = setTimeout(confuseTimer(lecture), 60000);
+      var confuseTimerReset = setTimeout(confuseTimer, 3000);
     } else {
       Lectures.update(Router.current().params.lecture_id, 
         {
@@ -287,10 +287,8 @@ Template.questionbox.events({
     return false;
   }
 });
-var confuseTimer = function(lecture) {
-    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      return;
-    }
+var confuseTimer = function() {
+
       alert("1 minute elapsed, confusion status cleared");
       Lectures.update(Router.current().params.lecture_id, 
         {
