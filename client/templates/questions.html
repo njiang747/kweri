@@ -1,3 +1,4 @@
+
 <template name="questionbox">
   <form class="questions-newQuestion">
     <input type="text" name="qText" placeholder="Post new question">
@@ -12,6 +13,20 @@
 </template>
 
 <template name="questionlist">
+
+  <script language="JavaScript">
+    window.onbeforeunload = leave;
+    function leave(){
+      var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+      if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
+        Lectures.update(Router.current().params.lecture_id, 
+        {
+          $pull: {totalList: Meteor.userId()}
+        });
+      }
+    }
+  </script>
+
   <div class="questions-sorter">
     {{> questionsort}}
   </div>
@@ -31,32 +46,29 @@
 </template>
 
 <template name="question">
-
   <li class="questions-listItem">
-
     <div class="question-score">
       {{value}}
     </div>
-
     <div class="questions-infoContainer">
       <p class="questions-text">{{qText}}</p>
     </div>
 
     <div class="questions-options">
       {{#if upvoted}}
-        <button class="questions-unvote">Unvote</button>
+      <button class="questions-unvote">Unvote</button>
       {{else}}
-        <button class="questions-upvote">Upvote</button>
+      <button class="questions-upvote">Upvote</button>
       {{/if}}
       <button class="questions-delete">Delete</button>
       <button class="questions-markasimportant">Mark as Important</button>
       <span class="questions-date">{{createdAtToString}}</span>
     </div>
-
   </li>
 </template>
 
 <template name="questionConCounter">
+
   <button class="questions-conReset-button">Reset Confusion Counter</button>
   <div class="questions-barContainer">
     <div class="questions-vertical progress">

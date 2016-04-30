@@ -28,6 +28,7 @@
  Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
+      leaveClass();
       Meteor.logout();
       openCenteredPopup(
         "https://fed.princeton.edu/cas/logout",
@@ -38,6 +39,7 @@
     return false;
   },
   'click .menu-profile': function(event) {
+    leaveClass();
     if(!Meteor.user().profile.profStatus) {
       Router.go('profileStud');
     }
@@ -45,7 +47,13 @@
       Router.go('profileProf');
     }
     return false;
+  },   
+  'click .navbar-brand': function(event) {
+    leaveClass();
+    Router.go('/');
+    return false;
   }
+
 });
 
  /***** Home Page **************************************************************/
@@ -298,7 +306,6 @@
     return false;
   },
   'click .questions-con-button': function(){
-    console.log("TEST");
     var lecture =  Lectures.findOne(Router.current().params.lecture_id);
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Router.current().params.lecture_id, 
@@ -362,6 +369,9 @@ Template.questionsort.events({
     return false;
   }
 });
+Template.questionsort.onRendered(function () {enterClass()});
+//Template.questionsort.onDestroyed(function () {leaveClass()});
+
 
 Template.question.helpers({
   /* Function that converts a date to a string */
@@ -482,4 +492,34 @@ var openCenteredPopup = function(url, width, height) {
   if (newwindow.focus)
     newwindow.focus();
   return newwindow;
+};
+
+/* Function to add in users to a lecture on entering */
+var enterClass = function() {
+  try{
+    var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    if (lecture.totalList.indexOf(Meteor.userId()) == -1) {
+      Lectures.update(Router.current().params.lecture_id, 
+      {
+        $push: {totalList: Meteor.userId()}
+      });
+    }
+  } catch(err){
+
+  }
+};
+
+/* Function to remove users from a lecture on leaving */
+var leaveClass = function() {
+  try{
+    var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    if (lecture.totalList.indexOf(Meteor.userId()) != -1) {
+      Lectures.update(Router.current().params.lecture_id, 
+      {
+        $pull: {totalList: Meteor.userId()}
+      });
+    }
+  } catch(err){
+
+  }
 };
