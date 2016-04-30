@@ -137,8 +137,8 @@ li.questions-listItem {
 
 li.questions-listItem .question-score {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   float: left;
   text-align: center;
   width: 50px;
@@ -152,12 +152,12 @@ li.questions-listItem .question-score {
 }
 
 li.questions-listItem .questions-infoContainer {
-  padding: 5px;
+  /*padding: 5px;*/
   display: inline-block;
   vertical-align: top;
   float: left;
-  margin-left: 65px;
-  margin-bottom: 10px;
+  margin-left: 50px;
+  /*margin-bottom: 10px;*/
 }
 
 li.questions-listItem .questions-text {
@@ -167,11 +167,12 @@ li.questions-listItem .questions-text {
   margin-left: 10px;
 }
 
-li.questions-listItem .questions-dateText {
+li.questions-listItem .questions-date {
   margin-top: 1px;
   margin-left: 10px;
   font-size: 0.7em;
   color: #888888;
+  float: right;
 }
 
 li.questions-listItem .questions-vote {
@@ -217,40 +218,46 @@ li.questions-listItem .questions-options {
   position: relative;
   padding-top: 5px;
   margin-top: 10px;
-  margin-left: 79px;
+  margin-left: 59px;
   border-top: 1px solid #DDDDDD;
 }
 
 li.questions-listItem .questions-upvote {
   background: none;
-  width: 55px;
+  margin-right: 15px;
   text-align: left;
   border: none;
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: #4CBB17;
+  padding: 0px !important;
 }
 
 li.questions-listItem .questions-unvote {
   background: none;
-  width: 55px;
+  margin-right: 15px;
   text-align: left;
   border: none;
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: #FF6666;
+  padding: 0px !important;
 }
 
 li.questions-listItem .questions-delete {
   background: none;
+  margin-right: 15px;
   border: none;
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: #FF6666;
+  padding: 0px !important;
 }
 
 li.questions-listItem .questions-markasimportant {
   background: none;
+  margin-right: 15px;
   border: none;
-  font-size: 0.8em;
-  color: #33A1DE
+  font-size: 0.7em;
+  color: #33A1DE;
+  padding: 0px !important;
 }
 
 .questions-con-button {

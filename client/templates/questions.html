@@ -38,15 +38,7 @@
 
     <div class="questions-infoContainer">
       <p class="questions-text">{{qText}}</p>
-      <div class="questions-dateText">{{createdAtToString}}</div>
     </div>
-<!--     <div class="questions-vote">
-      {{#if upvoted}}
-        <button class="questions-down">{{value}}</button>
-      {{else}}
-        <button class="questions-up">{{value}}</button>
-      {{/if}}
-    </div> -->
 
     <div class="questions-options">
       {{#if upvoted}}
@@ -56,6 +48,7 @@
       {{/if}}
       <button class="questions-delete">Delete</button>
       <button class="questions-markasimportant">Mark as Important</button>
+      <span class="questions-date">{{createdAtToString}}</span>
     </div>
 
   </li>
