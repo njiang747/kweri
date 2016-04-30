@@ -15,9 +15,8 @@
 <template name="questionlist">
 
   <script language="JavaScript">
-    window.onbeforeunload = blah;
-    function blah(){
-      console.log("leaving class!");
+    window.onbeforeunload = leave;
+    function leave(){
       var lecture =  Lectures.findOne(Router.current().params.lecture_id);
       if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
         Lectures.update(Router.current().params.lecture_id, 
