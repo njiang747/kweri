@@ -12,14 +12,10 @@
   width: 100%;
 }
 
-.questions-sortbytime:hover, .questions-sortbyvotes:hover {
-  background: #777777;
-}
-
-.questions-sortbytime {
+#questions-sortbytime {
   color: #FFFFFF;
   border: 1.2px solid #FFFFFF;
-  background: transparent;
+  background: #999999;
   outline: none;
   border-top-left-radius: 9px;
   border-bottom-left-radius: 9px;
@@ -27,15 +23,19 @@
   font-size: 0.9em;
 }
 
-.questions-sortbyvotes {
+#questions-sortbyvotes {
   color: #FFFFFF;
   border: 1.2px solid #FFFFFF;
-  background: transparent;
+  background: #999999;
   outline: none;
   border-top-right-radius: 9px;
   border-bottom-right-radius: 9px;
   padding: 4px 8px;
   font-size: 0.9em;
+}
+
+.questions-selectedsorter {
+  background: #000000 !important;
 }
 
 .questions-listContainer {
@@ -124,8 +124,8 @@ li.questions-listItem {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  margin-bottom: 20px;
-  padding: 10px;
+  margin-bottom: 15px;
+  padding: 10px 10px 5px 10px;
   border: 1px solid #dedede;
   border-radius: 3px;
   background: #FFF;
@@ -137,27 +137,29 @@ li.questions-listItem {
 
 li.questions-listItem .question-score {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   float: left;
+  line-height: 2.15;
   text-align: center;
-  width: 50px;
-  height: 50px;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
   overflow: hidden;
   padding: 2px;
-  border: 1.5px solid #dedede;
+  border: 2px solid #dedede;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
+  border-color: #333333;
+  color: #333333;
 }
 
 li.questions-listItem .questions-infoContainer {
-  padding: 5px;
   display: inline-block;
   vertical-align: top;
   float: left;
-  margin-left: 65px;
-  margin-bottom: 10px;
+  margin-left: 50px;
 }
 
 li.questions-listItem .questions-text {
@@ -167,11 +169,13 @@ li.questions-listItem .questions-text {
   margin-left: 10px;
 }
 
-li.questions-listItem .questions-dateText {
-  margin-top: 1px;
+li.questions-listItem .questions-date {
+  margin-top: 5px;
   margin-left: 10px;
   font-size: 0.7em;
   color: #888888;
+  float: right;
+  position: relative;
 }
 
 li.questions-listItem .questions-vote {
@@ -179,78 +183,51 @@ li.questions-listItem .questions-vote {
   vertical-align: middle;
 }
 
-li.questions-listItem .questions-down {
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  outline: none;
-  /*border: solid 3px #86A50B;*/
-  /*border-radius: 40px;*/
-  border: none;
-  /*background: #D6F55B;*/
-  background: transparent;
-  /*color: #86A50B;*/
-  color: #33A1DE;
-  /*font-weight: bold;*/
-  /*float: right;*/
-  font-size: 1.8em;
-}
-
-li.questions-listItem .questions-up {
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  outline: none;
-  /*border: solid 3px #86A50B;*/
-  /*border-radius: 40px;*/
-  border: none;
-  background: transparent;
-  /*color: #86A50B;*/
-  color: #33A1DE;
-  /*font-weight: bold;*/
-  /*float: right;*/
-  font-size: 1.8em;
-}
-
 li.questions-listItem .questions-options {
   clear: both;
   position: relative;
-  padding-top: 5px;
+  padding-top: 2px;
   margin-top: 10px;
-  margin-left: 79px;
+  margin-left: 59px;
   border-top: 1px solid #DDDDDD;
 }
 
 li.questions-listItem .questions-upvote {
   background: none;
-  width: 55px;
+  margin-right: 15px;
   text-align: left;
   border: none;
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: #4CBB17;
+  padding: 0px !important;
 }
 
 li.questions-listItem .questions-unvote {
   background: none;
-  width: 55px;
+  margin-right: 15px;
   text-align: left;
   border: none;
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: #FF6666;
+  padding: 0px !important;
 }
 
 li.questions-listItem .questions-delete {
   background: none;
+  margin-right: 15px;
   border: none;
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: #FF6666;
+  padding: 0px !important;
 }
 
 li.questions-listItem .questions-markasimportant {
   background: none;
+  margin-right: 15px;
   border: none;
-  font-size: 0.8em;
-  color: #33A1DE
+  font-size: 0.7em;
+  color: #33A1DE;
+  padding: 0px !important;
 }
 
 .questions-con-button {

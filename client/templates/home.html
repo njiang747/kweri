@@ -6,57 +6,57 @@
   <body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
     <div class="preloader">
       <div class="sk-spinner sk-spinner-circle">
-           <div class="sk-circle1 sk-circle"></div>
-           <div class="sk-circle2 sk-circle"></div>
-           <div class="sk-circle3 sk-circle"></div>
-           <div class="sk-circle4 sk-circle"></div>
-           <div class="sk-circle5 sk-circle"></div>
-           <div class="sk-circle6 sk-circle"></div>
-           <div class="sk-circle7 sk-circle"></div>
-           <div class="sk-circle8 sk-circle"></div>
-           <div class="sk-circle9 sk-circle"></div>
-           <div class="sk-circle10 sk-circle"></div>
-           <div class="sk-circle11 sk-circle"></div>
-           <div class="sk-circle12 sk-circle"></div>
+       <div class="sk-circle1 sk-circle"></div>
+       <div class="sk-circle2 sk-circle"></div>
+       <div class="sk-circle3 sk-circle"></div>
+       <div class="sk-circle4 sk-circle"></div>
+       <div class="sk-circle5 sk-circle"></div>
+       <div class="sk-circle6 sk-circle"></div>
+       <div class="sk-circle7 sk-circle"></div>
+       <div class="sk-circle8 sk-circle"></div>
+       <div class="sk-circle9 sk-circle"></div>
+       <div class="sk-circle10 sk-circle"></div>
+       <div class="sk-circle11 sk-circle"></div>
+       <div class="sk-circle12 sk-circle"></div>
+     </div>
+   </div>
+
+   {{> navbar}}
+
+   <!-- home section -->
+   <section id="home">
+    <ul class="cb-slideshow">
+      <li>
+        <span>Image 01</span>
+      </li>
+      <li>
+        <span>Image 02</span>
+      </li>
+      <li>
+        <span>Image 03</span>
+      </li>
+      <li>
+        <span>Image 04</span>
+      </li>
+      <li>
+        <span>Image 05</span>
+      </li>
+    </ul>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <h3>LIVE FEEDBACK / LIVE INTERACTION / CONFUSION COUNTER</h3>
+          <h1>KWERI</h1>
+          <hr>
+
+          <a class="smoothScroll btn btn-default btnloginProf">Professor</a>
+          <a class="smoothScroll btn btn-default btnloginStud">Student</a>
         </div>
-    </div>
+      </div>
+    </div>    
+  </section>
 
-    {{> navbar}}
-
-    <!-- home section -->
-    <section id="home">
-      <ul class="cb-slideshow">
-        <li>
-          <span>Image 01</span>
-        </li>
-        <li>
-          <span>Image 02</span>
-        </li>
-        <li>
-          <span>Image 03</span>
-        </li>
-        <li>
-          <span>Image 04</span>
-        </li>
-        <li>
-          <span>Image 05</span>
-        </li>
-      </ul>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 col-sm-12">
-            <h3>LIVE FEEDBACK / LIVE INTERACTION / CONFUSION COUNTER</h3>
-            <h1>KWERI</h1>
-            <hr>
-
-            <a class="smoothScroll btn btn-default btnloginProf">Professor</a>
-            <a class="smoothScroll btn btn-default btnloginStud">Student</a>
-          </div>
-        </div>
-      </div>    
-    </section>
-
-  </body>
+</body>
 </template>
 
 <template name="navbar">
@@ -76,20 +76,19 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#home" class="smoothScroll">HOME</a></li>
           <li><a href="#about" class="smoothScroll">ABOUT</a></li>
-          <li><a href="#team" class="smoothScroll">TEAM</a></li>
-          <li><a href="#contact" class="smoothScroll">CONTACT</a></li>
-          <div class="btn-group dropdown">
-            <button class="btn btn-default dropdown-toggle dropdown-navbar" id="dropdownMenu1" data-toggle="dropdown"> {{username}}  
-              <span class="caret"></span> 
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-             <!-- <li><a href="{{pathFor route=profileStud}}">Profile</a></li> -->
-              <li><a href="" class="menu-profile">Profile</a></li>
-              <li><a href="" class="menu-logout">Logout</a></li>
-            </ul>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </section>
-</template>
+          {{#if currentUser}}
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown"> {{username}}  
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+               <!-- <li><a href="{{pathFor route=profileStud}}">Profile</a></li> -->
+               <li><a href="" class="menu-profile">Profile</a></li>
+               <li><a href="" class="menu-logout">Logout</a></li>
+             </ul>
+           </li>
+           {{/if}}
+         </ul>
+       </div>
+     </div>
+   </section>
+ </template>
