@@ -1,15 +1,15 @@
 <template name="main">
   {{#unless currentUser}}
-    {{> home}}
+  {{> home}}
   {{else}}
-    {{> navbar}}
-    <div class="main-container">
-      {{> yield}}
-    </div>
-    <footer>
-      <hr />
-      Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
-    </footer>
+  {{> navbar}}
+  <div class="main-container">
+    {{> yield}}
+  </div>
+  <footer>
+    <hr/>
+    Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
+  </footer>
   {{/unless}}
 </template>
 
@@ -63,7 +63,7 @@
       <h3 class="questions-dateString">{{dateString}}</h3>
       {{> questionConCounter}}
       {{#if currentUser}}
-        {{> questionbox}}
+      {{> questionbox}}
       {{/if}}
     </header>
     {{> questionlist}}
