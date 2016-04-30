@@ -291,13 +291,14 @@ Template.questionbox.events({
     return false;
   },
   'click .questions-con-button': function(){
+    console.log("TEST");
     var lecture =  Lectures.findOne(Router.current().params.lecture_id);
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Router.current().params.lecture_id, 
         {
           $push: {confuseList: Meteor.userId()}
         });
-      var confuseTimerReset = setTimeout(confuseTimer, 60000);
+      var confuseTimerReset = setTimeout(confuseTimer, 10000);
     } else {
       Lectures.update(Router.current().params.lecture_id, 
         {
@@ -309,6 +310,11 @@ Template.questionbox.events({
 });
 
 var confuseTimer = function() {
+  var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+
+  if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+    return false;
+  }
     alert("1 minute elapsed, confusion status cleared");
     Lectures.update(Router.current().params.lecture_id, 
       {
