@@ -48,5 +48,6 @@ Router.route('/questions', {
   }
 });
 Router.route('/about', {
+  name: 'aboutpage',
   template:'aboutpage'
 })
