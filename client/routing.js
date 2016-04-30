@@ -47,3 +47,6 @@ Router.route('/questions', {
     return Meteor.subscribe('questions');
   }
 });
+Router.route('/about', {
+  template:'aboutpage'
+})
