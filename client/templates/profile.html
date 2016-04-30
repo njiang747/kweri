@@ -1,0 +1,68 @@
+<template name="profile">
+  <div id="profile-sidebar">
+    {{> search}}
+    <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
+      <ul id="profile-sidebar-classlist">
+        {{#each classes}}
+          {{> classElem}}
+        {{/each}}
+      </ul>
+    </div>
+    {{> searchlist}}
+  </div>
+
+  <section id="profile-questions">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </section>
+
+  <section id="profile-confusion">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </section>
+</template>
+
+<template name="classElem">
+  <li id="profile-sidebar-classlist-element"> <!-- class="list-group-item class-list {{selectedClass}}"> -->
+    <a>
+      <div id="profile-sidebar-classlist-element-listing">
+        {{department}} {{number}}
+      </div>
+      <div id="profile-sidebar-classlist-element-name">
+        {{name}}
+      </div>
+    </a>
+  </li>
+</template>
+
+<template name="search">
+  <form id="profile-sidebar-search" class="class-search">
+    <input id="profile-sidebar-searchbar" type="text" class="searchTerm">
+  </form>
+</template>
+
+<template name="searchlist">
+  <div id="profile-sidebar-results">
+    {{searchNum}} Search Results
+  </div>
+  <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
+    <ul id="profile-sidebar-searchclasslist">
+      {{#each classes}}
+        {{> searchElem}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="searchElem">
+  <li id="profile-sidebar-classlist-element">
+    <a>
+      <div id="profile-sidebar-classlist-element-listing">
+        {{department}} {{number}}
+        <button id="profile-sidebar-enroll">Enroll</button>
+      </div>
+      <div id="profile-sidebar-classlist-element-name">
+        {{name}}
+      </div>
+    </a>
+  </li>
+</template>

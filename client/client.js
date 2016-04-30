@@ -38,6 +38,10 @@ Template.navbar.events({
     return false;
   },
   'click .menu-profile': function(event) {
+    Router.go('profile');
+    return false;
+
+
     if(!Meteor.user().profile.profStatus) {
       Router.go('profileStud');
     }
@@ -88,6 +92,75 @@ Template.home.events({
       });
     }
     return false;
+  }
+});
+
+/***** Profile Page ***********************************************************/
+Template.profile.helpers({
+  classes: function() {
+    if (Meteor.user().profile.profStatus) 
+      return Classes.find({profs: Meteor.userId()}, {sort: {department: 1, number: 1}});
+    else 
+      return Classes.find({students: Meteor.userId()}, {sort: {department: 1, number: 1}})
+  }
+});
+
+Template.classElem.helpers({
+  selectedClass: function() {
+    var current = this._id;
+    if (current == Meteor.user().profile.selectedClass) {
+      return "selectedClass";
+    }
+  }
+});
+
+Template.search.events({
+  'keyup .searchTerm': function(event) {
+    Session.set('searchKey', event.target.value);
+  }
+});
+
+Template.searchlist.helpers({
+  searchNum: function() {
+    var temp = Session.get('searchNum');
+    if (temp) return temp;
+    else return 0;
+  },
+
+  /* classes returns a list of classes that match search term(s) */
+  classes: function() {
+    var key = Session.get('searchKey');
+    if (key == null || key == "") {
+      Session.set('searchNum', 0);
+      return;
+    }
+    var name = new RegExp(key, 'i');
+    var arr = key.split(" ").filter(function(n) {return n != ''});
+    var dept = new RegExp();
+    var num = new RegExp();
+    if (arr.length <= 2) {
+      for (index in arr) {
+        if (isNaN(arr[index])) {
+          dept = new RegExp(arr[index], 'i');
+        } else {
+          num = new RegExp(arr[index]);
+        }
+      }
+    } else  {
+      Session.set('searchNum', 0);
+      return;
+    }
+    var classes = Classes.find(
+      {$and: [
+        {$or: [
+          {$and: [{department: dept}, {number: num}]}, 
+          {name: name}
+        ]},
+        {students: {$ne: Meteor.userId()}}
+      ]}, 
+      {sort: {department: 1, number: 1}});
+    Session.set('searchNum', classes.count());
+    return classes;
   }
 });
 
@@ -197,7 +270,7 @@ Template.class.helpers({
 
 });
 
-Template.classElem.helpers({
+Template.classElem2.helpers({
   selectedClass: function() {
     var current = this._id;
     if (current == Meteor.user().profile.selectedClass) {
@@ -298,7 +371,6 @@ Template.questionbox.events({
     return false;
   },
   'click .questions-con-button': function(){
-    console.log("TEST");
     var lecture =  Lectures.findOne(Router.current().params.lecture_id);
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Router.current().params.lecture_id, 
@@ -322,11 +394,11 @@ var confuseTimer = function() {
   if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
     return false;
   }
-    alert("1 minute elapsed, confusion status cleared");
-    Lectures.update(Router.current().params.lecture_id, 
-      {
-        $pull: {confuseList: Meteor.userId()}
-      });
+  alert("1 minute elapsed, confusion status cleared");
+  Lectures.update(Router.current().params.lecture_id, 
+  {
+    $pull: {confuseList: Meteor.userId()}
+  });
 }
 
 Template.questionsort.events({

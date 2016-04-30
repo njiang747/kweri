@@ -1,3 +1,111 @@
-.h1-label {
-  color: #FFFFFF;
+#profile-sidebar {
+  background-color:#D6F55B;
+  height:100%;
+  width:15%;
+  float:left;
+  padding: 51px 0px 0px 0px;
+}
+
+#profile-questions {
+  background-color:#0099CC;
+  height:100%;
+  width:75%;
+  float:left;
+  padding: 51px 0px 0px 10px;
+}
+
+#profile-confusion {
+  background-color:#AA00FF;
+  height:100%;
+  width:10%;
+  float:left;
+  padding: 51px 0px 0px 10px;
+}
+
+#profile-sidebar-search {
+  width: 100%;
+  margin: 5px 0px;
+  text-align: center;
+}
+
+#profile-sidebar-searchbar {
+  width: 95%;
+}
+
+#profile-sidebar-classlist-container {
+  height:40%;
+  overflow-y: auto;
+  overflow: hidden;
+}
+
+#profile-sidebar-classlist {
+  height:100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#profile-sidebar-classlist-element {
+  position: relative;
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #ffffff;
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #CCCCCC;
+  cursor: pointer;
+}
+
+#profile-sidebar-classlist-element a {
+  text-decoration: none;
+  color: #000;
+  padding-left: 10px;
+  font-size: 0.7em;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+
+  display: block;
+}
+
+#profile-sidebar-classlist-element a:hover {
+  font-size: 0.9em;
+/*  color: white;
+  background: #68dff0;*/
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+
+  display: block;
+}
+
+#profile-sidebar-classlist-element-listing {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+#profile-sidebar-classlist-element-name {
+  font-size: 0.7em;
+}
+
+#profile-sidebar-enroll {
+  float: right;
+}
+
+#profile-sidebar-results {
+  width: 100%;
+  margin: 5px 0px;
+  text-align: center;
+}
+
+#profile-sidebar-searchclasslist {
+  height:40%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }

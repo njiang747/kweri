@@ -17,6 +17,11 @@ Router.route('/', {
   template: 'home'
 });
 
+Router.route('/profile', {
+  waitOn: function(){
+    return Meteor.subscribe('allClasses');
+  }
+});
 Router.route('/profileProf', {
   waitOn: function(){
     if (Meteor.user()) 
