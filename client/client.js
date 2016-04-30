@@ -308,7 +308,6 @@ Template.questionbox.events({
   }
 });
 
-
 var confuseTimer = function() {
     alert("1 minute elapsed, confusion status cleared");
     Lectures.update(Router.current().params.lecture_id, 
