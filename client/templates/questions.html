@@ -28,12 +28,7 @@
 
   <li class="questions-listItem">
 
-    <div class="questions-infoContainer">
-      <div class="questions-text">{{qText}}</div>
-      <div class="questions-dateText">{{createdAtToString}}</div>
-    </div>
-
-    <div class="questions-vote">
+    <div class="question-score">
       {{#if upvoted}}
         <button class="questions-down">{{value}}</button>
       {{else}}
@@ -41,9 +36,21 @@
       {{/if}}
     </div>
 
+    <div class="questions-infoContainer">
+      <p class="questions-text">{{qText}}</p>
+      <div class="questions-dateText">{{createdAtToString}}</div>
+    </div>
+<!--     <div class="questions-vote">
+      {{#if upvoted}}
+        <button class="questions-down">{{value}}</button>
+      {{else}}
+        <button class="questions-up">{{value}}</button>
+      {{/if}}
+    </div> -->
+
     <div class="questions-options">
       {{#if upvoted}}
-        <button class="questions-undoupvote">Undo Upvote</button>
+        <button class="questions-unvote">Unvote</button>
       {{else}}
         <button class="questions-upvote">Upvote</button>
       {{/if}}
