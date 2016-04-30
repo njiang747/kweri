@@ -86,16 +86,6 @@
   margin-left: 100px;
 }
 
-.questions-scoreContainer button {
-  cursor: pointer;
-  background: transparent;
-  color: #FFFFFF;
-  font-weight: bold;
-  font-size: 1em;
-  border: none;
-  outline: none;
-}
-
 .questions-submit {
   cursor: pointer;
   background: #777777;
@@ -131,14 +121,34 @@ ul.questions-list  {
 }
 
 li.questions-listItem {
-  background: #FAFAFA;
-  position: relative;
-  list-style: none;
-  padding: 10px 10px 10px 10px;
-  border-bottom: #333333 solid 2px;
-  border-radius: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   margin-bottom: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+  border: 1px solid #dedede;
+  border-radius: 3px;
+  background: #FFF;
+  -moz-box-shadow: 0 0 5px #dedede;
+  -webkit-box-shadow: 0 0 5px #dedede;
+  box-shadow: 0 0 5px #dedede;
+  position: relative;
+}
+
+li.questions-listItem .question-score {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  float: left;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  padding: 2px;
+  border: 1.5px solid #dedede;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
 }
 
 li.questions-listItem .questions-infoContainer {
@@ -146,6 +156,8 @@ li.questions-listItem .questions-infoContainer {
   display: inline-block;
   vertical-align: top;
   float: left;
+  margin-left: 65px;
+  margin-bottom: 10px;
 }
 
 li.questions-listItem .questions-text {
@@ -203,23 +215,24 @@ li.questions-listItem .questions-up {
 li.questions-listItem .questions-options {
   clear: both;
   position: relative;
-  margin-top: 1px;
-  margin-left: 10px;
+  padding-top: 5px;
+  margin-top: 10px;
+  margin-left: 79px;
   border-top: 1px solid #DDDDDD;
 }
 
 li.questions-listItem .questions-upvote {
   background: none;
-  width: 90px;
+  width: 55px;
   text-align: left;
   border: none;
   font-size: 0.8em;
   color: #4CBB17;
 }
 
-li.questions-listItem .questions-undoupvote {
+li.questions-listItem .questions-unvote {
   background: none;
-  width: 90px;
+  width: 55px;
   text-align: left;
   border: none;
   font-size: 0.8em;
