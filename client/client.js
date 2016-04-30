@@ -5,27 +5,27 @@
  * Helpers define variables/functions used within templates
  * Events define actions to be taken upon events within templates */
 
-/***** Main Layout ************************************************************/
-Template.main.helpers({
+ /***** Main Layout ************************************************************/
+ Template.main.helpers({
   username: function() {
     return Meteor.user().profile.name;
   }
 });
 
-Template.main.events({
+ Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
   }
 });
 
-Template.navbar.helpers({
+ Template.navbar.helpers({
   username: function() {
     return Meteor.user().profile.name;
   }
 });
 
-Template.navbar.events({
+ Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       leaveClass();
@@ -56,8 +56,8 @@ Template.navbar.events({
 
 });
 
-/***** Home Page **************************************************************/
-Template.home.events({
+ /***** Home Page **************************************************************/
+ Template.home.events({
   'click .btnloginProf': function(event) {
     if (Meteor.user()){
       Router.go('profileProf');
@@ -70,7 +70,7 @@ Template.home.events({
               {$set: {"profile.profStatus": 1}});
             Router.go('profileProf');
           }
-      });
+        });
     }
     return false;
   },
@@ -86,14 +86,14 @@ Template.home.events({
               {$set: {"profile.profStatus": 0}});
             Router.go('profileStud');
           }
-      });
+        });
     }
     return false;
   }
 });
 
-/***** Profile Page ***********************************************************/
-Template.classlist.helpers({
+ /***** Profile Page ***********************************************************/
+ Template.classlist.helpers({
   /* classes returns a list of classes */
   classes: function() {
     if (Router.current().route.getName() == "profileProf") 
@@ -103,7 +103,7 @@ Template.classlist.helpers({
   }
 });
 
-Template.classlist.events({
+ Template.classlist.events({
   /* clicking on a class redirects to that class's page */
   'click .class-list': function() {
     Router.go('class', {class_id: this._id});
@@ -112,7 +112,7 @@ Template.classlist.events({
   }
 });
 
-Template.addClass.events({
+ Template.addClass.events({
   /* insert a new class into the Classes collection */
   'submit .new-class': function(event) {
     var department = event.target.department.value.toUpperCase();
@@ -132,13 +132,13 @@ Template.addClass.events({
   }
 });
 
-Template.classSearch.events({
+ Template.classSearch.events({
   'keyup .searchTerm': function(event) {
     Session.set('searchKey', event.target.value);
   }
 });
 
-Template.searchClasslist.helpers({
+ Template.searchClasslist.helpers({
   /* classes returns a list of classes that match search term(s) */
   classes: function() {
     var key = Session.get('searchKey');
@@ -161,28 +161,28 @@ Template.searchClasslist.helpers({
         {$or: [
           {$and: [{department: dept}, {number: num}]}, 
           {name: name}
-        ]},
-        {students: {$ne: Meteor.userId()}}
-      ]}, 
-      {sort: {department: 1, number: 1}});
+          ]},
+          {students: {$ne: Meteor.userId()}}
+          ]}, 
+          {sort: {department: 1, number: 1}});
   }
 });
 
-Template.searchClassElem.helpers({
+ Template.searchClassElem.helpers({
   prof_names: function() {
     var prof_ids = this.profs;
     return Meteor.users.find({_id: prof_ids[0]});
   }
 });
 
-Template.searchClassElem.events({
+ Template.searchClassElem.events({
   'click .enroll': function() {
     Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}})
   }
 });
 
-/***** Class Page *************************************************************/
-Template.class.helpers({
+ /***** Class Page *************************************************************/
+ Template.class.helpers({
   /* returns the department of the current class */
   department: function() {
     return Classes.findOne(Router.current().params.class_id).department;
@@ -198,7 +198,7 @@ Template.class.helpers({
 
 });
 
-Template.classElem.helpers({
+ Template.classElem.helpers({
   selectedClass: function() {
     var current = this._id;
     if (current == Meteor.user().profile.selectedClass) {
@@ -207,14 +207,14 @@ Template.classElem.helpers({
   }
 });
 
-Template.lecturelist.helpers({
+ Template.lecturelist.helpers({
   /* lectures returns a list of lectures */
   lectures: function() {
     return Lectures.find({}, {sort: {number: -1}});
   }
 });
 
-Template.lecturelist.events({
+ Template.lecturelist.events({
   /* clicking on a lecture redirects to that lecture's page */
   'click .lecture-listing': function() {
     Router.go('lecture', 
@@ -222,7 +222,7 @@ Template.lecturelist.events({
   }
 });
 
-Template.addLecture.events({
+ Template.addLecture.events({
   /* insert a new lecture into the Lectures collection */
   'submit .new-lecture': function(event) {
     var number = parseInt(event.target.number.value);
@@ -243,8 +243,8 @@ Template.addLecture.events({
   }
 });
 
-/***** Lecture Page ***********************************************************/
-Template.lecture.helpers({
+ /***** Lecture Page ***********************************************************/
+ Template.lecture.helpers({
   cDpt: function() {
     return Classes.findOne(Router.current().params.class_id).department;
   },
@@ -266,18 +266,25 @@ Template.lecture.helpers({
   }
 });
 
-Template.questionlist.helpers({
+ Template.questionlist.helpers({
   /* questions returns a list of questions sorted by decreasing score
-   * and decreasing creation date */
+  * and decreasing creation date */
   questionsTop: function() {
     return Questions.find({}, {sort: {value: -1, createdAt: -1}});
   },
   questionsNew: function() {
     return Questions.find({}, {sort: {createdAt: -1}});
+  },
+  sortkeytime: function() {
+    var sortkey = Session.get('questionsortkey')
+    if ( sortkey != null && sortkey == 'byvotes') {
+      return true;
+    }
+    return false;
   }
 });
 
-Template.questionbox.events({
+ Template.questionbox.events({
   /* submit a new question. return false means don't reload the page */
   'submit .questions-newQuestion': function(event) {
     /* get the text of the question */
@@ -302,15 +309,15 @@ Template.questionbox.events({
     var lecture =  Lectures.findOne(Router.current().params.lecture_id);
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Router.current().params.lecture_id, 
-        {
-          $push: {confuseList: Meteor.userId()}
-        });
+      {
+        $push: {confuseList: Meteor.userId()}
+      });
       var confuseTimerReset = setTimeout(confuseTimer, 10000);
     } else {
       Lectures.update(Router.current().params.lecture_id, 
-        {
-          $pull: {confuseList: Meteor.userId()}
-        });
+      {
+        $pull: {confuseList: Meteor.userId()}
+      });
     }
     return false;
   }
@@ -322,16 +329,43 @@ var confuseTimer = function() {
   if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
     return false;
   }
-    alert("1 minute elapsed, confusion status cleared");
-    Lectures.update(Router.current().params.lecture_id, 
-      {
-        $pull: {confuseList: Meteor.userId()}
-      });
+  alert("1 minute elapsed, confusion status cleared");
+  Lectures.update(Router.current().params.lecture_id, 
+  {
+    $pull: {confuseList: Meteor.userId()}
+  });
 }
 
-Template.questionsort.events({
-  'click .questions-sortbytime': function() {
+Template.questionsort.helpers({
+  'selectedtimesorter': function() {
+    if ( Session.get('questionsortkey') == 'bytime' ) {
+      return "questions-selectedsorter";
+    }
+    return "";
+  },
 
+  'selectedvotesorter': function() {
+    if ( Session.get('questionsortkey') == 'byvotes' ) {
+      return "questions-selectedsorter";
+    }
+    return "";
+  }
+});
+
+Template.questionsort.events({
+  'click #questions-sortbytime': function() {
+    Session.set('questionsortkey', 'bytime');
+    var button = document.getElementById('questions-sortbytime');
+    console.log(button);
+    console.log(button.css);
+    return false;
+  },
+
+  'click #questions-sortbyvotes': function() {
+    Session.set('questionsortkey', 'byvotes');
+    var button = document.getElementById('questions-sortbyvotes');
+    console.log(button);
+    console.log(button.css);
     return false;
   }
 });
@@ -358,53 +392,53 @@ Template.question.events({
   /* clicking the upvote button increases the question's value by 1 */
   'click .questions-up': function() {
     if (this.upvotedBy == undefined || 
-        this.upvotedBy.indexOf(Meteor.userId()) == -1) {
+      this.upvotedBy.indexOf(Meteor.userId()) == -1) {
       Questions.update(this._id, 
-        {
-          $set: {value: this.value + 1}, 
-          $push: {upvotedBy: Meteor.userId()}
-        });
-    }
-    return false;
-  },
-  'click .questions-upvote': function() {
-    if (this.upvotedBy == undefined || 
-        this.upvotedBy.indexOf(Meteor.userId()) == -1) {
-      Questions.update(this._id, 
-        {
-          $set: {value: this.value + 1}, 
-          $push: {upvotedBy: Meteor.userId()}
-        });
-    }
-    return false;
-  },
-  /* clicking the downvote button decreases the question's value by 1 */
-  'click .questions-down': function() {
-    if (this.upvotedBy != undefined && 
-        this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-      Questions.update(this._id, 
-        {
-          $set: {value: this.value - 1}, 
-          $pull: {upvotedBy: Meteor.userId()}
-        });
-    }
-    return false;
-  },
-  'click .questions-unvote': function() {
-    if (this.upvotedBy != undefined && 
-        this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-      Questions.update(this._id, 
-        {
-          $set: {value: this.value - 1}, 
-          $pull: {upvotedBy: Meteor.userId()}
-        });
-    }
-    return false;
-  },
-
-  "click .questions-delete": function () {
-    Questions.remove(this._id);
+      {
+        $set: {value: this.value + 1}, 
+        $push: {upvotedBy: Meteor.userId()}
+      });
   }
+  return false;
+},
+'click .questions-upvote': function() {
+  if (this.upvotedBy == undefined || 
+    this.upvotedBy.indexOf(Meteor.userId()) == -1) {
+    Questions.update(this._id, 
+    {
+      $set: {value: this.value + 1}, 
+      $push: {upvotedBy: Meteor.userId()}
+    });
+}
+return false;
+},
+/* clicking the downvote button decreases the question's value by 1 */
+'click .questions-down': function() {
+  if (this.upvotedBy != undefined && 
+    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+    Questions.update(this._id, 
+    {
+      $set: {value: this.value - 1}, 
+      $pull: {upvotedBy: Meteor.userId()}
+    });
+}
+return false;
+},
+'click .questions-unvote': function() {
+  if (this.upvotedBy != undefined && 
+    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+    Questions.update(this._id, 
+    {
+      $set: {value: this.value - 1}, 
+      $pull: {upvotedBy: Meteor.userId()}
+    });
+}
+return false;
+},
+
+"click .questions-delete": function () {
+  Questions.remove(this._id);
+}
 });
 
 Template.questionConCounter.helpers({
@@ -415,7 +449,7 @@ Template.questionConCounter.helpers({
   color: function() {
     var lecture =  Lectures.findOne(Router.current().params.lecture_id);
     var per = 
-      Math.floor(lecture.confuseList.length/lecture.totalList.length*100);
+    Math.floor(lecture.confuseList.length/lecture.totalList.length*100);
     if (per <= 25){
       return "progress-bar-success";
     } else if (per <= 50){
@@ -427,10 +461,10 @@ Template.questionConCounter.helpers({
 });
 
 Template.questionConCounter.events({
-    /* Reset cc counter */
-    'click .questions-conReset-button': function(){
-      var lecture =  Lectures.findOne(Router.current().params.lecture_id);
-      Lectures.update(Router.current().params.lecture_id, { $set : {confuseList: [] }} , {multi:true} );
+  /* Reset cc counter */
+  'click .questions-conReset-button': function(){
+    var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    Lectures.update(Router.current().params.lecture_id, { $set : {confuseList: [] }} , {multi:true} );
     return false;
   }
 
