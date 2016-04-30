@@ -397,7 +397,6 @@ Template.question.events({
     if (this.upvotedBy == undefined || 
       this.upvotedBy.indexOf(Meteor.userId()) == -1) {
       Questions.update(this._id, 
-<<<<<<< HEAD
         {
           $set: {value: this.value - 1}, 
           $pull: {upvotedBy: Meteor.userId()}
@@ -417,12 +416,6 @@ Template.question.events({
     }
     importantquestions.push( this._id );
     Session.set('importantquestions', importantquestions);
-=======
-      {
-        $set: {value: this.value + 1}, 
-        $push: {upvotedBy: Meteor.userId()}
-      });
->>>>>>> master
   }
   return false;
 },
