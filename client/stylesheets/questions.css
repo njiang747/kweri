@@ -36,6 +36,7 @@
 
 .questions-selectedsorter {
   background: #000000 !important;
+  transition: all 0.3s ease;
 }
 
 .questions-listContainer {
@@ -133,6 +134,10 @@ li.questions-listItem {
   -webkit-box-shadow: 0 0 5px #dedede;
   box-shadow: 0 0 5px #dedede;
   position: relative;
+}
+
+.questions-markedasimportant {
+  border: 5px solid #FFD700 !important;
 }
 
 li.questions-listItem .question-score {
