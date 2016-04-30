@@ -1,18 +1,24 @@
 <template name="classlist">
   {{#if classes}}
-    <ul>
-      {{#each classes}}
-        {{> classElem}}
-      {{/each}}
-    </ul>
+  <div class="row">
+    <div class="col-sm-2 col-md-offset-1">
+      <p>Your classes:</p>
+        <ul class="list-group">
+          {{#each classes}}
+            {{> classElem}}
+          {{/each}}
+        </ul>
+      <a class="btn btn-primary btn-block" role="button">Add class</a>
+    </div>
+  </div>
   {{else}}
     <div>No Classes</div>
   {{/if}}
 </template>
 
 <template name="classElem">
-  <li class="class-listing">
-    <div>{{department}} {{number}}: {{name}}</div>
+  <li class="list-group-item class-list {{selectedClass}}">
+    {{department}} {{number}}: {{name}}
   </li>
 </template>
 

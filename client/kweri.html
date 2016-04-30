@@ -33,14 +33,16 @@
 <template name="profileStud">
   <div class="container-fluid text-center">
     <h1 class="h1-label">Student Main Page</h1>
-    <div>Username: {{currentUser.profile.name}}</div>
+    <!--<div>Username: {{currentUser.profile.name}}</div>-->
     <div>Search for classes:</div>
     {{> classSearch}}
     <br>
     {{> searchClasslist}}
     <br>
-    <div>Classes you take:</div>
+    <!-- Moved to template
+    <div>Classes you take:</div> -->
     {{> classlist}}
+    {{> newlecturelist}}
   </div>
 </template>
 

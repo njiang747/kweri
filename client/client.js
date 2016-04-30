@@ -16,7 +16,16 @@ Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
-  },
+  }
+});
+
+Template.navbar.helpers({
+  username: function() {
+    return Meteor.user().profile.name;
+  }
+});
+
+Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       Meteor.logout();
@@ -27,13 +36,22 @@ Template.main.events({
       Router.go('home');
     } 
     return false;
+  },
+  'click .menu-profile': function(event) {
+    if(!Meteor.user().profile.profStatus) {
+      Router.go('profileStud');
+    }
+    else {
+      Router.go('profileProf');
+    }
+    return false;
   }
 });
 
 /***** Home Page **************************************************************/
 Template.home.events({
   'click .btnloginProf': function(event) {
-    if(Meteor.user()){
+    if (Meteor.user()){
       Router.go('profileProf');
     } else {
       Meteor.loginWithCas(
@@ -63,19 +81,7 @@ Template.home.events({
       });
     }
     return false;
-  },
-  'click .menu-logout': function(event) {
-    if(Meteor.user()){
-      Meteor.logout();
-      openCenteredPopup(
-        "https://fed.princeton.edu/cas/logout",
-        810 || 800,
-        610 || 600);
-      Router.go('home');
-    } 
-    return false;
   }
-
 });
 
 /***** Profile Page ***********************************************************/
@@ -91,8 +97,10 @@ Template.classlist.helpers({
 
 Template.classlist.events({
   /* clicking on a class redirects to that class's page */
-  'click .class-listing': function() {
+  'click .class-list': function() {
     Router.go('class', {class_id: this._id});
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedClass": this._id}});
   }
 });
 
@@ -179,6 +187,16 @@ Template.class.helpers({
   name: function() {
     return Classes.findOne(Router.current().params.class_id).name;
   }
+
+});
+
+Template.classElem.helpers({
+  selectedClass: function() {
+    var current = this._id;
+    if (current == Meteor.user().profile.selectedClass) {
+      return "selectedClass";
+    }
+  }
 });
 
 Template.lecturelist.helpers({
@@ -192,7 +210,7 @@ Template.lecturelist.events({
   /* clicking on a lecture redirects to that lecture's page */
   'click .lecture-listing': function() {
     Router.go('lecture', 
-      {class_id: Router.current().params.class_id, lecture_id: this._id});
+      {class_id: Router.current().params.class_id, lecture_id: this._id}); 
   }
 });
 
@@ -261,10 +279,12 @@ Template.questionbox.events({
     Questions.insert({ 
       lecture_id: Router.current().params.lecture_id,
       qText: qText,
-      value: 1,
+      // value: 1,
+      value: 0,
       createdAt: new Date(),
       createdBy: Meteor.userId(),
-      upvotedBy: [Meteor.userId()]
+      // upvotedBy: [Meteor.userId()]
+      upvotedBy: []
     });
     // clear the question field
     event.target.qText.value = "";
@@ -277,7 +297,7 @@ Template.questionbox.events({
         {
           $push: {confuseList: Meteor.userId()}
         });
-      var confuseTimerReset = setTimeout(confuseTimer, 3000);
+      var confuseTimerReset = setTimeout(confuseTimer, 60000);
     } else {
       Lectures.update(Router.current().params.lecture_id, 
         {
@@ -287,14 +307,23 @@ Template.questionbox.events({
     return false;
   }
 });
-var confuseTimer = function() {
 
-      alert("1 minute elapsed, confusion status cleared");
-      Lectures.update(Router.current().params.lecture_id, 
-        {
-          $pull: {confuseList: Meteor.userId()}
-        });
+
+var confuseTimer = function() {
+    alert("1 minute elapsed, confusion status cleared");
+    Lectures.update(Router.current().params.lecture_id, 
+      {
+        $pull: {confuseList: Meteor.userId()}
+      });
 }
+
+Template.questionsort.events({
+  'click .questions-sortbytime': function() {
+
+    return false;
+  }
+});
+
 Template.question.helpers({
   /* Function that converts a date to a string */
   createdAtToString: function() {
@@ -323,8 +352,30 @@ Template.question.events({
     }
     return false;
   },
+  'click .questions-upvote': function() {
+    if (this.upvotedBy == undefined || 
+        this.upvotedBy.indexOf(Meteor.userId()) == -1) {
+      Questions.update(this._id, 
+        {
+          $set: {value: this.value + 1}, 
+          $push: {upvotedBy: Meteor.userId()}
+        });
+    }
+    return false;
+  },
   /* clicking the downvote button decreases the question's value by 1 */
   'click .questions-down': function() {
+    if (this.upvotedBy != undefined && 
+        this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+      Questions.update(this._id, 
+        {
+          $set: {value: this.value - 1}, 
+          $pull: {upvotedBy: Meteor.userId()}
+        });
+    }
+    return false;
+  },
+  'click .questions-undoupvote': function() {
     if (this.upvotedBy != undefined && 
         this.upvotedBy.indexOf(Meteor.userId()) != -1) {
       Questions.update(this._id, 
