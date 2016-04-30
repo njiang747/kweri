@@ -1,0 +1,24 @@
+.thumbnail {
+	margin-top: 20px;
+	background-color: gray;
+}
+
+.profpic {
+	height: 300px;
+	width: 300px;
+	overflow: hidden;
+	position: relative;
+}
+.profpic .img-circle {
+	border-radius: 100%;
+	height: 100%;
+	width: auto;
+}
+
+.profdescrip {
+	color: black;
+}
+
+.aboutpage .h1-label {
+	margin-bottom: 50px;
+}
