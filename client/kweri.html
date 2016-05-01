@@ -2,14 +2,11 @@
   {{#unless currentUser}}
   {{> home}}
   {{else}}
-  {{> navbar}}
-  <div class="main-container">
+    {{> navbar}}
     {{> yield}}
-  </div>
-  <footer>
-    <hr/>
-    Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
-  </footer>
+    <footer>
+      Kweri was created by: Jonathan Zhang, Nick Jiang, Susan Wang, Erica Wu, Jonathan Yu, 2016.
+    </footer>
   {{/unless}}
 </template>
 
@@ -23,7 +20,6 @@
 <template name="profileProf">
   <div class="container-fluid text-center">
     <h1 class="h1-label">Professor Main Page</h1>
-    <div>Your classes:</div>
     {{> classlist}}
     <div>Add a class:</div>
     {{> addClass}}
@@ -33,14 +29,10 @@
 <template name="profileStud">
   <div class="container-fluid text-center">
     <h1 class="h1-label">Student Main Page</h1>
-    <!--<div>Username: {{currentUser.profile.name}}</div>-->
     <div>Search for classes:</div>
     {{> classSearch}}
     <br>
     {{> searchClasslist}}
-    <br>
-    <!-- Moved to template
-    <div>Classes you take:</div> -->
     {{> classlist}}
     {{> newlecturelist}}
   </div>
@@ -61,7 +53,7 @@
       <br>
       <h3>Lecture {{lNum}}: {{lName}}</h3>
       <h3 class="questions-dateString">{{dateString}}</h3>
-      {{> questionConCounter}}
+      <!-- {{> questionConCounter}} -->
       {{#if currentUser}}
       {{> questionbox}}
       {{/if}}

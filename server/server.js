@@ -11,6 +11,14 @@ Meteor.startup(function () {
   Meteor.publish('allClasses', function() {
     return Classes.find();
   })
+  /* Return all the lectures but hide the students field */
+  Meteor.publish('allLectures', function() {
+    return Lectures.find();
+  })
+  /* Return all the questions but hide the students field */
+  Meteor.publish('allQuestions', function() {
+    return Questions.find();
+  })
   Meteor.publish('classes', function(isProf, id){
     if (isProf) return Classes.find({profs: id});
     else return Classes.find({students: id});
