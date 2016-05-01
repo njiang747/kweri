@@ -1,4 +1,5 @@
 <template name="profile">
+  <div id="profile-topbar"></div>
   <div id="profile-sidebar">
     {{> search}}
     <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
@@ -12,8 +13,18 @@
   </div>
 
   <section id="profile-questions">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <div class="questions-container">
+      <header>
+        <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+        <br>
+        <h3>Lecture {{lNum}}: {{lName}}</h3>
+        <h3 class="questions-dateString">{{dateString}}</h3>
+        {{#if currentUser}}
+          {{> questionbox}}
+        {{/if}}
+      </header>
+      {{> questionlist}}
+    </div>
   </section>
 
   <section id="profile-confusion">
@@ -22,8 +33,8 @@
 </template>
 
 <template name="classElem">
-  <li id="profile-sidebar-classlist-element"> <!-- class="list-group-item class-list {{selectedClass}}"> -->
-    <a>
+  <li id="profile-sidebar-classlist-element" class="{{selectedClass}}">
+    <a id="profile-sidebar-classlist-element-classinfo">
       <div id="profile-sidebar-classlist-element-listing">
         {{department}} {{number}}
       </div>
@@ -31,12 +42,27 @@
         {{name}}
       </div>
     </a>
+    <ul id="profile-sidebar-lecturelist">
+      {{#each lectures _id}}
+        {{> lectureElem}}
+      {{/each}}
+    </ul>
+  </li>
+</template>
+
+<template name="lectureElem">
+  <li id="profile-sidebar-lecturelist-element" class="{{selectedLecture}}">
+    <a>
+      <div id="profile-sidebar-lecturelist-element-listing">
+        Lecture {{number}}: {{name}}
+      </div>
+    </a>
   </li>
 </template>
 
 <template name="search">
-  <form id="profile-sidebar-search" class="class-search">
-    <input id="profile-sidebar-searchbar" type="text" class="searchTerm">
+  <form id="profile-sidebar-search">
+    <input id="profile-sidebar-searchbar" type="text">
   </form>
 </template>
 

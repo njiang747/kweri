@@ -19,7 +19,9 @@ Router.route('/', {
 
 Router.route('/profile', {
   waitOn: function(){
-    return Meteor.subscribe('allClasses');
+    return [Meteor.subscribe('allClasses'), 
+            Meteor.subscribe('allLectures'),
+            Meteor.subscribe('allQuestions')];
   }
 });
 Router.route('/profileProf', {

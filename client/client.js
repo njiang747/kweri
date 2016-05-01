@@ -102,6 +102,25 @@ Template.profile.helpers({
       return Classes.find({profs: Meteor.userId()}, {sort: {department: 1, number: 1}});
     else 
       return Classes.find({students: Meteor.userId()}, {sort: {department: 1, number: 1}})
+  },
+  cDpt: function() {
+    return Classes.findOne(Session.get('class')).department;
+  },
+  cNum: function() {
+    return Classes.findOne(Session.get('class')).number;
+  },
+  cName: function() {
+    return Classes.findOne(Session.get('class')).name;
+  },
+  lNum: function() {
+    return Lectures.findOne(Session.get('lecture')).number;
+  },
+  lName: function() {
+    return Lectures.findOne(Session.get('lecture')).name;
+  },
+  dateString: function() {
+    var date = Lectures.findOne(Router.current().params.lecture_id).date;
+    return date.toDateString();
   }
 });
 
@@ -111,12 +130,55 @@ Template.classElem.helpers({
     if (current == Meteor.user().profile.selectedClass) {
       return "selectedClass";
     }
+  },
+  lectures: function(id) {
+    return Lectures.find({class_id: id}, {sort: {number: -1}});
   }
 });
 
+Template.classElem.events({
+  'click #profile-sidebar-classlist-element': function() {
+    Session.set('class', this._id);
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedClass": this._id}});
+  }, 
+  'click #profile-sidebar-classlist-element-classinfo': function() {
+    var lecture = Lectures.findOne({class_id: this._id}, {sort: {number: -1}});
+    if (lecture) {
+      Meteor.users.update(Meteor.userId(), 
+        {$set: {"profile.selectedLecture": lecture._id}});
+      Session.set('lecture', lecture._id);
+    } else {
+      Meteor.users.update(Meteor.userId(), 
+        {$set: {"profile.selectedLecture": ""}});
+      Session.set('lecture', "");
+    }
+  }
+})
+
+Template.lectureElem.helpers({
+  selectedLecture: function() {
+    var current = this._id;
+    if (current == Meteor.user().profile.selectedLecture) {
+      return "selectedLecture";
+    }
+  }
+})
+
+Template.lectureElem.events({
+  'click #profile-sidebar-lecturelist-element': function() {
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedLecture": this._id}});
+    Session.set('lecture', this._id);
+  }
+})
+
 Template.search.events({
-  'keyup .searchTerm': function(event) {
+  'keyup #profile-sidebar-searchbar': function(event) {
     Session.set('searchKey', event.target.value);
+  }, 
+  'submit #profile-sidebar-search': function(event) {
+    return false;
   }
 });
 
@@ -178,9 +240,9 @@ Template.classlist.helpers({
 Template.classlist.events({
   /* clicking on a class redirects to that class's page */
   'click .class-list': function() {
-    Router.go('class', {class_id: this._id});
     Meteor.users.update(Meteor.userId(), 
       {$set: {"profile.selectedClass": this._id}});
+    Router.go('class', {class_id: this._id});
   }
 });
 
@@ -342,10 +404,10 @@ Template.questionlist.helpers({
   /* questions returns a list of questions sorted by decreasing score
    * and decreasing creation date */
   questionsTop: function() {
-    return Questions.find({}, {sort: {value: -1, createdAt: -1}});
+    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {value: -1, createdAt: -1}});
   },
   questionsNew: function() {
-    return Questions.find({}, {sort: {createdAt: -1}});
+    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {createdAt: -1}});
   }
 });
 
@@ -357,7 +419,7 @@ Template.questionbox.events({
     if (qText == "") return false;
     // insert the question into the database
     Questions.insert({ 
-      lecture_id: Router.current().params.lecture_id,
+      lecture_id: Session.get('lecture'),
       qText: qText,
       // value: 1,
       value: 0,
