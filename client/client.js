@@ -265,7 +265,6 @@
     return date.toDateString();
   }
 });
-
  Template.questionlist.helpers({
   /* questions returns a list of questions sorted by decreasing score
   * and decreasing creation date */
@@ -284,6 +283,26 @@
   }
 });
 
+var timeString = "1";
+ Template.questionbox.helpers({
+  time: function() {
+    var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      return Session.get("time");
+    }
+    return "for "+ Session.get("time");  
+  }, 
+  not: function() {
+    var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      return "not";
+    }
+    return "";
+  }
+});
+
+var counfusionCounterTimeout = 60000;
+var confusionButton;
  Template.questionbox.events({
   /* submit a new question. return false means don't reload the page */
   'submit .questions-newQuestion': function(event) {
@@ -312,7 +331,11 @@
       {
         $push: {confuseList: Meteor.userId()}
       });
-      var confuseTimerReset = setTimeout(confuseTimer, 10000);
+      var confuseTimerReset = setTimeout(confuseTimer, counfusionCounterTimeout);
+      timer.start();
+      confusionButton = event.target;
+      confusionButton.disabled = true;
+      
     } else {
       Lectures.update(Router.current().params.lecture_id, 
       {
@@ -323,6 +346,80 @@
   }
 });
 
+/********* Countdown timer stuff *********/
+
+function CountDownTimer(duration, granularity) {
+  this.duration = duration;
+  this.granularity = granularity || 1000;
+  this.tickFtns = [];
+  this.running = false;
+}
+
+CountDownTimer.prototype.start = function() {
+  if (this.running) {
+    return;
+  }
+  console.log("STARTE");
+
+  this.running = true;
+  var start = Date.now(),
+      that = this,
+      diff, obj;
+
+  (function timer() {
+    diff = that.duration - (((Date.now() - start) / 1000) | 0);
+
+    if (diff > 0 && Lectures.findOne(Router.current().params.lecture_id).confuseList.indexOf(Meteor.userId()) != -1) {
+      setTimeout(timer, that.granularity);
+    } else {
+      diff = 0;
+      that.running = false;
+    }
+
+    obj = CountDownTimer.parse(diff);
+    that.tickFtns.forEach(function(ftn) {
+      ftn.call(this, obj.minutes, obj.seconds);
+    }, that);
+  }());
+};
+
+CountDownTimer.prototype.onTick = function(ftn) {
+  if (typeof ftn === 'function') {
+    this.tickFtns.push(ftn);
+  }
+  return this;
+};
+
+CountDownTimer.prototype.expired = function() {
+  return !this.running;
+};
+
+CountDownTimer.parse = function(seconds) {
+  return {
+    'minutes': (seconds / 60) | 0,
+    'seconds': (seconds % 60) | 0
+  };
+};
+
+
+  timer = new CountDownTimer(counfusionCounterTimeout/1000),
+  timeObj = CountDownTimer.parse(counfusionCounterTimeout/1000);
+
+  format(timeObj.minutes, timeObj.seconds);
+
+  timer.onTick(format);
+
+
+
+  function format(minutes, seconds) {
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    timeString = minutes + ':' + seconds;
+    Session.set("time", timeString);
+  }
+
+/********* End Countdown timer stuff *********/
+
 var confuseTimer = function() {
   var lecture =  Lectures.findOne(Router.current().params.lecture_id);
 
@@ -330,6 +427,7 @@ var confuseTimer = function() {
     return false;
   }
   alert("1 minute elapsed, confusion status cleared");
+  confusionButton.disabled = false;
   Lectures.update(Router.current().params.lecture_id, 
   {
     $pull: {confuseList: Meteor.userId()}
@@ -464,6 +562,11 @@ Template.questionConCounter.events({
   /* Reset cc counter */
   'click .questions-conReset-button': function(){
     var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+    try{
+    confusionButton.disabled = false;
+    } catch(err){
+
+    }
     Lectures.update(Router.current().params.lecture_id, { $set : {confuseList: [] }} , {multi:true} );
     return false;
   }
