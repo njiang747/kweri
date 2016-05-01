@@ -23,9 +23,9 @@
           {{#if isProf}}
             {{> questionConCounter}}
           {{/if}}
-          {{#if currentUser}}
+          {{#unless isProf}}
             {{> questionbox}}
-          {{/if}}
+          {{/unless}}
         </header>
         {{> questionlist}}
       </div>
