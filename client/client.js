@@ -454,10 +454,10 @@ Template.questionlist.helpers({
   /* questions returns a list of questions sorted by decreasing score
   * and decreasing creation date */
   questionsTop: function() {
-    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {value: -1, createdAt: -1}});
+    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {important: -1, value: -1, createdAt: -1}});
   },
   questionsNew: function() {
-    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {createdAt: -1}});
+    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {important: -1, createdAt: -1}});
   },
   sortkeytime: function() {
     var sortkey = Session.get('questionsortkey')
@@ -478,7 +478,7 @@ Template.questionbox.events({
     Questions.insert({ 
       lecture_id: Session.get('lecture'),
       qText: qText,
-      // value: 1,
+      important: 0,
       value: 0,
       createdAt: new Date(),
       createdBy: Meteor.userId(),
@@ -566,18 +566,15 @@ Template.question.helpers({
   },
 
   markedasimportant: function() {
-    var importantquestions = Session.get('importantquestions');
-    if ( importantquestions == null ) return "";
-    for ( var i = 0; i < importantquestions.length; i++ ) {
-      if ( this._id == importantquestions[i] ) return "questions-markedasimportant"
-    };
-  return "";
-},
+    if ( Questions.findOne({ _id: this._id }).important == 1 ) {
+      return "questions-markedasimportant";
+    }
+    return "";
+  },
   importantbutton: function() {
-    var importantquestions = Session.get('importantquestions');
-    for ( var i = 0; i < importantquestions.length; i++ ) {
-      if ( this._id == importantquestions[i] ) return true;
-    };
+    if ( Questions.findOne({ _id: this._id }).important == 1 ) {
+      return true;
+    }
     return false;
   }
 });
@@ -596,63 +593,55 @@ Template.question.events({
   return false;
 },
 
-'click .questions-delete': function () {
-  Questions.remove(this._id);
-},
+  'click .questions-delete': function () {
+    Questions.remove(this._id);
+  },
 
-'click .questions-markasimportant': function() {
-  var importantquestions = Session.get('importantquestions');
-  if ( importantquestions == null ) {
-    importantquestions = [];
+  'click .questions-markasimportant': function() {
+    Questions.update(this._id, 
+      {
+        $set: {important: 1}
+      });
+    return false;
+  },
+  'click .questions-upvote': function() {
+    if (this.upvotedBy == undefined || 
+      this.upvotedBy.indexOf(Meteor.userId()) == -1) {
+      Questions.update(this._id, 
+      {
+        $set: {value: this.value + 1}, 
+        $push: {upvotedBy: Meteor.userId()}
+      });
   }
-  var i = importantquestions.indexOf(this._id);
-  if (i < 0) {
-    importantquestions.push( this._id );
-  }
-  else {
-    importantquestions.splice(i, 1);
-  }
-  Session.set('importantquestions', importantquestions);
   return false;
-},
-'click .questions-upvote': function() {
-  if (this.upvotedBy == undefined || 
-    this.upvotedBy.indexOf(Meteor.userId()) == -1) {
-    Questions.update(this._id, 
-    {
-      $set: {value: this.value + 1}, 
-      $push: {upvotedBy: Meteor.userId()}
-    });
-}
-return false;
-},
-/* clicking the downvote button decreases the question's value by 1 */
-'click .questions-down': function() {
-  if (this.upvotedBy != undefined && 
-    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-    Questions.update(this._id, 
-    {
-      $set: {value: this.value - 1}, 
-      $pull: {upvotedBy: Meteor.userId()}
-    });
-}
-return false;
-},
-'click .questions-unvote': function() {
-  if (this.upvotedBy != undefined && 
-    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-    Questions.update(this._id, 
-    {
-      $set: {value: this.value - 1}, 
-      $pull: {upvotedBy: Meteor.userId()}
-    });
-}
-return false;
-},
+  },
+  /* clicking the downvote button decreases the question's value by 1 */
+  'click .questions-down': function() {
+    if (this.upvotedBy != undefined && 
+      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+      Questions.update(this._id, 
+      {
+        $set: {value: this.value - 1}, 
+        $pull: {upvotedBy: Meteor.userId()}
+      });
+  }
+  return false;
+  },
+  'click .questions-unvote': function() {
+    if (this.upvotedBy != undefined && 
+      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+      Questions.update(this._id, 
+      {
+        $set: {value: this.value - 1}, 
+        $pull: {upvotedBy: Meteor.userId()}
+      });
+  }
+  return false;
+  },
 
-'click .questions-delete': function () {
-  Questions.remove(this._id);
-}
+  'click .questions-delete': function () {
+    Questions.remove(this._id);
+  }
 });
 
 Template.questionConCounter.helpers({
