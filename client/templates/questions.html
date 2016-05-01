@@ -3,7 +3,9 @@
   <form class="questions-newQuestion">
     <input type="text" name="qText" placeholder="Post new question">
     <input type="submit" class="questions-submit" value="submit">
+    {{#unless isProf}}
     <button class="questions-con-button">I'm Confused</button>
+    {{/unless}}
   </form>
 </template>
 
@@ -58,19 +60,25 @@
 
     <div class="questions-options">
       {{#if upvoted}}
-      <button class="questions-unvote">Unvote</button>
+      <button class="questions-unvote">Undo Upvote</button>
       {{else}}
       <button class="questions-upvote">Upvote</button>
       {{/if}}
-      <button class="questions-delete">Delete</button>
-      <button class="questions-markasimportant">Mark as Important</button>
+      {{#if isProf}}
+        <button class="questions-delete">Delete</button>
+        {{#if importantbutton}}
+          <button class="questions-markasimportant">Mark as Unimportant</button>
+        {{else}}
+          <button class="questions-markasimportant">Mark as Important</button>
+        {{/if}}
+      {{/if}}
+
       <span class="questions-date">{{createdAtToString}}</span>
     </div>
   </li>
 </template>
 
 <template name="questionConCounter">
-
   <button class="questions-conReset-button">Reset Confusion Counter</button>
   <div class="questions-barContainer">
     <div class="questions-vertical progress">

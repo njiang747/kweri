@@ -20,6 +20,8 @@ Router.route('/', {
 });
 
 Router.route('/profile', {
+  name: 'profile',
+  template: 'profile',
   waitOn: function(){
     return [Meteor.subscribe('allClasses'), 
             Meteor.subscribe('allLectures'),

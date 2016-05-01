@@ -20,7 +20,9 @@
           <br>
           <h3>Lecture {{lNum}}: {{lName}}</h3>
           <h3 class="questions-dateString">{{dateString}}</h3>
-          {{> questionConCounter}}
+          {{#if isProf}}
+            {{> questionConCounter}}
+          {{/if}}
           {{#if currentUser}}
             {{> questionbox}}
           {{/if}}
