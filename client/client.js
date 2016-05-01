@@ -598,10 +598,19 @@ Template.question.events({
   },
 
   'click .questions-markasimportant': function() {
-    Questions.update(this._id, 
-      {
-        $set: {important: 1}
-      });
+    if ( Questions.findOne({_id: this._id}).important == 0 ) {
+      Questions.update(this._id, 
+        {
+          $set: {important: 1}
+        });      
+    }
+    else {
+      Questions.update(this._id, 
+        {
+          $set: {important: 0}
+        });   
+    }
+
     return false;
   },
   'click .questions-upvote': function() {
