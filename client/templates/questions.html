@@ -3,7 +3,9 @@
   <form class="questions-newQuestion">
     <input type="text" name="qText" placeholder="Post new question">
     <input type="submit" class="questions-submit" value="submit">
+    {{#unless isProf}}
     <button class="questions-con-button">I'm Confused</button>
+    {{/unless}}
   </form>
 </template>
 
@@ -63,8 +65,12 @@
       <button class="questions-upvote">Upvote</button>
       {{/if}}
       {{#if isProf}}
-      <button class="questions-delete">Delete</button>
-      <button class="questions-markasimportant">Mark as Important</button>
+        <button class="questions-delete">Delete</button>
+        {{#if importantbutton}}
+          <button class="questions-markasimportant">Mark as Unimportant</button>
+        {{else}}
+          <button class="questions-markasimportant">Mark as Important</button>
+        {{/if}}
       {{/if}}
 
       <span class="questions-date">{{createdAtToString}}</span>

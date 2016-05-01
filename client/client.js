@@ -570,9 +570,16 @@ Template.question.helpers({
     if ( importantquestions == null ) return "";
     for ( var i = 0; i < importantquestions.length; i++ ) {
       if ( this._id == importantquestions[i] ) return "questions-markedasimportant"
-    }
+    };
   return "";
-}
+},
+  importantbutton: function() {
+    var importantquestions = Session.get('importantquestions');
+    for ( var i = 0; i < importantquestions.length; i++ ) {
+      if ( this._id == importantquestions[i] ) return true;
+    };
+    return false;
+  }
 });
 
 Template.question.events({
@@ -598,7 +605,13 @@ Template.question.events({
   if ( importantquestions == null ) {
     importantquestions = [];
   }
-  importantquestions.push( this._id );
+  var i = importantquestions.indexOf(this._id);
+  if (i < 0) {
+    importantquestions.push( this._id );
+  }
+  else {
+    importantquestions.splice(i, 1);
+  }
   Session.set('importantquestions', importantquestions);
   return false;
 },
