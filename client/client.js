@@ -447,10 +447,10 @@ Template.lecture.helpers({
   /* questions returns a list of questions sorted by decreasing score
   * and decreasing creation date */
   questionsTop: function() {
-    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {value: -1, createdAt: -1}});
+    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {important: -1, value: -1, createdAt: -1}});
   },
   questionsNew: function() {
-    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {createdAt: -1}});
+    return Questions.find({lecture_id: Session.get('lecture')}, {sort: {important: -1, createdAt: -1}});
   },
   sortkeytime: function() {
     var sortkey = Session.get('questionsortkey')
@@ -471,7 +471,7 @@ Template.questionbox.events({
     Questions.insert({ 
       lecture_id: Session.get('lecture'),
       qText: qText,
-      // value: 1,
+      important: 0,
       value: 0,
       createdAt: new Date(),
       createdBy: Meteor.userId(),
@@ -593,6 +593,11 @@ Template.question.events({
     }
     importantquestions.push( this._id );
     Session.set('importantquestions', importantquestions);
+
+    Questions.update(this._id, 
+      {
+        $set: {important: 1}
+      });
     return false;
   },
   'click .questions-upvote': function() {
