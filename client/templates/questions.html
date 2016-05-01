@@ -17,9 +17,9 @@
   <script language="JavaScript">
     window.onbeforeunload = leave;
     function leave(){
-      var lecture =  Lectures.findOne(Router.current().params.lecture_id);
+      var lecture =  Lectures.findOne(Session.get('lecture'));
       if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
-        Lectures.update(Router.current().params.lecture_id, 
+        Lectures.update(Session.get('lecture'), 
         {
           $pull: {totalList: Meteor.userId()}
         });

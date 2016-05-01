@@ -5,18 +5,18 @@
       <p>Your classes:</p>
       <ul class="list-group">
         {{#each classes}}
-        {{> classElem}}
+          {{> classElem}}
         {{/each}}
       </ul>
       <a class="btn btn-primary btn-block" role="button">Add class</a>
     </div>
   </div>
   {{else}}
-  <div>No Classes</div>
+    <div>No Classes</div>
   {{/if}}
 </template>
 
-<template name="classElem">
+<template name="classElem2">
   <li class="list-group-item class-list {{selectedClass}}">
     {{department}} {{number}}: {{name}}
   </li>
@@ -33,7 +33,7 @@
 
 <template name="classSearch">
   <form class="class-search">
-    <input type="text" class="searchTerm">
+    <input type="text" placeholder="Search for classes" class="searchTerm">
     <input type="submit" class="search-submit" value="submit">
   </form>
 </template>
@@ -42,12 +42,11 @@
   {{#if classes}}
   <ul>
     {{#each classes}}
-    {{> searchClassElem}}
+      {{> searchClassElem}}
     {{/each}}
   </ul>
   {{else}}
-  <div>0 Search Results</div>
-  <br>
+    <div>0 Search Results</div>
   {{/if}}
 </template>
 
@@ -56,7 +55,7 @@
     <div>{{department}} {{number}}: {{name}}</div>
     <div>Professors: 
       {{#each prof_names}}
-      {{profile.name}} 
+        {{profile.name}} 
       {{/each}}
     </div>
     <button class="enroll">Enroll</button>

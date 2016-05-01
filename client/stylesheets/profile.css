@@ -1,3 +1,197 @@
-.h1-label {
-  color: #FFFFFF;
+#profile-topbar {
+  width:100%;
+  height:51px;
+  background-color:#333333;
+  position: absolute;
+}
+
+#profile-sidebar {
+  background-color:#777777;
+  height:100%;
+  width:16%;
+  float:left;
+  padding: 51px 0px 0px 0px;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#profile-questions {
+  background-color:#333333;
+  height:100%;
+  width:75%;
+  float:left;
+  padding: 51px 0px 0px 0px;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#profile-confusion {
+  background-color:#777777;
+  height:100%;
+  width:9%;
+  float:left;
+  padding: 51px 0px 0px 0px;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#profile-sidebar-search {
+  width: 100%;
+  margin: 5px 0px;
+  text-align: center;
+}
+
+#profile-sidebar-searchbar {
+  width: 95%;
+  outline: none;
+  border-radius: 2px;
+  border: none;
+  background-color: #EEEEEE;
+  padding: 5px 8px;
+  font-size: 0.9em;
+}
+
+#profile-sidebar-classlist-container {
+  max-height:40%;
+  overflow-y: auto;
+  overflow: hidden;
+}
+
+#profile-sidebar-classlist {
+  height:100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#profile-sidebar-classlist-element {
+  position: relative;
+  display: block;
+  background-color: #EEEEEE;
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #AAAAAA;
+  cursor: pointer;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#profile-sidebar-classlist-element.selectedClass {
+  background-color: #68dff0;
+}
+
+#profile-sidebar-classlist-element a {
+  text-decoration: none;
+  color: #000;
+  padding: 3px 0px 3px 10px;
+  font-size: 0.75em;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+
+  display: block;
+}
+
+#profile-sidebar-classlist-element:not(.selectedClass) a:hover {
+  background: #AAAAAA; /*#68dff0;*/
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+
+  display: block;
+}
+
+#profile-sidebar-classlist-element-listing {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+#profile-sidebar-classlist-element-name {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+}
+
+#profile-sidebar-lecturelist {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0px;
+  overflow: hidden;
+  -webkit-transition: max-height 0.5s ease;
+  -moz-transition: max-height 0.5s ease;
+  -o-transition: max-height 0.5s ease;
+  -ms-transition: max-height 0.5s ease;
+  transition: max-height 0.5s ease;
+}
+
+#profile-sidebar-classlist-element:hover #profile-sidebar-lecturelist {
+  max-height: 100px;
+  overflow: scroll;
+  -webkit-transition: max-height 0.5s ease;
+  -moz-transition: max-height 0.5s ease;
+  -o-transition: max-height 0.5s ease;
+  -ms-transition: max-height 0.5s ease;
+  transition: max-height 0.5s ease;
+}
+
+#profile-sidebar-lecturelist-element {
+  position: relative;
+  display: block;
+  background-color: #EEEEEE;
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  cursor: pointer;
+}
+
+#profile-sidebar-lecturelist-element.selectedLecture {
+  background-color: #00CCFF;
+}
+
+#profile-sidebar-lecturelist-element a {
+  text-decoration: none;
+  color: #000;
+  padding: 0px;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+
+  display: block;
+}
+
+#profile-sidebar-lecturelist-element:not(.selectedLecture) a:hover {
+  background: #AAAAAA;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+
+  display: block;
+}
+
+#profile-sidebar-lecturelist-element-listing {
+  font-size: 0.8em;
+  margin-left: 20px;
+}
+
+#profile-sidebar-enroll {
+  float: right;
+}
+
+#profile-sidebar-results {
+  width: 100%;
+  margin: 5px 0px;
+  text-align: center;
+}
+
+#profile-sidebar-searchclasslist {
+  height:40%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
