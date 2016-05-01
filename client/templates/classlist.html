@@ -1,17 +1,16 @@
 <template name="classlist">
   {{#if classes}}
-    <div class="row">
-      <div class="col-sm-2 col-md-offset-1">
-      <!-- <div class="col-sm-2 col-md-offset-5"> -->
-        <p>Your classes:</p>
-          <ul class="list-group">
-            {{#each classes}}
-              {{> classElem2}}
-            {{/each}}
-          </ul>
-        <a class="btn btn-primary btn-block" role="button">Add class</a>
-      </div>
+  <div class="row">
+    <div class="col-sm-2 col-md-offset-1">
+      <p>Your classes:</p>
+      <ul class="list-group">
+        {{#each classes}}
+          {{> classElem}}
+        {{/each}}
+      </ul>
+      <a class="btn btn-primary btn-block" role="button">Add class</a>
     </div>
+  </div>
   {{else}}
     <div>No Classes</div>
   {{/if}}
@@ -41,11 +40,11 @@
 
 <template name="searchClasslist">
   {{#if classes}}
-    <ul>
-      {{#each classes}}
-        {{> searchClassElem}}
-      {{/each}}
-    </ul>
+  <ul>
+    {{#each classes}}
+      {{> searchClassElem}}
+    {{/each}}
+  </ul>
   {{else}}
     <div>0 Search Results</div>
   {{/if}}

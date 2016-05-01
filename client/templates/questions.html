@@ -1,3 +1,4 @@
+
 <template name="questionbox">
   <form class="questions-newQuestion">
     <input type="text" name="qText" placeholder="Post new question">
@@ -7,61 +8,69 @@
 </template>
 
 <template name="questionsort">
-  <button class="questions-sortbytime">Newest</button>
-  <button class="questions-sortbyvotes">Highest Votes</button>
+  <button id="questions-sortbytime" class="{{selectedtimesorter}}">Newest</button>
+  <button id="questions-sortbyvotes" class="{{selectedvotesorter}}">Highest Votes</button>
 </template>
 
 <template name="questionlist">
+
+  <script language="JavaScript">
+    window.onbeforeunload = leave;
+    function leave(){
+      var lecture =  Lectures.findOne(Session.get('lecture'));
+      if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
+        Lectures.update(Session.get('lecture'), 
+        {
+          $pull: {totalList: Meteor.userId()}
+        });
+      }
+    }
+  </script>
+
   <div class="questions-sorter">
     {{> questionsort}}
   </div>
   <div class="questions-listContainer" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
     <ul class="questions-list">
-      {{#each questionsTop}}
-        {{> question}}
-      {{/each}}
+      {{#if sortkeytime}}
+        {{#each questionsTop}}
+          {{> question}}
+        {{/each}}
+      {{else}}
+        {{#each questionsNew}}
+          {{> question}}
+        {{/each}}
+      {{/if}}
     </ul>
   </div>
 </template>
 
 <template name="question">
 
-  <li class="questions-listItem">
+  <li class="questions-listItem {{markedasimportant}}">
 
     <div class="question-score">
-      {{#if upvoted}}
-        <button class="questions-down">{{value}}</button>
-      {{else}}
-        <button class="questions-up">{{value}}</button>
-      {{/if}}
+      {{value}}
     </div>
-
     <div class="questions-infoContainer">
       <p class="questions-text">{{qText}}</p>
-      <div class="questions-dateText">{{createdAtToString}}</div>
     </div>
-<!--     <div class="questions-vote">
-      {{#if upvoted}}
-        <button class="questions-down">{{value}}</button>
-      {{else}}
-        <button class="questions-up">{{value}}</button>
-      {{/if}}
-    </div> -->
 
     <div class="questions-options">
       {{#if upvoted}}
-        <button class="questions-unvote">Unvote</button>
+      <button class="questions-unvote">Unvote</button>
       {{else}}
-        <button class="questions-upvote">Upvote</button>
+      <button class="questions-upvote">Upvote</button>
       {{/if}}
       <button class="questions-delete">Delete</button>
       <button class="questions-markasimportant">Mark as Important</button>
+      <span class="questions-date">{{createdAtToString}}</span>
     </div>
-
   </li>
 </template>
 
 <template name="questionConCounter">
+
   <button class="questions-conReset-button">Reset Confusion Counter</button>
   <div class="questions-barContainer">
     <div class="questions-vertical progress">

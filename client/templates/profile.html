@@ -13,22 +13,24 @@
   </div>
 
   <section id="profile-questions">
-    <div class="questions-container">
-      <header>
-        <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
-        <br>
-        <h3>Lecture {{lNum}}: {{lName}}</h3>
-        <h3 class="questions-dateString">{{dateString}}</h3>
-        {{#if currentUser}}
-          {{> questionbox}}
-        {{/if}}
-      </header>
-      {{> questionlist}}
-    </div>
+    {{#if loaded}}
+      <div class="questions-container">
+        <header>
+          <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+          <br>
+          <h3>Lecture {{lNum}}: {{lName}}</h3>
+          <h3 class="questions-dateString">{{dateString}}</h3>
+          {{> questionConCounter}}
+          {{#if currentUser}}
+            {{> questionbox}}
+          {{/if}}
+        </header>
+        {{> questionlist}}
+      </div>
+    {{/if}}
   </section>
 
   <section id="profile-confusion">
-    <!-- {{> questionConCounter}} -->
   </section>
 </template>
 

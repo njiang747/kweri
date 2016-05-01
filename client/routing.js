@@ -9,6 +9,8 @@ Router.configure({
   notFoundTemplate: 'loading'
 });
 
+Router.onBeforeAction("loading");
+
 /* Set the routing info, by default, uses the template with same name as the
  * extension */
 Router.route('/', {
@@ -22,7 +24,12 @@ Router.route('/profile', {
     return [Meteor.subscribe('allClasses'), 
             Meteor.subscribe('allLectures'),
             Meteor.subscribe('allQuestions')];
-  }
+  },
+  action : function () {
+   if (this.ready()) {
+     this.render();
+   }
+ }
 });
 Router.route('/profileProf', {
   waitOn: function(){
@@ -66,3 +73,7 @@ Router.route('/questions', {
     return Meteor.subscribe('questions');
   }
 });
+Router.route('/about', {
+  name: 'aboutpage',
+  template:'aboutpage'
+})

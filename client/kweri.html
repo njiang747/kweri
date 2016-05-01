@@ -1,6 +1,6 @@
 <template name="main">
   {{#unless currentUser}}
-    {{> home}}
+  {{> home}}
   {{else}}
     {{> navbar}}
     {{> yield}}
@@ -55,7 +55,7 @@
       <h3 class="questions-dateString">{{dateString}}</h3>
       <!-- {{> questionConCounter}} -->
       {{#if currentUser}}
-        {{> questionbox}}
+      {{> questionbox}}
       {{/if}}
     </header>
     {{> questionlist}}
