@@ -6,26 +6,33 @@
  * Events define actions to be taken upon events within templates */
 
  /***** Main Layout ************************************************************/
-Template.main.helpers({
+ Template.main.helpers({
   username: function() {
-    return Meteor.user().profile.name;
+    if (Meteor.user().profile.profStatus) {
+      return Meteor.user().profile.name;
+    }
   }
+  
 });
 
-Template.main.events({
+ Template.registerHelper('isProf', function(){
+  return Meteor.user().profile.profStatus;
+});
+
+ Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
   }
 });
 
-Template.navbar.helpers({
+ Template.navbar.helpers({
   username: function() {
     return Meteor.user().profile.name;
   }
 });
 
-Template.navbar.events({
+ Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       leaveClass();
@@ -58,15 +65,15 @@ Template.navbar.events({
 
 });
 
-Template.navbar.helpers({
+ Template.navbar.helpers({
   username: function() {
     if (Meteor.user()) return Meteor.user().profile.name;
     else return;
   }
 });
 
-/***** Home Page **************************************************************/
-Template.home.events({
+ /***** Home Page **************************************************************/
+ Template.home.events({
   'click .btnloginProf': function(event) {
     if (Meteor.user()){
       Router.go('profileProf');
@@ -101,8 +108,8 @@ Template.home.events({
   }
 });
 
-/***** Profile Page ***********************************************************/
-Template.profile.helpers({
+ /***** Profile Page ***********************************************************/
+ Template.profile.helpers({
   loaded: function() {
     if (Classes.find().count() > 0) {
       var selectedClass = Meteor.user().profile.selectedClass
@@ -259,10 +266,10 @@ Template.searchlist.helpers({
         {$or: [
           {$and: [{department: dept}, {number: num}]}, 
           {name: name}
-        ]},
-        {students: {$ne: Meteor.userId()}}
-      ]}, 
-      {sort: {department: 1, number: 1}});
+          ]},
+          {students: {$ne: Meteor.userId()}}
+          ]}, 
+          {sort: {department: 1, number: 1}});
     Session.set('searchNum', classes.count());
     return classes;
   }
@@ -443,7 +450,7 @@ Template.lecture.helpers({
   }
 });
 
- Template.questionlist.helpers({
+Template.questionlist.helpers({
   /* questions returns a list of questions sorted by decreasing score
   * and decreasing creation date */
   questionsTop: function() {
@@ -564,8 +571,8 @@ Template.question.helpers({
     for ( var i = 0; i < importantquestions.length; i++ ) {
       if ( this._id == importantquestions[i] ) return "questions-markedasimportant"
     }
-    return "";
-  }
+  return "";
+}
 });
 
 Template.question.events({
@@ -574,65 +581,65 @@ Template.question.events({
     if (this.upvotedBy == undefined || 
       this.upvotedBy.indexOf(Meteor.userId()) == -1) {
       Questions.update(this._id, 
-        {
-          $set: {value: this.value - 1}, 
-          $pull: {upvotedBy: Meteor.userId()}
-        });
-    }
-    return false;
-  },
-
-  'click .questions-delete': function () {
-    Questions.remove(this._id);
-  },
-
-  'click .questions-markasimportant': function() {
-    var importantquestions = Session.get('importantquestions');
-    if ( importantquestions == null ) {
-      importantquestions = [];
-    }
-    importantquestions.push( this._id );
-    Session.set('importantquestions', importantquestions);
-    return false;
-  },
-  'click .questions-upvote': function() {
-    if (this.upvotedBy == undefined || 
-      this.upvotedBy.indexOf(Meteor.userId()) == -1) {
-      Questions.update(this._id, 
-      {
-        $set: {value: this.value + 1}, 
-        $push: {upvotedBy: Meteor.userId()}
-      });
-    }
-    return false;
-  },
-  /* clicking the downvote button decreases the question's value by 1 */
-  'click .questions-down': function() {
-    if (this.upvotedBy != undefined && 
-      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-      Questions.update(this._id, 
       {
         $set: {value: this.value - 1}, 
         $pull: {upvotedBy: Meteor.userId()}
       });
-    }
-    return false;
-  },
-  'click .questions-unvote': function() {
-    if (this.upvotedBy != undefined && 
-      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-      Questions.update(this._id, 
-      {
-        $set: {value: this.value - 1}, 
-        $pull: {upvotedBy: Meteor.userId()}
-      });
-    }
-    return false;
-  },
-
-  'click .questions-delete': function () {
-    Questions.remove(this._id);
   }
+  return false;
+},
+
+'click .questions-delete': function () {
+  Questions.remove(this._id);
+},
+
+'click .questions-markasimportant': function() {
+  var importantquestions = Session.get('importantquestions');
+  if ( importantquestions == null ) {
+    importantquestions = [];
+  }
+  importantquestions.push( this._id );
+  Session.set('importantquestions', importantquestions);
+  return false;
+},
+'click .questions-upvote': function() {
+  if (this.upvotedBy == undefined || 
+    this.upvotedBy.indexOf(Meteor.userId()) == -1) {
+    Questions.update(this._id, 
+    {
+      $set: {value: this.value + 1}, 
+      $push: {upvotedBy: Meteor.userId()}
+    });
+}
+return false;
+},
+/* clicking the downvote button decreases the question's value by 1 */
+'click .questions-down': function() {
+  if (this.upvotedBy != undefined && 
+    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+    Questions.update(this._id, 
+    {
+      $set: {value: this.value - 1}, 
+      $pull: {upvotedBy: Meteor.userId()}
+    });
+}
+return false;
+},
+'click .questions-unvote': function() {
+  if (this.upvotedBy != undefined && 
+    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+    Questions.update(this._id, 
+    {
+      $set: {value: this.value - 1}, 
+      $pull: {upvotedBy: Meteor.userId()}
+    });
+}
+return false;
+},
+
+'click .questions-delete': function () {
+  Questions.remove(this._id);
+}
 });
 
 Template.questionConCounter.helpers({

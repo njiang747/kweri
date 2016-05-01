@@ -58,19 +58,21 @@
 
     <div class="questions-options">
       {{#if upvoted}}
-      <button class="questions-unvote">Unvote</button>
+      <button class="questions-unvote">Undo Upvote</button>
       {{else}}
       <button class="questions-upvote">Upvote</button>
       {{/if}}
+      {{#if isProf}}
       <button class="questions-delete">Delete</button>
       <button class="questions-markasimportant">Mark as Important</button>
+      {{/if}}
+
       <span class="questions-date">{{createdAtToString}}</span>
     </div>
   </li>
 </template>
 
 <template name="questionConCounter">
-
   <button class="questions-conReset-button">Reset Confusion Counter</button>
   <div class="questions-barContainer">
     <div class="questions-vertical progress">
