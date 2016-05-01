@@ -16,6 +16,24 @@
   {{/if}}
 </template>
 
+<template name="classlist2">
+  {{#if classes}}
+  <div class="row">
+    <div class="col-sm-2 col-md-offset-1">
+      <p>Your classes:</p>
+      <ul class="list-group">
+        {{#each classes}}
+          {{> classElem2}}
+        {{/each}}
+      </ul>
+      <a class="btn btn-primary btn-block" role="button">Add class</a>
+    </div>
+  </div>
+  {{else}}
+    <div>No Classes</div>
+  {{/if}}
+</template>
+
 <template name="classElem2">
   <li class="list-group-item class-list {{selectedClass}}">
     {{department}} {{number}}: {{name}}

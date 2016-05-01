@@ -125,6 +125,7 @@ Template.profile.helpers({
           Session.setDefault('lecture', lecture._id);
         }
       }
+      Session.set('questionsortkey', 'bytime');
       return true;
     } else return false;
   },
@@ -152,6 +153,16 @@ Template.profile.helpers({
   dateString: function() {
     var date = Lectures.findOne(Session.get('lecture')).date;
     return date.toDateString();
+  }
+});
+
+Template.classlist.helpers({
+  /* classes returns a list of classes */
+  classes: function() {
+    if (Router.current().route.getName() == "profileProf") 
+      return Classes.find({}, {sort: {department: 1, number: 1}});
+    else if (Router.current().route.getName() == "profileStud") 
+      return Classes.find({students: Meteor.userId()}, {sort: {department: 1, number: 1}})
   }
 });
 
@@ -258,7 +269,7 @@ Template.searchlist.helpers({
 });
 
 /***** Profile Page ***********************************************************/
-Template.classlist.helpers({
+Template.classlist2.helpers({
   /* classes returns a list of classes */
   classes: function() {
     if (Router.current().route.getName() == "profileProf") 
@@ -271,9 +282,9 @@ Template.classlist.helpers({
 Template.classElem2.events({
   /* clicking on a class redirects to that class's page */
   'click .class-list': function() {
-    console.log("TEST");
     Meteor.users.update(Meteor.userId(), 
       {$set: {"profile.selectedClass": this._id}});
+    Session.set('class', this._id)
     Router.go('class', {class_id: this._id});
   }
 });
@@ -697,7 +708,7 @@ var enterClass = function() {
 var leaveClass = function() {
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    alert("LEAVE");
+    // alert("LEAVE");
     if (lecture.totalList.indexOf(Meteor.userId()) != -1) {
       Lectures.update(Session.get('lecture'), 
       {
