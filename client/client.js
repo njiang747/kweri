@@ -566,18 +566,15 @@ Template.question.helpers({
   },
 
   markedasimportant: function() {
-    var importantquestions = Session.get('importantquestions');
-    if ( importantquestions == null ) return "";
-    for ( var i = 0; i < importantquestions.length; i++ ) {
-      if ( this._id == importantquestions[i] ) return "questions-markedasimportant"
-    };
-  return "";
-},
+    if ( Questions.findOne({ _id: this._id }).important == 1 ) {
+      return "questions-markedasimportant";
+    }
+    return "";
+  },
   importantbutton: function() {
-    var importantquestions = Session.get('importantquestions');
-    for ( var i = 0; i < importantquestions.length; i++ ) {
-      if ( this._id == importantquestions[i] ) return true;
-    };
+    if ( Questions.findOne({ _id: this._id }).important == 1 ) {
+      return true;
+    }
     return false;
   }
 });
@@ -601,13 +598,6 @@ Template.question.events({
   },
 
   'click .questions-markasimportant': function() {
-    var importantquestions = Session.get('importantquestions');
-    if ( importantquestions == null ) {
-      importantquestions = [];
-    }
-    importantquestions.push( this._id );
-    Session.set('importantquestions', importantquestions);
-
     Questions.update(this._id, 
       {
         $set: {important: 1}
