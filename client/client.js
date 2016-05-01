@@ -5,8 +5,8 @@
  * Helpers define variables/functions used within templates
  * Events define actions to be taken upon events within templates */
 
- /***** Main Layout ************************************************************/
- Template.main.helpers({
+/***** Main Layout ************************************************************/
+Template.main.helpers({
   username: function() {
     if (Meteor.user().profile.profStatus) {
       return Meteor.user().profile.name;
@@ -15,24 +15,24 @@
   
 });
 
- Template.registerHelper('isProf', function(){
+Template.registerHelper('isProf', function(){
   return Meteor.user().profile.profStatus;
 });
 
- Template.main.events({
+Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
   }
 });
 
- Template.navbar.helpers({
+Template.navbar.helpers({
   username: function() {
     return Meteor.user().profile.name;
   }
 });
 
- Template.navbar.events({
+Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       leaveClass();
@@ -65,15 +65,15 @@
 
 });
 
- Template.navbar.helpers({
+Template.navbar.helpers({
   username: function() {
     if (Meteor.user()) return Meteor.user().profile.name;
     else return;
   }
 });
 
- /***** Home Page **************************************************************/
- Template.home.events({
+/***** Home Page **************************************************************/
+Template.home.events({
   'click .btnloginProf': function(event) {
     if (Meteor.user()){
       Router.go('profileProf');
@@ -108,8 +108,8 @@
   }
 });
 
- /***** Profile Page ***********************************************************/
- Template.profile.helpers({
+/***** Profile Page ***********************************************************/
+Template.profile.helpers({
   loaded: function() {
     if (Classes.find().count() > 0) {
       var selectedClass = Meteor.user().profile.selectedClass
