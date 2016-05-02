@@ -38,11 +38,13 @@
     </div>
 
     <div class="questions-options">
-      {{#if upvoted}}
-        <button class="questions-unvote">Undo Upvote</button>
-      {{else}}
-        <button class="questions-upvote">Upvote</button>
-      {{/if}}
+      {{#unless isProf}}
+        {{#if upvoted}}
+          <button class="questions-unvote">Undo Upvote</button>
+        {{else}}
+          <button class="questions-upvote">Upvote</button>
+        {{/if}}
+      {{/unless}}
       {{#if isProf}}
         <button class="questions-delete">Delete</button>
         {{#if importantbutton}}

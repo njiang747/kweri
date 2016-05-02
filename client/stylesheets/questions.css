@@ -18,7 +18,7 @@
   color: #333333;
   width: 80px;
   border: 1px solid #333333;
-  background: #E5EBF2;
+  background: #f0f3f6;
   outline: none;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -31,7 +31,7 @@
   color: #333333;
   width: 80px;
   border: 1px solid #333333;
-  background: #E5EBF2;
+  background: #f0f3f6;
   outline: none;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -42,7 +42,7 @@
 
 .questions-selectedsorter {
   background: #333333 !important;
-  color: #E5EBF2 !important;
+  color: #f0f3f6 !important;
   transition: all 0.3s ease;
   -webkit-transition: background-color 0.25s ease;
   -moz-transition: background-color 0.25s ease;
@@ -100,14 +100,13 @@
 
 .questions-submit {
   cursor: pointer;
-  background: #666666;
+  background: #333333;
   color: #FDFDFD;
   font-size: 1em;
-  padding: 5px 10px;
-  border: #CCCCCC 1.5px solid;
+  padding: 3px 10px;
+  border: none;
   border-radius: 3px;
-  /*border: none;
-  border-radius: 0px;*/
+  width: 60px;
 }
 
 .questions-newQuestion input[type="text"] {

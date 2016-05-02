@@ -6,7 +6,7 @@
 Router.configure({
   layoutTemplate: 'main',
   loadingTemplate: 'loading',
-  notFoundTemplate: 'loading'
+  notFoundTemplate: 'main'
 });
 
 Router.onBeforeAction("loading");
