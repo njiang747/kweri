@@ -2,7 +2,7 @@
 <template name="questionbox">
   <form class="questions-newQuestion">
     <input type="text" name="qText" placeholder="Post new question">
-    <input type="submit" class="questions-submit" value="submit">
+    <input type="submit" class="questions-submit" value="Post">
     {{#unless isProf}}
     <button class="questions-con-button">I'm Confused</button>
     {{/unless}}
@@ -10,8 +10,7 @@
 </template>
 
 <template name="questionsort">
-  <button id="questions-sortbytime" class="{{selectedtimesorter}}">Newest</button>
-  <button id="questions-sortbyvotes" class="{{selectedvotesorter}}">Highest Votes</button>
+  <button id="questions-sortbytime" class="{{selectedtimesorter}}">New</button><button id="questions-sortbyvotes" class="{{selectedvotesorter}}">Top</button>
 </template>
 
 <template name="questionlist">
