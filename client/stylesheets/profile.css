@@ -285,3 +285,31 @@
   margin: 0;
   padding: 0;
 }
+
+/* Add Class Page */
+.new-class input[type="text"], .new-class input[type="number"], .new-lecture input[type="text"], .new-lecture input[type="number"] {
+  padding: 10px 0;
+  background: transparent;
+  border: 1px #AAAAAA solid;
+  border-radius: 3px;
+  height: 35px;
+  width: 45%;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1em;
+  color: #333333;
+}
+
+.class-submit, .lecture-submit {
+  cursor: pointer;
+  background: #333333;
+  color: #FDFDFD;
+  font-size: 1em;
+  padding: 3px 10px;
+  border: none;
+  border-radius: 3px;
+  width: 45%;
+}
+
+/* Add Lecture Page */
+
