@@ -43,6 +43,7 @@
 .questions-selectedsorter {
   background: #333333 !important;
   color: #E5EBF2 !important;
+  border: 2px solid #333333 !important;
   transition: all 0.3s ease;
   -webkit-transition: background-color 0.25s ease;
   -moz-transition: background-color 0.25s ease;
