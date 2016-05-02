@@ -100,14 +100,13 @@
 
 .questions-submit {
   cursor: pointer;
-  background: #666666;
+  background: #333333;
   color: #FDFDFD;
   font-size: 1em;
-  padding: 5px 10px;
-  border: #CCCCCC 1.5px solid;
+  padding: 3px 10px;
+  border: none;
   border-radius: 3px;
-  /*border: none;
-  border-radius: 0px;*/
+  width: 60px;
 }
 
 .questions-newQuestion input[type="text"] {
