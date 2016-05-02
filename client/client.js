@@ -270,7 +270,7 @@ Template.classElem.helpers({
   selectedClass: function() {
     var current = this._id;
     if (current == Meteor.user().profile.selectedClass) {
-      return "selectedClass";
+      return "selected";
     }
   },
   lectures: function(id) {
@@ -313,7 +313,7 @@ Template.lectureElem.helpers({
   selectedLecture: function() {
     var current = this._id;
     if (current == Meteor.user().profile.selectedLecture) {
-      return "selectedLecture";
+      return "selected";
     }
   }
 })
