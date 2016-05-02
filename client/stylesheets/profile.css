@@ -1,12 +1,12 @@
 #profile-topbar {
   width:100%;
   height:51px;
-  background-color:#30a5ff;
+  background-color:#03344B;
   position: absolute;
 }
 
 #profile-sidebar {
-  background-color: #30a5ff;
+  background-color: #03344B;
   height:100%;
   width:16%;
   float:left;
@@ -65,22 +65,16 @@
 #profile-sidebar-classlist-element {
   position: relative;
   display: block;
-  background-color: #30a5ff;
+  background-color: #03344B;
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
   border-bottom: 1px solid #FDFDFD;
   cursor: pointer;
   font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-#profile-sidebar-classlist-element.selectedClass {
-  background-color: #f0f3f6;
+#profile-sidebar-classlist-element.selected {
+  background-color: #f0f3f6 !important;
 }
-
-#profile-sidebar-classlist-element-listing.selectedClass, #profile-sidebar-classlist-element-name.selectedClass {
-  color: #333333;
-}
-
-
 
 #profile-sidebar-classlist-element a {
   text-decoration: none;
@@ -97,15 +91,21 @@
   display: block;
 }
 
-#profile-sidebar-classlist-element a:hover {
-  color: #00c6d7;
+#profile-sidebar-classlist-element-listing.selected {
+  color: #333333;
+}
+
+#profile-sidebar-classlist-element-name.selected {
+  color: #333333;
+}
+
+#profile-sidebar-classlist-element a:hover div {
+  color: #00c6d7 !important;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
   transition: all 0.3s ease;
-
-  display: block;
 }
 
 #profile-sidebar-classlist-element-addclass {
@@ -134,7 +134,7 @@
 }
 
 #profile-sidebar-classlist-element-addclass a:hover {
-  color: #00c6d7;
+  color: #00c6d7 !important;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
@@ -193,13 +193,12 @@
   border-top: 1px solid #666666;
 }
 
-#profile-sidebar-lecturelist-element.selectedLecture {
-  background-color: #003366;
+#profile-sidebar-lecturelist-element-listing.selected {
+  color: #00c6d7;
 }
 
 #profile-sidebar-lecturelist-element a {
   text-decoration: none;
-  color: #E5EBF2;
   padding: 0px;
 
   -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
@@ -211,15 +210,13 @@
   display: block;
 }
 
-#profile-sidebar-lecturelist-element a:hover {
-  color: #00c6d7;
+#profile-sidebar-lecturelist-element a:hover div {
+  color: #00c6d7 !important;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
   transition: all 0.3s ease;
-
-  display: block;
 }
 
 #profile-sidebar-lecturelist-element-addlecture {
