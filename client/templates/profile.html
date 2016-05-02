@@ -1,7 +1,10 @@
 <template name="profile">
+  {{> leaveTracker}}
   <div id="profile-topbar"></div>
   <div id="profile-sidebar">
-    {{> search}}
+    {{#unless isProf}}
+      {{> search}}
+    {{/unless}}
     <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-classlist">
         {{#each classes}}
@@ -9,30 +12,38 @@
         {{/each}}
       </ul>
     </div>
-    {{> searchlist}}
+    {{#unless isProf}}
+      {{> searchlist}}
+    {{/unless}}
   </div>
 
   <section id="profile-questions">
     {{#if loaded}}
       <div class="questions-container">
-        <header>
+        <header class="questions-header">
           <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
           <br>
           <h3>Lecture {{lNum}}: {{lName}}</h3>
           <h3 class="questions-dateString">{{dateString}}</h3>
-          {{#if isProf}}
-            {{> questionConCounter}}
-          {{/if}}
           {{#unless isProf}}
             {{> questionbox}}
           {{/unless}}
         </header>
+        <div class="questions-sorter">
+          {{> questionsort}}
+        </div>
         {{> questionlist}}
       </div>
     {{/if}}
   </section>
 
   <section id="profile-confusion">
+    {{#if isProf}}
+      <button class="questions-conReset-button">Reset Confusion Counter</button>
+      {{> questionConCounter}}
+    {{else}}
+      <button class="questions-con-button">I'm Confused</button>
+    {{/if}}
   </section>
 </template>
 
@@ -95,4 +106,19 @@
       </div>
     </a>
   </li>
+</template>
+
+<template name="leaveTracker">
+  <script language="JavaScript">
+    window.onbeforeunload = leave;
+    function leave(){
+      var lecture =  Lectures.findOne(Session.get('lecture'));
+      if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
+        Lectures.update(Session.get('lecture'), 
+        {
+          $pull: {totalList: Meteor.userId()}
+        });
+      }
+    }
+  </script>
 </template>

@@ -49,13 +49,6 @@ Template.navbar.events({
     leaveClass();
     Router.go('profile');
     return false;
-    // if(!Meteor.user().profile.profStatus) {
-    //   Router.go('profileStud');
-    // }
-    // else {
-    //   Router.go('profileProf');
-    // }
-    // return false;
   },   
   'click .navbar-brand': function(event) {
     leaveClass();
@@ -160,6 +153,31 @@ Template.profile.helpers({
   dateString: function() {
     var date = Lectures.findOne(Session.get('lecture')).date;
     return date.toDateString();
+  }
+});
+
+Template.profile.events({
+  'click .questions-con-button': function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      Lectures.update(Session.get('lecture'), 
+      {
+        $push: {confuseList: Meteor.userId()}
+      });
+      var confuseTimerReset = setTimeout(confuseTimer, 10000);
+    } else {
+      Lectures.update(Session.get('lecture'), 
+      {
+        $pull: {confuseList: Meteor.userId()}
+      });
+    }
+    return false;
+  },
+  /* Reset cc counter */
+  'click .questions-conReset-button': function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+    Lectures.update(Session.get('lecture'), { $set : {confuseList: [] }} , {multi:true} );
+    return false;
   }
 });
 
@@ -272,6 +290,12 @@ Template.searchlist.helpers({
           {sort: {department: 1, number: 1}});
     Session.set('searchNum', classes.count());
     return classes;
+  }
+});
+
+Template.searchElem.events({
+  'click #profile-sidebar-enroll': function() {
+    Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}})
   }
 });
 
@@ -488,22 +512,6 @@ Template.questionbox.events({
     // clear the question field
     event.target.qText.value = "";
     return false;
-  },
-  'click .questions-con-button': function(){
-    var lecture =  Lectures.findOne(Session.get('lecture'));
-    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      Lectures.update(Session.get('lecture'), 
-      {
-        $push: {confuseList: Meteor.userId()}
-      });
-      var confuseTimerReset = setTimeout(confuseTimer, 10000);
-    } else {
-      Lectures.update(Session.get('lecture'), 
-      {
-        $pull: {confuseList: Meteor.userId()}
-      });
-    }
-    return false;
   }
 });
 
@@ -673,12 +681,6 @@ Template.questionConCounter.helpers({
 });
 
 Template.questionConCounter.events({
-  /* Reset cc counter */
-  'click .questions-conReset-button': function(){
-    var lecture =  Lectures.findOne(Session.get('lecture'));
-    Lectures.update(Session.get('lecture'), { $set : {confuseList: [] }} , {multi:true} );
-    return false;
-  }
 
 });
 
