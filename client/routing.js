@@ -5,8 +5,8 @@
  * loadingt emplate, loading, while loading pages */
 Router.configure({
   layoutTemplate: 'main',
-  loadingTemplate: 'loading',
-  notFoundTemplate: 'loading'
+  // loadingTemplate: 'loading',
+  notFoundTemplate: 'main'
 });
 
 Router.onBeforeAction("loading");
