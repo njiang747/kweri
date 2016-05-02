@@ -1,12 +1,13 @@
 #profile-topbar {
   width:100%;
   height:51px;
-  background-color:#333333;
+  background-color:#09192A;
   position: absolute;
 }
 
 #profile-sidebar {
-  background-color:#777777;
+  /*background-color:#777777;*/
+  background-color: #09192A;
   height:100%;
   width:16%;
   float:left;
@@ -15,7 +16,7 @@
 }
 
 #profile-questions {
-  background-color:#F4F4F4;
+  background-color:#E5EBF2;
   height:100%;
   width:70%;
   float:left;
@@ -24,7 +25,7 @@
 }
 
 #profile-confusion {
-  background-color:#777777;
+  background-color:#09192A;
   height:100%;
   width:14%;
   float:left;
@@ -64,15 +65,16 @@
 #profile-sidebar-classlist-element {
   position: relative;
   display: block;
-  background-color: #EEEEEE;
+  background-color: #09192A;
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
-  border-bottom: 1px solid #AAAAAA;
+  border-bottom: 1px solid #FDFDFD;
   cursor: pointer;
   font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #profile-sidebar-classlist-element.selectedClass {
   background-color: #68dff0;
+  color: #333333 !important;
 }
 
 #profile-sidebar-classlist-element a {
@@ -106,12 +108,14 @@
   padding: 0;
   font-size: 1em;
   font-weight: bold;
+  color: #FFFFFF;
 }
 
 #profile-sidebar-classlist-element-name {
   margin: 0;
   padding: 0;
   font-size: 1em;
+  color: #FFFFFF;
 }
 
 #profile-sidebar-lecturelist {

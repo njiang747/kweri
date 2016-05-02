@@ -193,12 +193,13 @@ li.questions-listItem .questions-text {
   max-width: 100%;
   margin: 0px 0px 2px 10px;
   color: #333333;
+  font-size: 1.1em;
 }
 
 li.questions-listItem .questions-date {
   margin-top: 5px;
   margin-left: 10px;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #888888;
   float: right;
   position: relative;
@@ -221,7 +222,7 @@ li.questions-listItem .questions-upvote {
   margin-right: 15px;
   text-align: left;
   border: none;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #4CBB17;
   padding: 0px !important;
 }
@@ -231,7 +232,7 @@ li.questions-listItem .questions-unvote {
   margin-right: 15px;
   text-align: left;
   border: none;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #FF6666;
   padding: 0px !important;
 }
@@ -240,7 +241,7 @@ li.questions-listItem .questions-delete {
   background: none;
   margin-right: 15px;
   border: none;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #FF6666;
   padding: 0px !important;
 }
@@ -249,8 +250,8 @@ li.questions-listItem .questions-markasimportant {
   background: none;
   margin-right: 15px;
   border: none;
-  font-size: 0.7em;
-  color: #33A1DE;
+  font-size: 0.8em;
+  color: #30a5ff;
   padding: 0px !important;
 }
 
