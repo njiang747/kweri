@@ -32,10 +32,14 @@
           <div class="questions-container">
             <header class="questions-header">
               <h1>Add Class</h1>
+              <br><br>
               <form class="new-class">
-                <input type="text" placeholder="department" name="department">
-                <input type="number" placeholder="class number" name="number">
-                <input type="text" placeholder="class name" name="name">
+                <input type="text" pattern="[A-Za-z]{3}" placeholder="department, e.g. COS" name="department" required>
+                <br><br>
+                <input type="number" placeholder="number, e.g. 333" name="number" required>
+                <br><br>
+                <input type="text" placeholder="name, e.g. Advanced Programming Techniques" name="name">
+                <br><br>
                 <input type="submit" class="class-submit" value="submit">
               </form>
             </header>
