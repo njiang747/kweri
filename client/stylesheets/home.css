@@ -65,6 +65,7 @@ body{
   color: #E5EBF2;
   font-weight: 600;
   font-size: 24px;
+  text-shadow: none;
 }
 .custom-navbar .navbar-brand .navbar-toggle {
   background: #E5EBF2;
@@ -76,6 +77,7 @@ body{
   color: #E5EBF2;
   font-size: 14px;
   font-weight: 500;
+  text-shadow: none;
 }
 .custom-navbar .nav > li > a:focus {
   background-color: transparent;
