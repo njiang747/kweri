@@ -41,11 +41,23 @@ body{
   margin-top: 30px;
   margin-right: 16px;
   transition: all 0.4s ease-in-out;
+  width: 180px;
 }
 #home .btn:hover {
   background: #00c6d7;
-  /*background: radial-gradient(rgba(0, 198, 215, 0.1) 10%, rgba(0, 198, 215, 1)) 60%;  */
   border-color: transparent;
+}
+#home .btn div.normal {
+    display:inline;
+}
+#home .btn div.hover {
+    display:none;
+}
+#home .btn:hover div.normal {
+    display:none;
+}
+#home .btn:hover div.hover {
+    display:inline;
 }
 #home .btn-danger {
   background: #E5EBF2;

@@ -69,7 +69,7 @@ Template.navbar.helpers({
 Template.home.events({
   'click .btnloginProf': function(event) {
     if (Meteor.user()){
-      Router.go('profileProf');
+      Router.go('profile');
     } else {
       Meteor.loginWithCas(
         function(err){
@@ -77,7 +77,7 @@ Template.home.events({
           else {
             Meteor.users.update(Meteor.userId(), 
               {$set: {"profile.profStatus": 1}});
-            Router.go('profileProf');
+            Router.go('profile');
           }
         });
     }
@@ -85,7 +85,7 @@ Template.home.events({
   },
   'click .btnloginStud': function(event) {
     if(Meteor.user()){
-      Router.go('profileStud');
+      Router.go('profile');
     } else {
       Meteor.loginWithCas(
         function(err){
@@ -93,7 +93,7 @@ Template.home.events({
           else {
             Meteor.users.update(Meteor.userId(), 
               {$set: {"profile.profStatus": 0}});
-            Router.go('profileStud');
+            Router.go('profile');
           }
         });
     }
