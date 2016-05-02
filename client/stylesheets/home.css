@@ -10,7 +10,7 @@ body{
 
 #home {
   background: #222222;
-  color: #ffffff;
+  color: #E5EBF2;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -31,9 +31,9 @@ body{
 }
 #home .btn {
   background: transparent;
-  border: 4px solid #ffffff;
+  border: 4px solid #E5EBF2;
   border-radius: 0;
-  color: #ffffff;
+  color: #E5EBF2;
   font-size: 15px;
   font-weight: bold;
   letter-spacing: 2px;
@@ -43,12 +43,12 @@ body{
   transition: all 0.4s ease-in-out;
 }
 #home .btn:hover {
-  background: #00c6d7;
+  background: #E5EBF2;
   /*background: radial-gradient(rgba(0, 198, 215, 0.1) 10%, rgba(0, 198, 215, 1)) 60%;  */
   border-color: transparent;
 }
 #home .btn-danger {
-  background: #00c6d7;
+  background: #E5EBF2;
   border-color: transparent;
 }
 #home .btn-danger:hover {
@@ -62,18 +62,18 @@ body{
   margin-bottom: 0;
 }
 .custom-navbar .navbar-brand  {
-  color: #00c6d7;
+  color: #E5EBF2;
   font-weight: 600;
   font-size: 24px;
 }
 .custom-navbar .navbar-brand .navbar-toggle {
-  background: #00c6d7;
+  background: #E5EBF2;
   padding: 4px 6px;
   font-size: 16px;
   color: #fff;
 }
 .custom-navbar .nav li a {
-  color: #ffffff;
+  color: #E5EBF2;
   font-size: 14px;
   font-weight: 500;
 }
