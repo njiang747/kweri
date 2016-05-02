@@ -5,6 +5,15 @@
     {{#unless isProf}}
       {{> search}}
     {{/unless}}
+    {{#if isProf}}
+      <li id="profile-sidebar-classlist-element-addclass">
+        <a id="profile-sidebar-classlist-element-classinfo">
+          <div id="profile-sidebar-classlist-element-listing">
+            Add Class
+          </div>
+        </a>
+      </li>
+    {{/if}}
     <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-classlist">
         {{#each classes}}
@@ -19,30 +28,60 @@
 
   <section id="profile-questions">
     {{#if loaded}}
-      <div class="questions-container">
-        <header class="questions-header">
-          <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
-          <br>
-          <h3>Lecture {{lNum}}: {{lName}}</h3>
-          <h3 class="questions-dateString">{{dateString}}</h3>
-          {{#unless isProf}}
-            {{> questionbox}}
-          {{/unless}}
-        </header>
-        <div class="questions-sorter">
-          {{> questionsort}}
-        </div>
-        {{> questionlist}}
-      </div>
+      {{#if addClass}}
+          <div class="questions-container">
+            <header class="questions-header">
+              <h1>Add Class</h1>
+              <form class="new-class">
+                <input type="text" placeholder="department" name="department">
+                <input type="number" placeholder="class number" name="number">
+                <input type="text" placeholder="class name" name="name">
+                <input type="submit" class="class-submit" value="submit">
+              </form>
+            </header>
+          </div>
+      {{else}}
+        {{#if addLecture}}
+          <div class="questions-container">
+            <header class="questions-header">
+              <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+              <br>
+              <h3>Add Lecture</h3>
+              <form class="new-lecture">
+                <input type="number" placeholder="lecture number" name="number">
+                <input type="text" placeholder="lecture name" name="name">
+                <input type="submit" class="lecture-submit" value="submit">
+              </form>
+            </header>
+          </div>
+        {{else}}
+          <div class="questions-container">
+            <header class="questions-header">
+              <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+              <br>
+              <h3>Lecture {{lNum}}: {{lName}}</h3>
+              <h3 class="questions-dateString">{{dateString}}</h3>
+              {{#unless isProf}}
+                {{> questionbox}}
+              {{/unless}}
+            </header>
+            <div class="questions-sorter">
+              {{> questionsort}}
+            </div>
+            {{> questionlist}}
+          </div>
+        {{/if}}
+      {{/if}}
     {{/if}}
   </section>
 
   <section id="profile-confusion">
     {{#if isProf}}
       <button class="questions-conReset-button">Reset Confusion Counter</button>
+      <div>{{confusionCounterCount}}</div>
       {{> questionConCounter}}
     {{else}}
-      <button class="questions-con-button">I'm {{not}} Confused {{time}}</button>
+      <button class="questions-con-button">{{buttonText}}</button>
     {{/if}}
   </section>
 </template>
@@ -58,6 +97,15 @@
       </div>
     </a>
     <ul id="profile-sidebar-lecturelist">
+      {{#if isProf}}
+        <li id="profile-sidebar-lecturelist-element-addlecture">
+          <a>
+            <div id="profile-sidebar-lecturelist-element-listing">
+              Add Lecture
+            </div>
+          </a>
+        </li>
+      {{/if}}
       {{#each lectures _id}}
         {{> lectureElem}}
       {{/each}}
@@ -117,6 +165,12 @@
         Lectures.update(Session.get('lecture'), 
         {
           $pull: {totalList: Meteor.userId()}
+        });
+      }
+      if (lecture.confuseList.indexOf(Meteor.userId()) != -1) {
+        Lectures.update(Session.get('lecture'), 
+        {
+          $pull: {confuseList: Meteor.userId()}
         });
       }
     }
