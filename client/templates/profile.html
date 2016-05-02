@@ -51,9 +51,12 @@
               <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
               <br>
               <h3>Add Lecture</h3>
+              <br><br>
               <form class="new-lecture">
-                <input type="number" placeholder="lecture number" name="number">
+                <input type="number" pattern="[0-9]+" placeholder="lecture number" name="number" required>
+                <br><br>
                 <input type="text" placeholder="lecture name" name="name">
+                <br><br>
                 <input type="submit" class="lecture-submit" value="submit">
               </form>
             </header>
