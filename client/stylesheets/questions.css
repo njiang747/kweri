@@ -71,7 +71,7 @@
   font-size: 1.5em;
   margin-bottom: 10px;
   display: inline-block;
-  color: #EEEEEE;
+  color: black;
 }
 
 .questions-container h3 {
@@ -80,7 +80,7 @@
   margin-bottom: 10px;
   margin-right: 1em;
   display: inline-block;
-  color: #EEEEEE;
+  color: black;
 }
 
 .questions-container h3.questions-dateString {
@@ -134,6 +134,7 @@ li.questions-listItem {
   -webkit-box-shadow: 0 0 5px #dedede;
   box-shadow: 0 0 5px #dedede;
   position: relative;
+  border-left: 5px solid #68DFF0;
 }
 
 .questions-markedasimportant {
