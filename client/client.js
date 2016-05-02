@@ -51,7 +51,7 @@ Template.navbar.events({
     return false;
   },   
   'click .navbar-brand': function(event) {
-    leaveClass();
+    //leaveClass();
     Router.go('/');
     return false;
   }
@@ -153,8 +153,25 @@ Template.profile.helpers({
   dateString: function() {
     var date = Lectures.findOne(Session.get('lecture')).date;
     return date.toDateString();
+  },
+  time: function() {
+    var lecture =  Lectures.findOne(Session.get("lecture"));
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      return "";
+    }
+    return "for "+ Session.get("time");  
+  }, 
+  not: function() {
+    var lecture =  Lectures.findOne(Session.get("lecture"));
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      return "not";
+    }
+    return "";
   }
 });
+
+var counfusionCounterTimeout = 60000;
+var confusionButton;
 
 Template.profile.events({
   'click .questions-con-button': function(){
@@ -164,7 +181,11 @@ Template.profile.events({
       {
         $push: {confuseList: Meteor.userId()}
       });
-      var confuseTimerReset = setTimeout(confuseTimer, 10000);
+      var confuseTimerReset = setTimeout(confuseTimer, counfusionCounterTimeout);
+      timer.start();
+      confusionButton = event.target;
+      confusionButton.disabled = true;
+      
     } else {
       Lectures.update(Session.get('lecture'), 
       {
@@ -175,6 +196,11 @@ Template.profile.events({
   },
   /* Reset cc counter */
   'click .questions-conReset-button': function(){
+    try{
+      confusionButton.disabled = false;
+    } catch(err){
+
+    }
     var lecture =  Lectures.findOne(Session.get('lecture'));
     Lectures.update(Session.get('lecture'), { $set : {confuseList: [] }} , {multi:true} );
     return false;
@@ -214,11 +240,19 @@ Template.classElem.events({
     if (lecture) {
       Meteor.users.update(Meteor.userId(), 
         {$set: {"profile.selectedLecture": lecture._id}});
+      leaveClass();
+      
       Session.set('lecture', lecture._id);
+      enterClass();
+      
     } else {
       Meteor.users.update(Meteor.userId(), 
         {$set: {"profile.selectedLecture": ""}});
+      leaveClass();
+      
       Session.set('lecture', "");
+      enterClass();
+      
     }
   }
 })
@@ -236,7 +270,9 @@ Template.lectureElem.events({
   'click #profile-sidebar-lecturelist-element': function() {
     Meteor.users.update(Meteor.userId(), 
       {$set: {"profile.selectedLecture": this._id}});
+    leaveClass();
     Session.set('lecture', this._id);
+    enterClass();
   }
 })
 
@@ -492,6 +528,9 @@ Template.questionlist.helpers({
   }
 });
 
+Template.questionbox.helpers({
+});
+
 Template.questionbox.events({
   /* submit a new question. return false means don't reload the page */
   'submit .questions-newQuestion': function(event) {
@@ -515,6 +554,78 @@ Template.questionbox.events({
   }
 });
 
+/********* Countdown timer stuff *********/
+
+function CountDownTimer(duration, granularity) {
+  this.duration = duration;
+  this.granularity = granularity || 1000;
+  this.tickFtns = [];
+  this.running = false;
+}
+
+CountDownTimer.prototype.start = function() {
+  if (this.running) {
+    return;
+  }
+
+  this.running = true;
+  var start = Date.now(),
+      that = this,
+      diff, obj;
+
+  (function timer() {
+    diff = that.duration - (((Date.now() - start) / 1000) | 0);
+
+    if (diff > 0 && Lectures.findOne(Session.get('lecture')).confuseList.indexOf(Meteor.userId()) != -1) {
+      setTimeout(timer, that.granularity);
+    } else {
+      diff = 0;
+      that.running = false;
+      confusionButton.disabled = false;
+
+    }
+
+    obj = CountDownTimer.parse(diff);
+    that.tickFtns.forEach(function(ftn) {
+      ftn.call(this, obj.minutes, obj.seconds);
+    }, that);
+  }());
+};
+
+CountDownTimer.prototype.onTick = function(ftn) {
+  if (typeof ftn === 'function') {
+    this.tickFtns.push(ftn);
+  }
+  return this;
+};
+
+CountDownTimer.prototype.expired = function() {
+  return !this.running;
+};
+
+CountDownTimer.parse = function(seconds) {
+  return {
+    'minutes': (seconds / 60) | 0,
+    'seconds': (seconds % 60) | 0
+  };
+};
+
+timer = new CountDownTimer(counfusionCounterTimeout/1000),
+timeObj = CountDownTimer.parse(counfusionCounterTimeout/1000);
+
+format(timeObj.minutes, timeObj.seconds);
+
+timer.onTick(format);
+
+function format(minutes, seconds) {
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  timeString = minutes + ':' + seconds;
+  Session.set("time", timeString);
+}
+
+/********* End Countdown timer stuff *********/
+
 var confuseTimer = function() {
   var lecture =  Lectures.findOne(Session.get('lecture'));
 
@@ -522,11 +633,13 @@ var confuseTimer = function() {
     return false;
   }
   alert("1 minute elapsed, confusion status cleared");
+  confusionButton.disabled = false;
   Lectures.update(Session.get('lecture'), 
   {
     $pull: {confuseList: Meteor.userId()}
   });
 }
+
 
 Template.questionsort.helpers({
   'selectedtimesorter': function() {
@@ -680,10 +793,6 @@ Template.questionConCounter.helpers({
   }
 });
 
-Template.questionConCounter.events({
-
-});
-
 var openCenteredPopup = function(url, width, height) {
   var screenX = typeof window.screenX !== 'undefined'
   ? window.screenX : window.screenLeft;
@@ -710,6 +819,9 @@ var openCenteredPopup = function(url, width, height) {
 
 /* Function to add in users to a lecture on entering */
 var enterClass = function() {
+  if(!isStud()){
+    return
+  }
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
     // alert("ENTER");
@@ -726,6 +838,9 @@ var enterClass = function() {
 
 /* Function to remove users from a lecture on leaving */
 var leaveClass = function() {
+  if(!isStud()){
+    return
+  }
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
     // alert("LEAVE");
@@ -735,7 +850,17 @@ var leaveClass = function() {
         $pull: {totalList: Meteor.userId()}
       });
     }
+    if (lecture.confuseList.indexOf(Meteor.userId()) != -1) {
+      Lectures.update(Session.get('lecture'), 
+      {
+        $pull: {confuseList: Meteor.userId()}
+      });
+    }
   } catch(err){
 
   }
 };
+
+var isStud = function(){
+  return !Meteor.user().profile.profStatus;
+}
