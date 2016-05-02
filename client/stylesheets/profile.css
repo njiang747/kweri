@@ -1,14 +1,12 @@
 #profile-topbar {
   width:100%;
   height:51px;
-  /*background-color:#252839;*/
-  background-color:#03344b;
+  background-color:#30a5ff;
   position: absolute;
 }
 
 #profile-sidebar {
-  /*background-color:#252839;*/
-  background-color: #03344b;
+  background-color: #30a5ff;
   height:100%;
   width:16%;
   float:left;
@@ -17,7 +15,6 @@
 }
 
 #profile-questions {
-  /*background-color:#E5EBF2;*/
   background-color:#f0f3f6;
   height:100%;
   width:70%;
@@ -27,7 +24,6 @@
 }
 
 #profile-confusion {
-  /*background-color:#E5EBF2;*/
   background-color:#f0f3f6;
   height:100%;
   width:14%;
@@ -47,7 +43,7 @@
   outline: none;
   border-radius: 0px;
   border: none;
-  background-color: #333333;
+  background-color: #f0f3f6;
   color: #E5EBF2;
   padding: 5px 8px;
   font-size: 0.9em;
@@ -69,8 +65,7 @@
 #profile-sidebar-classlist-element {
   position: relative;
   display: block;
-  /*background-color: #252839;*/
-  background-color: #03344b;
+  background-color: #30a5ff;
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
   border-bottom: 1px solid #FDFDFD;
   cursor: pointer;
@@ -78,8 +73,14 @@
 }
 
 #profile-sidebar-classlist-element.selectedClass {
-  background-color: #003366;
+  background-color: #f0f3f6;
 }
+
+#profile-sidebar-classlist-element-listing.selectedClass, #profile-sidebar-classlist-element-name.selectedClass {
+  color: #333333;
+}
+
+
 
 #profile-sidebar-classlist-element a {
   text-decoration: none;
@@ -149,6 +150,7 @@
   font-size: 1em;
   font-weight: bold;
   color: #FFFFFF;
+  background: transparent;
 }
 
 #profile-sidebar-classlist-element-name {
@@ -156,6 +158,7 @@
   padding: 0;
   font-size: 1em;
   color: #FFFFFF;
+  background: transparent;
 }
 
 #profile-sidebar-lecturelist {
