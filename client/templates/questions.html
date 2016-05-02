@@ -2,36 +2,15 @@
 <template name="questionbox">
   <form class="questions-newQuestion">
     <input type="text" name="qText" placeholder="Post new question">
-    <input type="submit" class="questions-submit" value="submit">
-    {{#unless isProf}}
-    <button class="questions-con-button">I'm {{not}} Confused {{time}}</button>
-    {{/unless}}
+    <input type="submit" class="questions-submit" value="Post">
   </form>
 </template>
 
 <template name="questionsort">
-  <button id="questions-sortbytime" class="{{selectedtimesorter}}">Newest</button>
-  <button id="questions-sortbyvotes" class="{{selectedvotesorter}}">Highest Votes</button>
+  <button id="questions-sortbytime" class="{{selectedtimesorter}}">New</button><button id="questions-sortbyvotes" class="{{selectedvotesorter}}">Top</button>
 </template>
 
 <template name="questionlist">
-
-  <script language="JavaScript">
-    window.onbeforeunload = leave;
-    function leave(){
-      var lecture =  Lectures.findOne(Session.get('lecture'));
-      if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
-        Lectures.update(Session.get('lecture'), 
-        {
-          $pull: {totalList: Meteor.userId()}
-        });
-      }
-    }
-  </script>
-
-  <div class="questions-sorter">
-    {{> questionsort}}
-  </div>
   <div class="questions-listContainer" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
     <ul class="questions-list">
       {{#if sortkeytime}}
@@ -60,9 +39,9 @@
 
     <div class="questions-options">
       {{#if upvoted}}
-      <button class="questions-unvote">Undo Upvote</button>
+        <button class="questions-unvote">Undo Upvote</button>
       {{else}}
-      <button class="questions-upvote">Upvote</button>
+        <button class="questions-upvote">Upvote</button>
       {{/if}}
       {{#if isProf}}
         <button class="questions-delete">Delete</button>
@@ -79,7 +58,6 @@
 </template>
 
 <template name="questionConCounter">
-  <button class="questions-conReset-button">Reset Confusion Counter</button>
   <div class="questions-barContainer">
     <div class="questions-vertical progress">
       <div class="progress-bar {{color}}" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;"></div>

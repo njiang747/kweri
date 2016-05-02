@@ -15,9 +15,9 @@
 }
 
 #profile-questions {
-  background-color:#333333;
+  background-color:#F4F4F4;
   height:100%;
-  width:75%;
+  width:70%;
   float:left;
   padding: 51px 0px 0px 0px;
   font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -26,7 +26,7 @@
 #profile-confusion {
   background-color:#777777;
   height:100%;
-  width:9%;
+  width:14%;
   float:left;
   padding: 51px 0px 0px 0px;
   font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -41,7 +41,7 @@
 #profile-sidebar-searchbar {
   width: 95%;
   outline: none;
-  border-radius: 2px;
+  border-radius: 0px;
   border: none;
   background-color: #EEEEEE;
   padding: 5px 8px;
