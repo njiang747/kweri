@@ -263,6 +263,9 @@ li.questions-listItem .questions-markasimportant {
   border-radius: 0px;
   border: none;
   outline: none;
+  height: 100%;
+  width: 100%;
+
   /*float: right;*/
 }
 .questions-conReset-button {

@@ -154,20 +154,27 @@ Template.profile.helpers({
     var date = Lectures.findOne(Session.get('lecture')).date;
     return date.toDateString();
   },
-  time: function() {
+  /*time: function() {
+    return Session.get("time");  
+  }, */
+  buttonText: function() {
     var lecture =  Lectures.findOne(Session.get("lecture"));
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      return "";
+      return "Set my status to confused";
     }
-    return "for "+ Session.get("time");  
-  }, 
-  not: function() {
+    return "I'm confused for " + Session.get("time");
+  },
+  confusionCounterCount: function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+    return lecture.confuseList.length + " out of " + lecture.totalList.length + " students are confused";
+  }
+ /* not: function() {
     var lecture =  Lectures.findOne(Session.get("lecture"));
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       return "not";
     }
     return "";
-  }
+  }*/
 });
 
 var counfusionCounterTimeout = 60000;
@@ -184,7 +191,7 @@ Template.profile.events({
       var confuseTimerReset = setTimeout(confuseTimer, counfusionCounterTimeout);
       timer.start();
       confusionButton = event.target;
-      confusionButton.disabled = true;
+      disableConButton();
       
     } else {
       Lectures.update(Session.get('lecture'), 
@@ -196,11 +203,7 @@ Template.profile.events({
   },
   /* Reset cc counter */
   'click .questions-conReset-button': function(){
-    try{
-      confusionButton.disabled = false;
-    } catch(err){
-
-    }
+    enableConButton();
     var lecture =  Lectures.findOne(Session.get('lecture'));
     Lectures.update(Session.get('lecture'), { $set : {confuseList: [] }} , {multi:true} );
     return false;
@@ -581,7 +584,7 @@ CountDownTimer.prototype.start = function() {
     } else {
       diff = 0;
       that.running = false;
-      confusionButton.disabled = false;
+      enableConButton();
 
     }
 
@@ -632,8 +635,8 @@ var confuseTimer = function() {
   if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
     return false;
   }
-  alert("1 minute elapsed, confusion status cleared");
-  confusionButton.disabled = false;
+  //alert("1 minute elapsed, confusion status cleared");
+  enableConButton();
   Lectures.update(Session.get('lecture'), 
   {
     $pull: {confuseList: Meteor.userId()}
@@ -863,4 +866,24 @@ var leaveClass = function() {
 
 var isStud = function(){
   return !Meteor.user().profile.profStatus;
+}
+
+var enableConButton = function() {
+   try{
+      confusionButton.disabled = false;
+      //confusionButton.innnerHTML = "Set my status to confused";
+      //confusionButton.style.color = "#FFFFFF";
+    } catch(err){
+
+    }
+}
+
+var disableConButton = function() {
+     try{
+      confusionButton.disabled = true;
+//      confusionButton.innnerHTML = "{{time}}";
+      //confusionButton.style.color = "#B5C2C7";
+    } catch(err){
+
+    }
 }
