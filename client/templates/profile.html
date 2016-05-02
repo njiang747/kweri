@@ -40,9 +40,10 @@
   <section id="profile-confusion">
     {{#if isProf}}
       <button class="questions-conReset-button">Reset Confusion Counter</button>
+      <div>{{confusionCounterCount}}</div>
       {{> questionConCounter}}
     {{else}}
-      <button class="questions-con-button">I'm {{not}} Confused {{time}}</button>
+      <button class="questions-con-button">{{buttonText}}</button>
     {{/if}}
   </section>
 </template>
@@ -117,6 +118,12 @@
         Lectures.update(Session.get('lecture'), 
         {
           $pull: {totalList: Meteor.userId()}
+        });
+      }
+      if (lecture.confuseList.indexOf(Meteor.userId()) != -1) {
+        Lectures.update(Session.get('lecture'), 
+        {
+          $pull: {confuseList: Meteor.userId()}
         });
       }
     }
