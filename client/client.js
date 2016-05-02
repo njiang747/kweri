@@ -796,6 +796,7 @@ Template.questionConCounter.helpers({
   }
 });
 
+// Function to create popup, used for logout
 var openCenteredPopup = function(url, width, height) {
   var screenX = typeof window.screenX !== 'undefined'
   ? window.screenX : window.screenLeft;
@@ -820,7 +821,7 @@ var openCenteredPopup = function(url, width, height) {
   return newwindow;
 };
 
-/* Function to add in users to a lecture on entering */
+/* Function to add in users to a lecture on entering a lecture*/
 var enterClass = function() {
   if(!isStud()){
     return
@@ -839,7 +840,7 @@ var enterClass = function() {
   }
 };
 
-/* Function to remove users from a lecture on leaving */
+/* Function to remove users from a lecture on leaving the lecture*/
 var leaveClass = function() {
   if(!isStud()){
     return
@@ -864,10 +865,12 @@ var leaveClass = function() {
   }
 };
 
+// Function to check if user is student
 var isStud = function(){
   return !Meteor.user().profile.profStatus;
 }
 
+// Function to enable confusion button
 var enableConButton = function() {
    try{
       confusionButton.disabled = false;
@@ -878,10 +881,11 @@ var enableConButton = function() {
     }
 }
 
+// Function to disable confusion button
 var disableConButton = function() {
      try{
       confusionButton.disabled = true;
-//      confusionButton.innnerHTML = "{{time}}";
+      //confusionButton.innnerHTML = "{{time}}";
       //confusionButton.style.color = "#B5C2C7";
     } catch(err){
 
