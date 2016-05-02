@@ -98,7 +98,6 @@
   cursor: pointer;
   background: #666666;
   color: #FDFDFD;
-  /*font-weight: bold;*/
   font-size: 1em;
   padding: 5px 10px;
   border: #CCCCCC 1.5px solid;
@@ -189,12 +188,13 @@ li.questions-listItem .questions-text {
   max-width: 100%;
   margin-left: 10px;
   color: #333333;
+  font-size: 1.1em;
 }
 
 li.questions-listItem .questions-date {
   margin-top: 5px;
   margin-left: 10px;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #888888;
   float: right;
   position: relative;
@@ -219,7 +219,7 @@ li.questions-listItem .questions-upvote {
   margin-right: 15px;
   text-align: left;
   border: none;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #4CBB17;
   padding: 0px !important;
 }
@@ -229,7 +229,7 @@ li.questions-listItem .questions-unvote {
   margin-right: 15px;
   text-align: left;
   border: none;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #FF6666;
   padding: 0px !important;
 }
@@ -238,7 +238,7 @@ li.questions-listItem .questions-delete {
   background: none;
   margin-right: 15px;
   border: none;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #FF6666;
   padding: 0px !important;
 }
@@ -247,15 +247,14 @@ li.questions-listItem .questions-markasimportant {
   background: none;
   margin-right: 15px;
   border: none;
-  font-size: 0.7em;
-  color: #33A1DE;
+  font-size: 0.8em;
+  color: #30a5ff;
   padding: 0px !important;
 }
 
 .questions-con-button {
   background: #777777;
   color: #FFF;
-  font-weight: bold;
   font-size: 1em;
   padding: 5px 10px;
   border-radius: 4px;
