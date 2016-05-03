@@ -123,7 +123,11 @@ Template.profile.helpers({
         Session.setDefault('lecture', lecture._id);
       }
     }
-    Session.setDefault('questionsortkey', 'bytime');
+    if (Meteor.user.profile.profStatus) {
+      Session.setDefault('questionsortkey', 'byvotes');
+    } else {
+      Session.setDefault('questionsortkey', 'bytime');
+    }
   },
   noClass: function() {
     if (Meteor.user().profile.profStatus) return Classes.find({profs: Meteor.userId()}).count() == 0;
@@ -584,6 +588,10 @@ Template.questionlist.helpers({
 Template.questionbox.events({
   /* submit a new question. return false means don't reload the page */
   'submit .questions-newQuestion': function(event) {
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) return false;
+
     /* get the text of the question */
     var qText = event.target.qText.value;
     if (qText == "") return false;
@@ -593,9 +601,8 @@ Template.questionbox.events({
       qText: qText,
       important: 0,
       value: 0,
-      createdAt: new Date(),
+      createdAt: cur_date,
       createdBy: Meteor.userId(),
-      // upvotedBy: [Meteor.userId()]
       upvotedBy: []
     });
     // clear the question field
