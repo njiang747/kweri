@@ -5,4 +5,4 @@
  * existing one into the variable */
 Classes = new Mongo.Collection("classes");
 Lectures = new Mongo.Collection("lectures");
-Questions = new Mongo.Collection("questions");
+Questions = new Mongo.Collection("questions"); 
