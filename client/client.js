@@ -174,6 +174,10 @@ Template.profile.helpers({
       return "Set my status to confused";
     }
     return "I'm confused for " + Session.get("time");
+  },
+  nextLectNum: function() {
+      var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+    return lecture.number + 1;
   }
 });
 
@@ -378,6 +382,7 @@ Template.searchlist.helpers({
           {$and: [{department: dept}, {number: num}]}, 
           {name: name}
           ]},
+          {profs: {$ne: Meteor.userId()}}, 
           {students: {$ne: Meteor.userId()}}
           ]}, 
           {sort: {department: 1, number: 1}});
