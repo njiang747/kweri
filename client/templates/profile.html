@@ -27,25 +27,30 @@
   </div>
 
   <section id="profile-questions">
-    {{#if load}}
-      {{#if addClass}}
-          <div class="questions-container">
-            <header class="questions-header">
-              <h1>Add Class</h1>
+    {{load}}
+    {{#if noClass}}
+      {{#if isProf}}
+        <div class="questions-container">
+          <header class="questions-header">
+            <h1>Add Class</h1>
+            <br><br>
+            <form class="new-class">
+              <input type="text" pattern="[A-Za-z]{3}" placeholder="department, e.g. COS" name="department" required>
               <br><br>
-              <form class="new-class">
-                <input type="text" pattern="[A-Za-z]{3}" placeholder="department, e.g. COS" name="department" required>
-                <br><br>
-                <input type="number" placeholder="number, e.g. 333" name="number" required>
-                <br><br>
-                <input type="text" placeholder="name, e.g. Advanced Programming Techniques" name="name">
-                <br><br>
-                <input type="submit" class="class-submit" value="submit">
-              </form>
-            </header>
-          </div>
+              <input type="number" placeholder="number, e.g. 333" name="number" required>
+              <br><br>
+              <input type="text" placeholder="name, e.g. Advanced Programming Techniques" name="name">
+              <br><br>
+              <input type="submit" class="class-submit" value="submit">
+            </form>
+          </header>
+        </div>
       {{else}}
-        {{#if addLecture}}
+        WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
+      {{/if}}
+    {{else}}
+      {{#if noLecture}}
+        {{#if isProf}}
           <div class="questions-container">
             <header class="questions-header">
               <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
@@ -62,22 +67,59 @@
             </header>
           </div>
         {{else}}
-          <div class="questions-container">
-            <header class="questions-header">
-              <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
-              <br>
-              <h3>Lecture {{lNum}}: {{lName}}</h3>
-              <h3 class="questions-dateString">{{dateString}}</h3>
-              {{#unless isProf}}
-                {{> questionbox}}
-              {{/unless}}
-            </header>
-            <div class="questions-sorter">
-              {{> questionsort}}
-            </div>
-            {{> questionlist}}
-          </div>
+          WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
         {{/if}}
+      {{/if}}
+    {{/if}}
+    {{#if addClass}}
+        <div class="questions-container">
+          <header class="questions-header">
+            <h1>Add Class</h1>
+            <br><br>
+            <form class="new-class">
+              <input type="text" pattern="[A-Za-z]{3}" placeholder="department, e.g. COS" name="department" required>
+              <br><br>
+              <input type="number" placeholder="number, e.g. 333" name="number" required>
+              <br><br>
+              <input type="text" placeholder="name, e.g. Advanced Programming Techniques" name="name">
+              <br><br>
+              <input type="submit" class="class-submit" value="submit">
+            </form>
+          </header>
+        </div>
+    {{else}}
+      {{#if addLecture}}
+        <div class="questions-container">
+          <header class="questions-header">
+            <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+            <br>
+            <h3>Add Lecture</h3>
+            <br><br>
+            <form class="new-lecture">
+              <input type="number" pattern="[0-9]+" placeholder="lecture number (suggested: {{nextLectNum}})" name="number" required>
+              <br><br>
+              <input type="text" placeholder="lecture name" name="name">
+              <br><br>
+              <input type="submit" class="lecture-submit" value="submit">
+            </form>
+          </header>
+        </div>
+      {{else}}
+        <div class="questions-container">
+          <header class="questions-header">
+            <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+            <br>
+            <h3>Lecture {{lNum}}: {{lName}}</h3>
+            <h3 class="questions-dateString">{{dateString}}</h3>
+            {{#unless isProf}}
+              {{> questionbox}}
+            {{/unless}}
+          </header>
+          <div class="questions-sorter">
+            {{> questionsort}}
+          </div>
+          {{> questionlist}}
+        </div>
       {{/if}}
     {{/if}}
   </section>

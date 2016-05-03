@@ -123,12 +123,19 @@ Template.profile.helpers({
         Session.setDefault('lecture', lecture._id);
       }
     }
-    Session.setDefault('questionsortkey', 'bytime');
-    return true;
+    if (Meteor.user.profile.profStatus) {
+      Session.setDefault('questionsortkey', 'byvotes');
+    } else {
+      Session.setDefault('questionsortkey', 'bytime');
+    }
   },
   noClass: function() {
-    if (isProf) return Classes.find({profs: Meteor.userId()}).count() == 0;
+    if (Meteor.user().profile.profStatus) return Classes.find({profs: Meteor.userId()}).count() == 0;
     else return Classes.find({students: Meteor.userId()}).count() == 0;
+  },
+  noLecture: function() {
+    return Classes.find({_id: Session.get('class')}).count() != 0 &&
+           Lectures.find({class_id: Session.get('class')}).count() == 0;
   },
   addClass: function() {
     return Session.get('class') == "addClass";
@@ -167,6 +174,10 @@ Template.profile.helpers({
       return "Set my status to confused";
     }
     return "I'm confused for " + Session.get("time");
+  },
+  nextLectNum: function() {
+      var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+    return lecture.number + 1;
   }
 });
 
@@ -221,6 +232,12 @@ Template.profile.events({
     event.target.department.value = "";
     event.target.number.value = "";
     event.target.name.value = "";
+    var class_id = Classes.find({
+      department: department,
+      number: number,
+      name: name,
+      profs: Meteor.userId()})._id;
+    Session.set('class', class_id);
     return false
   }, 
   /* insert a new lecture into the Lectures collection */
@@ -239,6 +256,11 @@ Template.profile.events({
     });
     event.target.number.value = "";
     event.target.name.value = "";
+    var lecture_id = Classes.find({
+      class_id: Session.get('class'),
+      number: number,
+      name: name})._id;
+    Session.set('lecture', lecture_id);
     return false
   }
 });
@@ -360,6 +382,7 @@ Template.searchlist.helpers({
           {$and: [{department: dept}, {number: num}]}, 
           {name: name}
           ]},
+          {profs: {$ne: Meteor.userId()}}, 
           {students: {$ne: Meteor.userId()}}
           ]}, 
           {sort: {department: 1, number: 1}});
@@ -567,12 +590,13 @@ Template.questionlist.helpers({
   }
 });
 
-Template.questionbox.helpers({
-});
-
 Template.questionbox.events({
   /* submit a new question. return false means don't reload the page */
   'submit .questions-newQuestion': function(event) {
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) return false;
+
     /* get the text of the question */
     var qText = event.target.qText.value;
     if (qText == "") return false;
@@ -581,10 +605,9 @@ Template.questionbox.events({
       lecture_id: Session.get('lecture'),
       qText: qText,
       important: 0,
-      // value: 0,
-      createdAt: new Date(),
+      value: 0,
+      createdAt: cur_date,
       createdBy: Meteor.userId(),
-      // upvotedBy: [Meteor.userId()]
       upvotedBy: []
     });
     // clear the question field
@@ -724,9 +747,6 @@ Template.question.helpers({
   upvoted: function() {
     return this.upvotedBy && this.upvotedBy.indexOf(Meteor.userId()) != -1;
   },
-  value: function() {
-    return this.upvotedBy.length;
-  },
   markedasimportant: function() {
     if ( Questions.findOne({ _id: this._id }).important == 1 ) {
       return "questions-markedasimportant";
@@ -797,7 +817,7 @@ Template.question.events({
       this.upvotedBy.indexOf(Meteor.userId()) == -1) {
       Questions.update(this._id, 
       {
-        // $set: {value: this.value + 1}, 
+        $inc: {value: 1}, 
         $push: {upvotedBy: Meteor.userId()}
       });
     }
@@ -808,7 +828,7 @@ Template.question.events({
       this.upvotedBy.indexOf(Meteor.userId()) != -1) {
       Questions.update(this._id, 
       {
-        // $set: {value: this.value - 1}, 
+        $inc: {value: -1}, 
         $pull: {upvotedBy: Meteor.userId()}
         });
     }
@@ -881,7 +901,6 @@ var enterClass = function() {
   }
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    // alert("ENTER");
     if (lecture.totalList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Session.get('lecture'), 
       {
@@ -900,7 +919,6 @@ var leaveClass = function() {
   }
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    // alert("LEAVE");
     if (lecture.totalList.indexOf(Meteor.userId()) != -1) {
       Lectures.update(Session.get('lecture'), 
       {
@@ -927,8 +945,6 @@ var isStud = function(){
 var enableConButton = function() {
    try{
       confusionButton.disabled = false;
-      //confusionButton.innnerHTML = "Set my status to confused";
-      //confusionButton.style.color = "#FFFFFF";
     } catch(err){
 
     }
