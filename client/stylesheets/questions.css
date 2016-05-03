@@ -155,18 +155,14 @@ li.questions-listItem {
   margin-bottom: 10px;
   padding: 5px 10px 5px 5px;
   border: 1px solid #E0E0E0;
-  border-left: 6px solid #d1d1d1;
+  border-left: 4px solid #e3e3e3;
   border-radius: 0px;
   background: #FDFDFD;
   position: relative;
 }
 
 .questions-markedasimportant {
-  border-left: 6px solid #FFD700 !important;
-}
-
-.questions-createdbyself {
-  border-left: 6px solid #59b7ff !important;
+  border-left: 4px solid #FFD700 !important;
 }
 
 li.questions-listItem .question-score {
@@ -201,7 +197,7 @@ li.questions-listItem .questions-text {
 }
 
 li.questions-listItem .questions-date {
-  margin-top: 4px;
+  margin-top: 5px;
   margin-left: 10px;
   font-size: 0.8em;
   color: #888888;
@@ -248,17 +244,6 @@ li.questions-listItem .questions-delete {
   font-size: 0.8em;
   color: #FF6666;
   padding: 0px !important;
-}
-
-li.questions-listItem .questions-selfdelete {
-  background: none;
-  margin-right: 10px;
-  border: none;
-  font-size: 0.8em;
-  color: #FF6666;
-  padding: 0px !important;
-  float: right;
-  margin-top: 4px;
 }
 
 li.questions-listItem .questions-markasimportant {
