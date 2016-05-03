@@ -124,11 +124,14 @@ Template.profile.helpers({
       }
     }
     Session.setDefault('questionsortkey', 'bytime');
-    return true;
   },
   noClass: function() {
-    if (isProf) return Classes.find({profs: Meteor.userId()}).count() == 0;
+    if (Meteor.user().profile.profStatus) return Classes.find({profs: Meteor.userId()}).count() == 0;
     else return Classes.find({students: Meteor.userId()}).count() == 0;
+  },
+  noLecture: function() {
+    return Classes.find({_id: Session.get('class')}).count() != 0 &&
+           Lectures.find({class_id: Session.get('class')}).count() == 0;
   },
   addClass: function() {
     return Session.get('class') == "addClass";
@@ -231,6 +234,12 @@ Template.profile.events({
     event.target.department.value = "";
     event.target.number.value = "";
     event.target.name.value = "";
+    var class_id = Classes.find({
+      department: department,
+      number: number,
+      name: name,
+      profs: Meteor.userId()})._id;
+    Session.set('class', class_id);
     return false
   }, 
   /* insert a new lecture into the Lectures collection */
@@ -249,6 +258,11 @@ Template.profile.events({
     });
     event.target.number.value = "";
     event.target.name.value = "";
+    var lecture_id = Classes.find({
+      class_id: Session.get('class'),
+      number: number,
+      name: name})._id;
+    Session.set('lecture', lecture_id);
     return false
   }
 });
