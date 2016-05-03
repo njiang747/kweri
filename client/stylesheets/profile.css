@@ -43,8 +43,9 @@
   outline: none;
   border-radius: 0px;
   border: none;
-  background-color: #f0f3f6;
+  background-color: #F0F3F6;
   color: #333333;
+
   padding: 5px 8px;
   font-size: 0.9em;
 }
@@ -133,7 +134,7 @@
   display: block;
 }
 
-#profile-sidebar-classlist-element-addclass a:hover {
+#profile-sidebar-classlist-element-addclass a:hover div{
   color: #00c6d7 !important;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
