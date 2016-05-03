@@ -1,7 +1,19 @@
 <template name="profile">
+  {{> leaveTracker}}
   <div id="profile-topbar"></div>
   <div id="profile-sidebar">
-    {{> search}}
+    {{#unless isProf}}
+      {{> search}}
+    {{/unless}}
+    {{#if isProf}}
+      <li id="profile-sidebar-classlist-element-addclass">
+        <a id="profile-sidebar-classlist-element-classinfo">
+          <div id="profile-sidebar-classlist-element-listing">
+            Add Class
+          </div>
+        </a>
+      </li>
+    {{/if}}
     <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-classlist">
         {{#each classes}}
@@ -9,42 +21,98 @@
         {{/each}}
       </ul>
     </div>
-    {{> searchlist}}
+    {{#unless isProf}}
+      {{> searchlist}}
+    {{/unless}}
   </div>
 
   <section id="profile-questions">
     {{#if loaded}}
-      <div class="questions-container">
-        <header>
-          <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
-          <br>
-          <h3>Lecture {{lNum}}: {{lName}}</h3>
-          <h3 class="questions-dateString">{{dateString}}</h3>
-          {{> questionConCounter}}
-          {{#if currentUser}}
-            {{> questionbox}}
-          {{/if}}
-        </header>
-        {{> questionlist}}
-      </div>
+      {{#if addClass}}
+          <div class="questions-container">
+            <header class="questions-header">
+              <h1>Add Class</h1>
+              <br><br>
+              <form class="new-class">
+                <input type="text" pattern="[A-Za-z]{3}" placeholder="department, e.g. COS" name="department" required>
+                <br><br>
+                <input type="number" placeholder="number, e.g. 333" name="number" required>
+                <br><br>
+                <input type="text" placeholder="name, e.g. Advanced Programming Techniques" name="name">
+                <br><br>
+                <input type="submit" class="class-submit" value="submit">
+              </form>
+            </header>
+          </div>
+      {{else}}
+        {{#if addLecture}}
+          <div class="questions-container">
+            <header class="questions-header">
+              <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+              <br>
+              <h3>Add Lecture</h3>
+              <br><br>
+              <form class="new-lecture">
+                <input type="number" pattern="[0-9]+" placeholder="lecture number" name="number" required>
+                <br><br>
+                <input type="text" placeholder="lecture name" name="name">
+                <br><br>
+                <input type="submit" class="lecture-submit" value="submit">
+              </form>
+            </header>
+          </div>
+        {{else}}
+          <div class="questions-container">
+            <header class="questions-header">
+              <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+              <br>
+              <h3>Lecture {{lNum}}: {{lName}}</h3>
+              <h3 class="questions-dateString">{{dateString}}</h3>
+              {{#unless isProf}}
+                {{> questionbox}}
+              {{/unless}}
+            </header>
+            <div class="questions-sorter">
+              {{> questionsort}}
+            </div>
+            {{> questionlist}}
+          </div>
+        {{/if}}
+      {{/if}}
     {{/if}}
   </section>
 
   <section id="profile-confusion">
+    {{#if isProf}}
+      <button class="questions-conReset-button">Reset Confusion Counter</button>
+      <div>{{confusionCounterCount}}</div>
+      {{> questionConCounter}}
+    {{else}}
+      <button class="questions-con-button">{{buttonText}}</button>
+    {{/if}}
   </section>
 </template>
 
 <template name="classElem">
   <li id="profile-sidebar-classlist-element" class="{{selectedClass}}">
     <a id="profile-sidebar-classlist-element-classinfo">
-      <div id="profile-sidebar-classlist-element-listing">
+      <div id="profile-sidebar-classlist-element-listing" class="{{selectedClass}}">
         {{department}} {{number}}
       </div>
-      <div id="profile-sidebar-classlist-element-name">
+      <div id="profile-sidebar-classlist-element-name" class="{{selectedClass}}">
         {{name}}
       </div>
     </a>
     <ul id="profile-sidebar-lecturelist">
+      {{#if isProf}}
+        <li id="profile-sidebar-lecturelist-element-addlecture">
+          <a>
+            <div id="profile-sidebar-lecturelist-element-listing">
+              Add Lecture
+            </div>
+          </a>
+        </li>
+      {{/if}}
       {{#each lectures _id}}
         {{> lectureElem}}
       {{/each}}
@@ -55,7 +123,7 @@
 <template name="lectureElem">
   <li id="profile-sidebar-lecturelist-element" class="{{selectedLecture}}">
     <a>
-      <div id="profile-sidebar-lecturelist-element-listing">
+      <div id="profile-sidebar-lecturelist-element-listing" class="{{selectedLecture}}">
         Lecture {{number}}: {{name}}
       </div>
     </a>
@@ -93,4 +161,25 @@
       </div>
     </a>
   </li>
+</template>
+
+<template name="leaveTracker">
+  <script language="JavaScript">
+    window.onbeforeunload = leave;
+    function leave(){
+      var lecture =  Lectures.findOne(Session.get('lecture'));
+      if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
+        Lectures.update(Session.get('lecture'), 
+        {
+          $pull: {totalList: Meteor.userId()}
+        });
+      }
+      if (lecture.confuseList.indexOf(Meteor.userId()) != -1) {
+        Lectures.update(Session.get('lecture'), 
+        {
+          $pull: {confuseList: Meteor.userId()}
+        });
+      }
+    }
+  </script>
 </template>

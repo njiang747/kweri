@@ -1,57 +1,131 @@
 <template name="aboutpage">
-	<div class="container-fluid text-center">
-		<h1 class="h1-label">Meet the Team</h1>
+	<div class="container-fluid text-center about-container">
+		<h2 class="about-h1"> What is Kweri? </h2>
+		<p>Kweri helps both students and professors get the most out of lecture through a crowdsourced question asking platform.</p>
+
+		<h2 class="about-h2"> Meet the Team </h2>
 		<div class="row">
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<div class="profpic">
-						<img src="/erica.jpg" class="img-circle">
+			<div class="col-md-5">
+				<div class="row">
+					<img src="/group.jpg" class="img-rounded about-grouppic">
+				</div>
+			</div>
+			<div class="col-md-7">
+			<div class="row">
+
+				<div class="col-md-offset-0">
+					<div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-2 col-sm-6">
+						<div class="about-thumbnail">
+							<div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+								<div class="flipper">
+									<div class="front">
+										<div class="profpic">
+											<img src="/erica.jpg" class= "img-circle"/>
+										</div>
+									</div>
+									<div class="back">
+										<div class="profpic">
+											<img src="/lol.jpg" class="img-circle">
+										</div>
+									</div>
+								</div>
+							</div>
+						<div class="profdescrip">
+							<p>Erica Wu '18</p>
+						</div>
 					</div>
-					<div class="profdescrip">
-						<p>Erica Wu '18</p>
+				</div>
+				</div>
+
+				<div class="col-lg-4 col-lg-offset-0 col-md-5 col-md-offset-1 col-sm-6">
+					<div class="about-thumbnail">
+						<div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+							<div class="flipper">
+								<div class="front">
+									<div class="profpic">
+										<img src="/nick.jpg" class="img-circle">
+									</div>
+								</div>
+								<div class="back">
+									<div class="profpic">
+										<img src="/nick.jpg" class="img-circle">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="profdescrip">
+							<p>Nick Jiang '18</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-2 col-sm-6">
+					<div class="about-thumbnail">
+						<div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+							<div class="flipper">
+								<div class="front">
+									<div class="profpic">
+										<img src="/susan.jpg" class="img-circle">
+									</div>
+								</div>
+								<div class="back">
+									<div class="profpic">
+										<img src="/susan.jpg" class="img-circle">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="profdescrip">
+							<p>Susan Wang '18</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 col-sm-6">
+					<div class="about-thumbnail">
+						<div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+							<div class="flipper">
+								<div class="front">
+									<div class="profpic">
+										<img src="/jzhang.jpg" class="img-circle">
+									</div>
+								</div>
+								<div class="back">
+									<div class="profpic">
+										<img src="/jzhang.jpg" class="img-circle">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="profdescrip">
+							<p>Jon Zhang '18</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-5 col-sm-6 col-sm-offset-3">
+					<div class="about-thumbnail">
+						<div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+							<div class="flipper">
+								<div class="front">
+									<div class="profpic">
+										<img src="/jyu.jpg" class="img-circle">
+									</div>
+								</div>
+								<div class="back">
+									<div class="profpic">
+										<img src="/jyu.jpg" class="img-circle">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="profdescrip">
+							<p>Jonathan Yu '18</p>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<div class="profpic">
-						<img src="/nick.jpg" class="img-circle">
-					</div>
-					<div class="profdescrip">
-						<p>Nick Jiang '18</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<div class="profpic">
-						<img src="/susan.jpg" class="img-circle">
-					</div>
-					<div class="profdescrip">
-						<p>Susan Wang '18</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<div class="profpic">
-						<img src="/jzhang.jpg" class="img-circle">
-					</div>
-					<div class="profdescrip">
-						<p>Jon Zhang '18</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<div class="profpic">
-						<img src="/jyu.jpg" class="img-circle">
-					</div>
-					<div class="profdescrip">
-						<p>Jon Yu '18</p>
-					</div>
-				</div>
-			</div>
+		</div>
 		</div>
 	</div>
 </template>
