@@ -11,9 +11,18 @@
 </template>
 
 <template name="classElem">
-  <li class="class-listing">
-    <div>{{department}} {{number}}: {{name}}</div>
-  </li>
+  <div class = "elem">
+    <ul class = "ul-label">
+      <li class="class-listing">
+        <a>{{department}} {{number}}</a>
+        <ul class="sub">
+                    <li>New Service 1</li>
+                    <li>New Service 2</li>
+                    <li>New Service 3</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <template name="addClass">

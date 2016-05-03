@@ -1,0 +1,57 @@
+.h1-label {
+ 	color: #FFFFFF;
+}
+
+.add-class {
+	color: #FFFFFF;
+}
+
+
+.elem {
+  width: 200px;
+  margin: 10px;
+}
+
+.ul-label {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.class-listing {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+
+.class-listing a {
+  text-decoration: none;
+  color: #000;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+  display: block;
+  width: 200px;
+}
+
+.class-listing a:hover {
+  font-size: 25px;
+  color: white;
+  background: #68dff0;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.class-listing:hover .sub{
+	display: block;
+}
+
+.sub {
+	display: none;
+}

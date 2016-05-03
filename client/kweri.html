@@ -21,33 +21,17 @@
 </template>
 
 <template name="profileProf">
-<<<<<<< Updated upstream
   <div class="container-fluid text-center">
-    <h1>Professor Main Page</h1>
-    <div>Your classes:</div>
-    {{> classlist}}
-    <div>Add a class:</div>
+    <h1 class="h1-label">Professor Main Page</h1>
+     <div class = "add-class"> Add a class:</div>
     {{> addClass}}
+    {{> classlist}}
   </div>
-=======
-  <h1>Professor Main Page</h1>
-  <div>Username: {{currentUser.profile.name}}</div>
-  <div>Classes you teach:</div>
-  {{> classlist}}
-  {{> addClass}}
-  <head>
-    <style>
-      body {
-        background-color: #EDEDED;
-      }
-  </style>
-  </head>
->>>>>>> Stashed changes
 </template>
 
 <template name="profileStud">
   <div class="container-fluid text-center">
-    <h1>Student Main Page</h1>
+    <h1 class="h1-label">Student Main Page</h1>
     <div>Username: {{currentUser.profile.name}}</div>
     <div>Search for classes:</div>
     {{> classSearch}}
@@ -56,7 +40,7 @@
     <br>
     <div>Classes you take:</div>
     {{> classlist}}
-    </div>
+  </div>
 </template>
 
 <template name="class">
@@ -74,7 +58,7 @@
       <br>
       <h3>Lecture {{lNum}}: {{lName}}</h3>
       <h3 class="questions-dateString">{{dateString}}</h3>
-      <!-- {{> questionConCounter}} -->
+      {{> questionConCounter}}
       {{#if currentUser}}
         {{> questionbox}}
       {{/if}}
