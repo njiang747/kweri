@@ -170,10 +170,17 @@ Template.profile.helpers({
     }
     return "I'm confused for " + Session.get("time");
   },
-  confusionCounterCount: function(){
+  
+  confuseListLength: function(){
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    return lecture.confuseList.length + " out of " + lecture.totalList.length + " students are confused";
+    return lecture.confuseList.length;
+  },
+
+  totalListLength: function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+     return lecture.totalList.length;
   }
+
  /* not: function() {
     var lecture =  Lectures.findOne(Session.get("lecture"));
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {

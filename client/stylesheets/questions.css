@@ -256,6 +256,31 @@ li.questions-listItem .questions-markasimportant {
 }
 
 .questions-con-button {
+
+  /*background: #666666;*/
+  /*color: #FFF;*/
+  font-size: 1em;
+  padding: 5px 10px;
+  /*border-radius: 0px;*/
+  /*border: none;*/
+  /*outline: none;*/
+  height: 100%;
+  width: 100%;
+  background-color: #008CBA; 
+  color: black; 
+  border: 2px solid grey;
+  border-radius: 10px;
+
+  /*float: right;*/
+}
+
+.questions-con-button:hover {
+    background-color: #008CBA;
+    color: white;
+    opacity: 0.6;
+}
+
+.questions-conReset-button {
   background: #03344B;
   color: #FFF;
   font-size: 1em;
@@ -263,25 +288,27 @@ li.questions-listItem .questions-markasimportant {
   border-radius: 0px;
   border: none;
   outline: none;
-  height: 100%;
-  width: 100%;
-
   /*float: right;*/
+  position: fixed;
+  bottom: 15px;
 }
-.questions-conReset-button {
-  background: #666666;
-  color: #FFF;
+
+.quetions-confused-text {
   font-size: 1em;
-  padding: 5px 10px;
-  border-radius: 0px;
-  border: none;
-  outline: none;
-  /*float: right;*/
+  position: fixed;
+  bottom: 60px;
+  right: 5%;
+  color: #30a5ff;
+}
+
+.quetions-confused-text h1{
+  font-size: 2em;
 }
 
 .questions-barContainer {
   padding-top: 20px;
-  height: 50px;
+  height: 75px;
+  right: 20px;
 }
 .questions-vertical {
   overflow-x: hidden;
@@ -291,7 +318,7 @@ li.questions-listItem .questions-markasimportant {
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
   position:relative;
-  left: 20%;
+  left: 40%;
   top: 700%;
   float: right;
 }
