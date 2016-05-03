@@ -577,9 +577,6 @@ Template.questionlist.helpers({
   }
 });
 
-Template.questionbox.helpers({
-});
-
 Template.questionbox.events({
   /* submit a new question. return false means don't reload the page */
   'submit .questions-newQuestion': function(event) {
@@ -591,7 +588,7 @@ Template.questionbox.events({
       lecture_id: Session.get('lecture'),
       qText: qText,
       important: 0,
-      // value: 0,
+      value: 0,
       createdAt: new Date(),
       createdBy: Meteor.userId(),
       // upvotedBy: [Meteor.userId()]
@@ -734,9 +731,6 @@ Template.question.helpers({
   upvoted: function() {
     return this.upvotedBy && this.upvotedBy.indexOf(Meteor.userId()) != -1;
   },
-  value: function() {
-    return this.upvotedBy.length;
-  },
   markedasimportant: function() {
     if ( Questions.findOne({ _id: this._id }).important == 1 ) {
       return "questions-markedasimportant";
@@ -790,7 +784,7 @@ Template.question.events({
       this.upvotedBy.indexOf(Meteor.userId()) == -1) {
       Questions.update(this._id, 
       {
-        // $set: {value: this.value + 1}, 
+        $inc: {value: 1}, 
         $push: {upvotedBy: Meteor.userId()}
       });
     }
@@ -801,7 +795,7 @@ Template.question.events({
       this.upvotedBy.indexOf(Meteor.userId()) != -1) {
       Questions.update(this._id, 
       {
-        // $set: {value: this.value - 1}, 
+        $inc: {value: -1}, 
         $pull: {upvotedBy: Meteor.userId()}
         });
     }
@@ -863,7 +857,6 @@ var enterClass = function() {
   }
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    // alert("ENTER");
     if (lecture.totalList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Session.get('lecture'), 
       {
@@ -882,7 +875,6 @@ var leaveClass = function() {
   }
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    // alert("LEAVE");
     if (lecture.totalList.indexOf(Meteor.userId()) != -1) {
       Lectures.update(Session.get('lecture'), 
       {
@@ -907,8 +899,6 @@ var isStud = function(){
 var enableConButton = function() {
    try{
       confusionButton.disabled = false;
-      //confusionButton.innnerHTML = "Set my status to confused";
-      //confusionButton.style.color = "#FFFFFF";
     } catch(err){
 
     }
