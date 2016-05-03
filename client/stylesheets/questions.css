@@ -281,7 +281,7 @@ li.questions-listItem .questions-markasimportant {
 }
 
 .questions-conReset-button {
-  background: #03344B;
+  background: #0B577B;
   color: #FFF;
   font-size: 1em;
   padding: 5px 10px;
@@ -289,43 +289,45 @@ li.questions-listItem .questions-markasimportant {
   border: none;
   outline: none;
   /*float: right;*/
-  position: fixed;
   bottom: 15px;
+  position: fixed;
 }
 
-.quetions-confused-text {
+.questions-confused-text {
+  padding-left: 30%;
   font-size: 1em;
-  position: fixed;
+  margin: auto;
   bottom: 60px;
   right: 5%;
   color: #30a5ff;
 }
 
-.quetions-confused-text h1{
-  font-size: 2em;
+.questions-confused-title-text {
+  margin: auto;
+  color: #30a5ff;
 }
 
-.questions-barContainer {
-  padding-top: 20px;
-  height: 75px;
-  right: 20px;
+
+#questions-progressbar-container { 
+  margin-top: 10px; 
+  width: 100%;
+  height: 75%;
+  margin: auto;
 }
-.questions-vertical {
-  overflow-x: hidden;
-  display: inline-block;
-  width: 200%;
-  height: 50px;
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  position:relative;
-  left: 40%;
-  top: 700%;
-  float: right;
+
+.progress-bar-vertical {
+  width: 35%;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
-.questions-vertical {
-  box-shadow: inset 0px 4px 6px #ccc;
-}
-.progress-bar {
-  box-shadow: inset 0px 4px 6px rgba(100,100,100,0.6);
+
+.progress-bar-vertical .progress-bar {
+  width: 100%;
+  height: 0;
+  -webkit-transition: height 0.6s ease;
+  -o-transition: height 0.6s ease;
+  transition: height 0.6s ease;
 }
 

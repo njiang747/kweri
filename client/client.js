@@ -169,17 +169,8 @@ Template.profile.helpers({
       return "Set my status to confused";
     }
     return "I'm confused for " + Session.get("time");
-  },
-  
-  confuseListLength: function(){
-    var lecture =  Lectures.findOne(Session.get('lecture'));
-    return lecture.confuseList.length;
-  },
-
-  totalListLength: function(){
-    var lecture =  Lectures.findOne(Session.get('lecture'));
-     return lecture.totalList.length;
   }
+  
 
  /* not: function() {
     var lecture =  Lectures.findOne(Session.get("lecture"));
@@ -756,7 +747,17 @@ Template.question.helpers({
       return true;
     }
     return false;
+  }, 
+  confuseListLength: function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+    return lecture.confuseList.length;
+  },
+
+  totalListLength: function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+     return lecture.totalList.length;
   }
+
 });
 
 Template.question.events({
@@ -849,7 +850,17 @@ Template.questionConCounter.helpers({
     } else {
       return "progress-bar-danger";
     }
+  },
+  confuseListLength: function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+    return lecture.confuseList.length;
+  },
+
+  totalListLength: function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+     return lecture.totalList.length;
   }
+
 });
 
 // Function to create popup, used for logout
