@@ -103,31 +103,32 @@ Template.home.events({
 
 /***** Profile Page ***********************************************************/
 Template.profile.helpers({
-  loaded: function() {
-    if (Classes.find().count() > 0) {
-      var selectedClass = Meteor.user().profile.selectedClass
-      if (selectedClass) {
-        Session.setDefault('class', selectedClass);
+  load: function() {
+    // var count = 0;
+    // if (isProf) count = Classes.find({profs: Meteor.userId()}).count();
+    // else count = Classes.find({students: Meteor.userId()}).count();
+    var selectedClass = Meteor.user().profile.selectedClass
+    if (selectedClass) {
+      Session.setDefault('class', selectedClass);
+    }
+    else {
+      var classy = Classes.findOne();
+      if (classy) {
+        Session.setDefault('class', classy._id);
       }
-      else {
-        var classy = Classes.findOne();
-        if (classy) {
-          Session.setDefault('class', classy._id);
-        }
+    }
+    var selectedLecture = Meteor.user().profile.selectedLecture
+    if (selectedLecture) {
+      Session.setDefault('lecture', selectedLecture);
+    }
+    else {
+      var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+      if (lecture) {
+        Session.setDefault('lecture', lecture._id);
       }
-      var selectedLecture = Meteor.user().profile.selectedLecture
-      if (selectedLecture) {
-        Session.setDefault('lecture', selectedLecture);
-      }
-      else {
-        var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
-        if (lecture) {
-          Session.setDefault('lecture', lecture._id);
-        }
-      }
-      Session.set('questionsortkey', 'bytime');
-      return true;
-    } else return false;
+    }
+    Session.set('questionsortkey', 'bytime');
+    return true;
   },
   addClass: function() {
     return Session.get('class') == "addClass";
@@ -160,9 +161,6 @@ Template.profile.helpers({
     var date = Lectures.findOne(Session.get('lecture')).date;
     return date.toDateString();
   },
-  /*time: function() {
-    return Session.get("time");  
-  }, */
   buttonText: function() {
     var lecture =  Lectures.findOne(Session.get("lecture"));
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
@@ -180,14 +178,6 @@ Template.profile.helpers({
     var lecture =  Lectures.findOne(Session.get('lecture'));
      return lecture.totalList.length;
   }
-
- /* not: function() {
-    var lecture =  Lectures.findOne(Session.get("lecture"));
-    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      return "not";
-    }
-    return "";
-  }*/
 });
 
 var counfusionCounterTimeout = 60000;
