@@ -85,7 +85,7 @@
   <section id="profile-confusion">
     {{#if isProf}}
       <button class="questions-conReset-button">Reset Confusion Counter</button>
-      <div>{{confusionCounterCount}}</div>
+      <div class = "quetions-confused-text"><h1>{{confuseListLength}}/{{totalListLength}}</h1> are confused</div>
       {{> questionConCounter}}
     {{else}}
       <button class="questions-con-button">{{buttonText}}</button>
