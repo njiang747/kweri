@@ -742,6 +742,18 @@ Template.question.helpers({
       return true;
     }
     return false;
+  },
+  createdbyself: function() {
+    if ( Questions.findOne({ _id: this._id }).createdBy == Meteor.userId() ) {
+      return "questions-createdbyself";
+    }
+    return "";
+  },
+  selfdeletebutton: function() {
+    if ( Questions.findOne({ _id: this._id }).createdBy == Meteor.userId() ) {
+      return true;
+    }
+    return false;
   }
 });
 
@@ -755,11 +767,15 @@ Template.question.events({
         $set: {value: this.value - 1}, 
         $pull: {upvotedBy: Meteor.userId()}
       });
-  }
-  return false;
-},
+    }
+    return false;
+  },
 
   'click .questions-delete': function () {
+    Questions.remove(this._id);
+  },
+
+  'click .questions-selfdelete': function () {
     Questions.remove(this._id);
   },
 
