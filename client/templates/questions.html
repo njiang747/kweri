@@ -28,7 +28,7 @@
 
 <template name="question">
 
-  <li class="questions-listItem {{markedasimportant}}">
+  <li class="questions-listItem {{markedasimportant}} {{createdbyself}}">
 
     <div class="question-score">
       {{value}}
@@ -40,7 +40,7 @@
     <div class="questions-options">
       {{#unless isProf}}
         {{#if upvoted}}
-          <button class="questions-unvote">Undo Upvote</button>
+          <button class="questions-unvote">Unvote</button>
         {{else}}
           <button class="questions-upvote">Upvote</button>
         {{/if}}
@@ -53,8 +53,12 @@
           <button class="questions-markasimportant">Mark as Important</button>
         {{/if}}
       {{/if}}
-
       <span class="questions-date">{{createdAtToString}}</span>
+      {{#unless isProf}}
+        {{#if selfdeletebutton}}
+          <button class="questions-selfdelete">Delete</button>
+        {{/if}}
+      {{/unless}}
     </div>
   </li>
 </template>
