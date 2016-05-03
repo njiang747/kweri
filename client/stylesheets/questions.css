@@ -299,9 +299,10 @@ li.questions-listItem .questions-markasimportant {
   width: 100%;
   text-align: center;
   color: #ff4c4c;
-  height: 5%;
+  height: 7%;
   float: left;
   clear: left;
+  font-size: 1.1em;
 }
 
 .questions-confused-text {
@@ -338,7 +339,7 @@ li.questions-listItem .questions-markasimportant {
 
 .questions-conSpace {
   position: relative;
-  height: 5%;
+  height: 3%;
   width: 100%;
   float: left;
   clear: left;
@@ -355,7 +356,7 @@ li.questions-listItem .questions-markasimportant {
 .questions-conReset-button {
   background: #0B577B;
   color: #FFF;
-  font-size: 1em;
+  font-size: 1.2em;
   padding: 5px 10px 20px 10px;
   border-radius: 0px;
   border: none;
