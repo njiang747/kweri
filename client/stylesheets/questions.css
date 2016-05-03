@@ -161,6 +161,10 @@ li.questions-listItem {
   position: relative;
 }
 
+.questions-createdbyself {
+  border-left: 4px solid #30a5ff !important; 
+}
+
 .questions-markedasimportant {
   border-left: 4px solid #FFD700 !important;
 }
@@ -244,6 +248,17 @@ li.questions-listItem .questions-delete {
   font-size: 0.8em;
   color: #FF6666;
   padding: 0px !important;
+}
+
+li.questions-listItem .questions-selfdelete {
+  background: none;
+  margin-top: 4px;
+  margin-right: 15px;
+  border: none;
+  font-size: 0.8em;
+  color: #FF6666;
+  padding: 0px !important;
+  float: right;
 }
 
 li.questions-listItem .questions-markasimportant {
