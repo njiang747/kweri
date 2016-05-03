@@ -271,22 +271,14 @@ li.questions-listItem .questions-markasimportant {
 }
 
 .questions-con-button {
-
-  /*background: #666666;*/
-  /*color: #FFF;*/
   font-size: 1em;
   padding: 5px 10px;
-  /*border-radius: 0px;*/
-  /*border: none;*/
-  /*outline: none;*/
   height: 100%;
   width: 100%;
   background-color: #008CBA; 
   color: black; 
   border: 2px solid grey;
   border-radius: 10px;
-
-  /*float: right;*/
 }
 
 .questions-con-button:hover {
