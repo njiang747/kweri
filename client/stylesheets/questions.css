@@ -155,18 +155,14 @@ li.questions-listItem {
   margin-bottom: 10px;
   padding: 5px 10px 5px 5px;
   border: 1px solid #E0E0E0;
-  border-left: 6px solid #d1d1d1;
+  border-left: 4px solid #e3e3e3;
   border-radius: 0px;
   background: #FDFDFD;
   position: relative;
 }
 
 .questions-markedasimportant {
-  border-left: 6px solid #FFD700 !important;
-}
-
-.questions-createdbyself {
-  border-left: 6px solid #59b7ff !important;
+  border-left: 4px solid #FFD700 !important;
 }
 
 li.questions-listItem .question-score {
@@ -201,7 +197,7 @@ li.questions-listItem .questions-text {
 }
 
 li.questions-listItem .questions-date {
-  margin-top: 4px;
+  margin-top: 5px;
   margin-left: 10px;
   font-size: 0.8em;
   color: #888888;
@@ -250,17 +246,6 @@ li.questions-listItem .questions-delete {
   padding: 0px !important;
 }
 
-li.questions-listItem .questions-selfdelete {
-  background: none;
-  margin-right: 10px;
-  border: none;
-  font-size: 0.8em;
-  color: #FF6666;
-  padding: 0px !important;
-  float: right;
-  margin-top: 4px;
-}
-
 li.questions-listItem .questions-markasimportant {
   background: none;
   margin-right: 15px;
@@ -271,6 +256,7 @@ li.questions-listItem .questions-markasimportant {
 }
 
 .questions-con-button {
+
   /*background: #666666;*/
   /*color: #FFF;*/
   font-size: 1em;
@@ -295,7 +281,7 @@ li.questions-listItem .questions-markasimportant {
 }
 
 .questions-conReset-button {
-  background: #03344B;
+  background: #0B577B;
   color: #FFF;
   font-size: 1em;
   padding: 5px 10px;
@@ -303,43 +289,48 @@ li.questions-listItem .questions-markasimportant {
   border: none;
   outline: none;
   /*float: right;*/
-  position: fixed;
   bottom: 15px;
+  position: fixed;
 }
 
-.quetions-confused-text {
+.questions-confused-text {
   font-size: 1em;
-  position: fixed;
+  margin: auto;
   bottom: 60px;
   right: 5%;
   color: #30a5ff;
+  text-align: center;
+
 }
 
-.quetions-confused-text h1{
-  font-size: 2em;
+.questions-confused-title-text {
+  font-size: 22px;
+  margin: auto;
+  color: #30a5ff;
+  text-align: center;
 }
 
-.questions-barContainer {
-  padding-top: 20px;
-  height: 75px;
-  right: 20px;
+
+#questions-progressbar-container { 
+  margin-top: 10px; 
+  width: 100%;
+  height: 75%;
+  margin: auto;
 }
-.questions-vertical {
-  overflow-x: hidden;
-  display: inline-block;
-  width: 200%;
-  height: 50px;
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  position:relative;
-  left: 40%;
-  top: 700%;
-  float: right;
+
+.progress-bar-vertical {
+  width: 35%;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
-.questions-vertical {
-  box-shadow: inset 0px 4px 6px #ccc;
-}
-.progress-bar {
-  box-shadow: inset 0px 4px 6px rgba(100,100,100,0.6);
+
+.progress-bar-vertical .progress-bar {
+  width: 100%;
+  height: 0;
+  -webkit-transition: height 0.6s ease;
+  -o-transition: height 0.6s ease;
+  transition: height 0.6s ease;
 }
 
