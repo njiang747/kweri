@@ -112,7 +112,7 @@
 #profile-sidebar-classlist-element-addclass {
   position: relative;
   display: block;
-  background-color: #237923;
+  background-color: #03344B;
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
   border-bottom: 1px solid #AAAAAA;
   cursor: pointer;
@@ -134,7 +134,7 @@
   display: block;
 }
 
-#profile-sidebar-classlist-element-addclass a:hover {
+#profile-sidebar-classlist-element-addclass a:hover div{
   color: #00c6d7 !important;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -188,7 +188,7 @@
 #profile-sidebar-lecturelist-element {
   position: relative;
   display: block;
-  background-color: #333333;
+  background-color: #555555;
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
   cursor: pointer;
   border-top: 1px solid #666666;
@@ -200,7 +200,7 @@
 
 #profile-sidebar-lecturelist-element a {
   text-decoration: none;
-  padding: 0px;
+  padding: 3px 0px 3px 0px;
 
   -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
   -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
@@ -222,11 +222,13 @@
 
 #profile-sidebar-lecturelist-element-addlecture {
   position: relative;
+  padding: 3px 0px 3px 0px;
   display: block;
-  background-color: #237923;
+  background-color: #03344B;
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
   cursor: pointer;
   border-top: 1px solid #666666;
+  font-weight: bold;
 }
 
 #profile-sidebar-lecturelist-element-addlecture a {

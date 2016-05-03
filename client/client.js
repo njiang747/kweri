@@ -12,7 +12,6 @@ Template.main.helpers({
       return Meteor.user().profile.name;
     }
   }
-  
 });
 
 Template.registerHelper('isProf', function(){
@@ -103,31 +102,33 @@ Template.home.events({
 
 /***** Profile Page ***********************************************************/
 Template.profile.helpers({
-  loaded: function() {
-    if (Classes.find().count() > 0) {
-      var selectedClass = Meteor.user().profile.selectedClass
-      if (selectedClass) {
-        Session.setDefault('class', selectedClass);
+  load: function() {
+    var selectedClass = Meteor.user().profile.selectedClass
+    if (selectedClass) {
+      Session.setDefault('class', selectedClass);
+    }
+    else {
+      var classy = Classes.findOne();
+      if (classy) {
+        Session.setDefault('class', classy._id);
       }
-      else {
-        var classy = Classes.findOne();
-        if (classy) {
-          Session.setDefault('class', classy._id);
-        }
+    }
+    var selectedLecture = Meteor.user().profile.selectedLecture
+    if (selectedLecture) {
+      Session.setDefault('lecture', selectedLecture);
+    }
+    else {
+      var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+      if (lecture) {
+        Session.setDefault('lecture', lecture._id);
       }
-      var selectedLecture = Meteor.user().profile.selectedLecture
-      if (selectedLecture) {
-        Session.setDefault('lecture', selectedLecture);
-      }
-      else {
-        var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
-        if (lecture) {
-          Session.setDefault('lecture', lecture._id);
-        }
-      }
-      Session.set('questionsortkey', 'bytime');
-      return true;
-    } else return false;
+    }
+    Session.setDefault('questionsortkey', 'bytime');
+    return true;
+  },
+  noClass: function() {
+    if (isProf) return Classes.find({profs: Meteor.userId()}).count() == 0;
+    else return Classes.find({students: Meteor.userId()}).count() == 0;
   },
   addClass: function() {
     return Session.get('class') == "addClass";
@@ -160,9 +161,6 @@ Template.profile.helpers({
     var date = Lectures.findOne(Session.get('lecture')).date;
     return date.toDateString();
   },
-  /*time: function() {
-    return Session.get("time");  
-  }, */
   buttonText: function() {
     var lecture =  Lectures.findOne(Session.get("lecture"));
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
@@ -170,15 +168,6 @@ Template.profile.helpers({
     }
     return "I'm confused for " + Session.get("time");
   }
-  
-
- /* not: function() {
-    var lecture =  Lectures.findOne(Session.get("lecture"));
-    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      return "not";
-    }
-    return "";
-  }*/
 });
 
 var counfusionCounterTimeout = 60000;
@@ -215,7 +204,7 @@ Template.profile.events({
   'click #profile-sidebar-classlist-element-addclass': function() {
     Session.set('class', "addClass");
     Meteor.users.update(Meteor.userId(), 
-      {$set: {"profile.selectedClass": ""}});
+      {$set: {"profile.selectedClass": "addClass"}});
   }, 
   /* insert a new class into the Classes collection */
   'submit .new-class': function(event) {
@@ -302,7 +291,7 @@ Template.classElem.events({
   },
   'click #profile-sidebar-lecturelist-element-addlecture': function() {
     Meteor.users.update(Meteor.userId(), 
-      {$set: {"profile.selectedLecture": ""}});
+      {$set: {"profile.selectedLecture": "addLecture"}});
     Session.set('lecture', "addLecture");
   }
 })
@@ -592,7 +581,7 @@ Template.questionbox.events({
       lecture_id: Session.get('lecture'),
       qText: qText,
       important: 0,
-      value: 0,
+      // value: 0,
       createdAt: new Date(),
       createdBy: Meteor.userId(),
       // upvotedBy: [Meteor.userId()]
@@ -718,9 +707,9 @@ Template.questionsort.events({
     return false;
   }
 });
+
 Template.questionsort.onRendered(function () {enterClass()});
 //Template.questionsort.onDestroyed(function () {leaveClass()});
-
 
 Template.question.helpers({
   /* Function that converts a date to a string */
@@ -735,7 +724,9 @@ Template.question.helpers({
   upvoted: function() {
     return this.upvotedBy && this.upvotedBy.indexOf(Meteor.userId()) != -1;
   },
-
+  value: function() {
+    return this.upvotedBy.length;
+  },
   markedasimportant: function() {
     if ( Questions.findOne({ _id: this._id }).important == 1 ) {
       return "questions-markedasimportant";
@@ -747,15 +738,18 @@ Template.question.helpers({
       return true;
     }
     return false;
-  }, 
-  confuseListLength: function(){
-    var lecture =  Lectures.findOne(Session.get('lecture'));
-    return lecture.confuseList.length;
   },
-
-  totalListLength: function(){
-    var lecture =  Lectures.findOne(Session.get('lecture'));
-     return lecture.totalList.length;
+  createdbyself: function() {
+    if ( Questions.findOne({ _id: this._id }).createdBy == Meteor.userId() ) {
+      return "questions-createdbyself";
+    }
+    return "";
+  },
+  selfdeletebutton: function() {
+    if ( Questions.findOne({ _id: this._id }).createdBy == Meteor.userId() ) {
+      return true;
+    }
+    return false;
   }
 
 });
@@ -770,11 +764,15 @@ Template.question.events({
         $set: {value: this.value - 1}, 
         $pull: {upvotedBy: Meteor.userId()}
       });
-  }
-  return false;
-},
+    }
+    return false;
+  },
 
   'click .questions-delete': function () {
+    Questions.remove(this._id);
+  },
+
+  'click .questions-selfdelete': function () {
     Questions.remove(this._id);
   },
 
@@ -799,33 +797,21 @@ Template.question.events({
       this.upvotedBy.indexOf(Meteor.userId()) == -1) {
       Questions.update(this._id, 
       {
-        $set: {value: this.value + 1}, 
+        // $set: {value: this.value + 1}, 
         $push: {upvotedBy: Meteor.userId()}
       });
-  }
-  return false;
-  },
-  /* clicking the downvote button decreases the question's value by 1 */
-  'click .questions-down': function() {
-    if (this.upvotedBy != undefined && 
-      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-      Questions.update(this._id, 
-      {
-        $set: {value: this.value - 1}, 
-        $pull: {upvotedBy: Meteor.userId()}
-      });
-  }
-  return false;
+    }
+    return false;
   },
   'click .questions-unvote': function() {
     if (this.upvotedBy != undefined && 
       this.upvotedBy.indexOf(Meteor.userId()) != -1) {
       Questions.update(this._id, 
       {
-        $set: {value: this.value - 1}, 
+        // $set: {value: this.value - 1}, 
         $pull: {upvotedBy: Meteor.userId()}
-      });
-  }
+        });
+    }
   return false;
   },
 
