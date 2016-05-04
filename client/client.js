@@ -18,6 +18,10 @@ Template.registerHelper('isProf', function(){
   return Meteor.user().profile.profStatus;
 });
 
+Template.registerHelper('inLecture', function(){
+  return Session.get('class') && Session.get('lecture');
+});
+
 Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
@@ -682,7 +686,10 @@ Template.questionbox.events({
   'submit .questions-newQuestion': function(event) {
     var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
     var cur_date = new Date();
-    if (cur_date.toDateString() != lecture_date) return false;
+    if (cur_date.toDateString() != lecture_date) {
+      alert("Sorry, this lecture is from a previous day and posting has been disabled");
+      return false;
+    }
 
     /* get the text of the question */
     var qText = event.target.qText.value;

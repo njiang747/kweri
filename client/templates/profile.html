@@ -61,8 +61,17 @@
 
   <section id="profile-confusion">
     {{#if isProf}}
-    {{> questionConCounter}}
-    {{else}}
+      {{#unless noClass}}
+      {{#unless addClass}}
+      {{#unless noLecture}}
+      {{#unless addLecture}}
+      {{#unless aboutClass}}
+      {{> questionConCounter}}
+      {{/unless}}
+      {{/unless}}
+      {{/unless}}
+      {{/unless}}
+      {{/unless}}
     {{/if}}
   </section>
 </template>
