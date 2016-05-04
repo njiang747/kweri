@@ -570,6 +570,18 @@ Template.searchElem.events({
     Session.set('class', this._id);
     Meteor.users.update(Meteor.userId(), 
       {$set: {"profile.selectedClass": this._id}});
+    var lecture = Lectures.findOne({class_id: this._id}, {sort: {number: -1}});
+    if (lecture) {
+      Meteor.users.update(Meteor.userId(), 
+        {$set: {"profile.selectedLecture": lecture._id}});
+      Session.set('lecture', lecture._id);
+      enterClass();
+    } else {
+      Meteor.users.update(Meteor.userId(), 
+        {$set: {"profile.selectedLecture": ""}});
+      Session.set('lecture', "");
+      enterClass();
+    }
     Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}});
   }
 });
