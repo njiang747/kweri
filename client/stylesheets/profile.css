@@ -349,6 +349,27 @@
 .profile-about-header h1 {
   margin: 0;
 }
+
+.glyphicon {
+  height: 22px;
+  line-height: 22px;
+}
+
+.col-sm-9 {
+  width: 90%;
+}
+
+.header-inline {
+  display: inline-block;
+}
+
+.profile-delete-class {
+  float: right;
+  display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
 .profile-delete-class {
   min-width: 130px;
   vertical-align: middle;

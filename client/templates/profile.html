@@ -80,9 +80,7 @@
 <template name="profileAbout">
   <div class="row">
     <div class="col-sm-9 profile-about-header">
-      <h2>{{cDpt}} {{cNum}}: {{cName}}</h2>
-    </div>
-    <div class="col-md-2">
+      <h2 class="header-inline">{{cDpt}} {{cNum}}: {{cName}}</h2>
       <button type="button" class="btn btn-warning-outline profile-delete-class">Delete this Class</button>
     </div>
   </div>
@@ -93,15 +91,12 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title panel-lecture-title">Your Lectures</h3>
-            <!-- <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button> -->
           </div>
           <ul class="list-group">
             <button type="button" class="list-group-item profile-add-lecture">
                 Add New Lecture
                 <span class="glyphicon glyphicon-plus"></span> 
             </button>
-          </ul>
-          <ul class="list-group">
             {{#each classLectures}}
               <button type="button" class="list-group-item about-indiv-lects">
                 {{number}}: {{name}}
