@@ -188,7 +188,9 @@ li.questions-listItem .questions-infoContainer {
   display: inline-block;
   vertical-align: top;
   float: left;
-  margin-left: 45px;
+  padding-left: 45px;
+  padding-right: 5px;
+  width: 100%;
 }
 
 li.questions-listItem .questions-text {
@@ -271,22 +273,16 @@ li.questions-listItem .questions-markasimportant {
 }
 
 .questions-con-button {
-
-  /*background: #666666;*/
-  /*color: #FFF;*/
+  cursor: pointer;
+  background: #f4511e;
+  color: #FDFDFD;
   font-size: 1em;
-  padding: 5px 10px;
-  /*border-radius: 0px;*/
-  /*border: none;*/
-  /*outline: none;*/
-  height: 100%;
-  width: 100%;
-  background-color: #008CBA; 
-  color: black; 
-  border: 2px solid grey;
-  border-radius: 10px;
-
-  /*float: right;*/
+  padding: 3px 10px;
+  border: none;
+  border-radius: 3px;
+  width: 200px;
+  margin-left: -200px;
+  float: right;
 }
 
 .questions-con-button:hover {

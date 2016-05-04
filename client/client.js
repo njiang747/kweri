@@ -160,13 +160,6 @@ Template.profile.helpers({
   },
   cName: function() {
     return Classes.findOne(Session.get('class')).name;
-  },
-  buttonText: function() {
-    var lecture =  Lectures.findOne(Session.get("lecture"));
-    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      return "Set my status to confused";
-    }
-    return "I'm confused for " + Session.get("time");
   }
 });
 
@@ -209,6 +202,13 @@ Template.profileQuestions.helpers({
   dateString: function() {
     var date = Lectures.findOne(Session.get('lecture')).date;
     return date.toDateString();
+  },
+  buttonText: function() {
+    var lecture =  Lectures.findOne(Session.get("lecture"));
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      return "Set my status to confused";
+    }
+    return "I'm confused for " + Session.get("time");
   }
 });
 
@@ -469,7 +469,10 @@ Template.searchlist.helpers({
 
 Template.searchElem.events({
   'click #profile-sidebar-enroll': function() {
-    Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}})
+    Session.set('class', this._id);
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedClass": this._id}});
+    Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}});
   }
 });
 
@@ -559,6 +562,9 @@ Template.searchClassElem.helpers({
 
 Template.searchClassElem.events({
   'click .enroll': function() {
+    Session.set('class', this._id);
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedClass": this._id}});
     Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}})
   }
 });

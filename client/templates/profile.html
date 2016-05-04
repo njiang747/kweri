@@ -63,7 +63,6 @@
     {{#if isProf}}
       {{> questionConCounter}}
       {{else}}
-      <button class="questions-con-button">{{buttonText}}</button>
     {{/if}}
   </section>
 </template>
@@ -92,6 +91,9 @@
     </header>
     <div class="questions-sorter">
       {{> questionsort}}
+      {{#unless isProf}}
+        <button class="questions-con-button">{{buttonText}}</button>
+      {{/unless}}
     </div>
     {{> questionlist}}
   </div>
