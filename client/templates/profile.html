@@ -145,7 +145,6 @@
 </template>
 
 <template name="profileQuestions">
-  <div id="wrapperdiv">
     <div class="questions-container">
       <div class="questions-header">
         <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
@@ -162,11 +161,8 @@
         <button class="questions-con-button {{outdatedbutton}}">{{buttonText}}</button>
         {{/unless}}
       </div>
-      <div class="questions-questionslist">
-        {{> questionlist}}
-      </div>
+      {{> questionlist}}
     </div>
-  </div>
 </template>
 
 <template name="profileAddClass">
