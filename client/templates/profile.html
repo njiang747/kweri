@@ -79,7 +79,6 @@
 <template name="profileAbout">
   <div class="row">
     <div class="col-sm-9">
-      <!-- <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button> -->
       <h2>{{cDpt}} {{cNum}}: {{cName}}</h2>
     </div>
     <div class="col-md-2">
@@ -87,25 +86,32 @@
     </div>
   </div>
 
-
   <div class="row">
-
     <div class="col-sm-2 col-md-offset-2">
       <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button>
     </div>
   </div>
+
   {{#if oneEnrolled}}
-  <p>There is currently 1 student enrolled in this class.</p>
+    <p>There is currently 1 student enrolled in this class.</p>
   {{else}}
-  <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
+    <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
   {{/if}}
   
   <div class="aboutLectureList">
-    {{#each classLectures}}
-      <ul> Lecture {{number}}: {{name}}</ul>
-    {{/each}}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Your Lectures</h3>
+      </div>
+      <ul class="list-group">
+        {{#each classLectures}}
+        <button type="button" class="list-group-item about-indiv-lects">
+          Lecture {{number}}: {{name}}
+        </button>
+        {{/each}}
+      </ul>
+    </div>
   </div>
-  
 </template>
 
 <template name="profileQuestions">
@@ -117,17 +123,17 @@
         <h3>Lecture {{lNum}}: {{lName}}</h3>
         <h3 class="questions-dateString questions-outdateddate">{{dateString}}</h3>
         {{#unless isProf}}
-          {{> questionbox}}
+        {{> questionbox}}
         {{/unless}}
       </div>
       <div class="questions-sorter">
         {{> questionsort}}
         {{#unless isProf}}
-          <button class="questions-con-button {{outdatedbutton}}">{{buttonText}}</button>
+        <button class="questions-con-button {{outdatedbutton}}">{{buttonText}}</button>
         {{/unless}}
       </div>
       <div class="questions-questionslist">
-      {{> questionlist}}
+        {{> questionlist}}
       </div>
     </div>
   </div>
