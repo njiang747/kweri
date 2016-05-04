@@ -92,8 +92,14 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title panel-lecture-title">Your Lectures</h3>
-            <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button>
+            <!-- <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button> -->
           </div>
+          <ul class="list-group">
+            <button type="button" class="list-group-item profile-add-lecture">
+                Add New Lecture
+                <span class="glyphicon glyphicon-plus"></span> 
+            </button>
+          </ul>
           <ul class="list-group">
             {{#each classLectures}}
               <button type="button" class="list-group-item about-indiv-lects">
