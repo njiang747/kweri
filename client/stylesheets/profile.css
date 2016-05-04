@@ -363,6 +363,10 @@
   overflow: hidden;
 }
 
+.profile-add-lecture:hover {
+  color: #30a5ff !important;
+}
+
 .panel-lecture-title {
   font-weight: bold;
 }
@@ -386,9 +390,7 @@
   vertical-align: middle;
 }
 
-.glyphicon-plus:hover {
-  color: #30a5ff;
-}
+
 
 
 /* Add Lecture Page */
