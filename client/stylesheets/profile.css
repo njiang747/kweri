@@ -338,6 +338,14 @@
   margin-left: 2%;
 }
 
+.profile-about-body {
+  margin-top: 3%;
+}
+
+.profile-about-body-desc {
+  margin-left: 3%;
+}
+
 .profile-about-header h1 {
   margin: 0;
 }
@@ -354,6 +362,34 @@
   display: inline-block;
   overflow: hidden;
 }
+
+.panel-lecture-title {
+  font-weight: bold;
+}
+.vertical-lect-list {
+
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.glyphicon-remove-circle {
+  float: right;
+  vertical-align: middle;
+}
+
+.glyphicon-remove-circle:hover {
+  color: #FF0000;
+}
+
+.glyphicon-plus {
+  float: right;
+  vertical-align: middle;
+}
+
+.glyphicon-plus:hover {
+  color: #30a5ff;
+}
+
 
 /* Add Lecture Page */
 
