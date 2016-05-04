@@ -29,7 +29,6 @@
   <section id="profile-questions">
     {{load}}
     {{#if noClass}}
-<<<<<<< HEAD
       {{#if isProf}}
         {{> profileAddClass}}
       {{else}}
@@ -58,35 +57,6 @@
           {{/if}}
         {{/if}}
       {{/if}}
-=======
-    {{#if isProf}}
-    {{> profileAddClass}}
-    {{else}}
-    WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
-    {{/if}}
-    {{else}}
-    {{#if addClass}}
-    {{> profileAddClass}}
-    {{else}}
-    {{#if addLecture}}
-    {{> profileAddLecture}}
-    {{else}}
-    {{#if aboutClass}}
-    {{> profileAbout}}
-    {{else}}
-    {{#if noLecture}}
-    {{#if isProf}}
-    {{> profileAddLecture}}
-    {{else}}
-    WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
-    {{/if}}
-    {{else}}
-    {{> profileQuestions}}
-    {{/if}}
-    {{/if}}
-    {{/if}}
-    {{/if}}
->>>>>>> master
     {{/if}}
   </section>
 
