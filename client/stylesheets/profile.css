@@ -338,6 +338,14 @@
   margin-left: 2%;
 }
 
+.profile-about-body {
+  margin-top: 3%;
+}
+
+.profile-about-body-desc {
+  margin-left: 3%;
+}
+
 .profile-about-header h1 {
   margin: 0;
 }
@@ -354,6 +362,12 @@
   display: inline-block;
   overflow: hidden;
 }
+
+.panel-lecture-title {
+  font-weight: bold;
+}
+
+
 
 /* Add Lecture Page */
 
