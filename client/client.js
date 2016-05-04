@@ -379,6 +379,9 @@ Template.profileAbout.events({
       Meteor.users.update(Meteor.userId(), 
         {$set: {"profile.selectedClass": "addClass"}});
     }
+    else {
+      return false;
+    }
   },
   'click .profile-add-lecture': function(event) {
    Meteor.users.update(Meteor.userId(), 
@@ -398,6 +401,9 @@ Template.profileAbout.events({
     var cont = confirm("Are you sure you want to delete this lecture?");
     if (cont) {
       Lectures.remove(lect);
+    }
+    else {
+      return false;
     }
 }
 });
