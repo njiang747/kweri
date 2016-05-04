@@ -184,6 +184,10 @@ Template.profileAbout.helpers({
   oneEnrolled: function() {
     var c = Classes.findOne(Session.get('class'));
     return c.students.length == 1;
+  },
+  classLectures: function() {
+    var id = Session.get('class');
+    return Lectures.find({class_id: id}, {sort: {number: -1}});
   }
 });
 

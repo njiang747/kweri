@@ -334,11 +334,22 @@
   margin-top: 5px;
   margin-left: 5px;
 }
+.profile-about-header h1 {
+  margin: 0;
+}
 .profile-delete-class {
   min-width: 130px;
+  vertical-align: middle;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  color: #E5EBF2;
 }
 .profile-add-lecture {
   min-width: 130px;
+}
+.profile-add-lecture2 {
+  vertical-align: top;
+  display: inline-block;
 }
 /* Add Lecture Page */
 

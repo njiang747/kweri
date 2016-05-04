@@ -61,32 +61,37 @@
 
   <section id="profile-confusion">
     {{#if isProf}}
-      {{#unless noClass}}
-      {{#unless addClass}}
-      {{#unless noLecture}}
-      {{#unless addLecture}}
-      {{#unless aboutClass}}
-      {{> questionConCounter}}
-      {{/unless}}
-      {{/unless}}
-      {{/unless}}
-      {{/unless}}
-      {{/unless}}
+    {{#unless noClass}}
+    {{#unless addClass}}
+    {{#unless noLecture}}
+    {{#unless addLecture}}
+    {{#unless aboutClass}}
+    {{> questionConCounter}}
+    {{/unless}}
+    {{/unless}}
+    {{/unless}}
+    {{/unless}}
+    {{/unless}}
     {{/if}}
   </section>
 </template>
 
 <template name="profileAbout">
-  <div class="profile-about-header">
-    <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+  <div class="row">
+    <div class="col-sm-9">
+      <!-- <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button> -->
+      <h2>{{cDpt}} {{cNum}}: {{cName}}</h2>
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-warning-outline profile-delete-class">Delete this Class</button>
+    </div>
   </div>
 
+
   <div class="row">
+
     <div class="col-sm-2 col-md-offset-2">
       <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button>
-    </div>
-    <div class="col-sm-2 col-md-offset-2">
-      <button type="button" class="btn btn-warning-outline profile-delete-class">Delete this Class</button>
     </div>
   </div>
   {{#if oneEnrolled}}
@@ -94,6 +99,12 @@
   {{else}}
   <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
   {{/if}}
+  
+  <div class="aboutLectureList">
+    {{#each classLectures}}
+      <ul> Lecture {{number}}: {{name}}</ul>
+    {{/each}}
+  </div>
   
 </template>
 
