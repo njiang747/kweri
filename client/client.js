@@ -5,8 +5,8 @@
  * Helpers define variables/functions used within templates
  * Events define actions to be taken upon events within templates */
 
- /***** Main Layout ************************************************************/
- Template.main.helpers({
+/***** Main Layout ************************************************************/
+Template.main.helpers({
   username: function() {
     if (Meteor.user().profile.profStatus) {
       return Meteor.user().profile.name;
@@ -14,28 +14,24 @@
   }
 });
 
- Template.registerHelper('isProf', function(){
+Template.registerHelper('isProf', function(){
   return Meteor.user().profile.profStatus;
 });
 
- Template.registerHelper('inLecture', function(){
-  return Session.get('class') && Session.get('lecture');
-});
-
- Template.main.events({
+Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
   }
 });
 
- Template.navbar.helpers({
+Template.navbar.helpers({
   username: function() {
     return Meteor.user().profile.name;
   }
 });
 
- Template.navbar.events({
+Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       leaveClass();
@@ -61,15 +57,15 @@
 
 });
 
- Template.navbar.helpers({
+Template.navbar.helpers({
   username: function() {
     if (Meteor.user()) return Meteor.user().profile.name;
     else return;
   }
 });
 
- /***** Home Page **************************************************************/
- Template.home.events({
+/***** Home Page **************************************************************/
+Template.home.events({
   'click .btnloginProf': function(event) {
     if (Meteor.user()){
       Router.go('profile');
@@ -104,8 +100,8 @@
   }
 });
 
- /***** Profile Page ***********************************************************/
- Template.profile.helpers({
+/***** Profile Page ***********************************************************/
+Template.profile.helpers({
   load: function() {
     var selectedClass = Meteor.user().profile.selectedClass
     if (selectedClass) {
@@ -190,6 +186,18 @@ Template.profileAbout.helpers({
     return Lectures.find({class_id: id}, {sort: {number: -1}});
   }
 });
+
+Template.profileWelcomeClass.helpers({
+  cDpt: function() {
+    return Classes.findOne(Session.get('class')).department;
+  },
+  cNum: function() {
+    return Classes.findOne(Session.get('class')).number;
+  },
+  cName: function() {
+    return Classes.findOne(Session.get('class')).name;
+  }
+})
 
 Template.profileQuestions.helpers({
   cDpt: function() {
@@ -315,6 +323,13 @@ var confusionButton;
 Template.profile.events({
   'click .questions-con-button': function(){
     var lecture =  Lectures.findOne(Session.get('lecture'));
+    var lecture_date = lecture.date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) {
+      alert("Sorry, this lecture is from a previous day");
+      return false;
+    }
+
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Session.get('lecture'), 
       {

@@ -301,9 +301,9 @@ li.questions-listItem .questions-markasimportant {
 }
 
 .questions-con-button:hover {
-    background-color: #008CBA;
-    color: white;
-    opacity: 0.6;
+  background-color: #008CBA;
+  color: white;
+  opacity: 0.6;
 }
 
 .questions-confused-title-text {

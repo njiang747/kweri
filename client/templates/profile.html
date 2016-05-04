@@ -32,7 +32,7 @@
       {{#if isProf}}
         {{> profileAddClass}}
       {{else}}
-        WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
+        {{> profileWelcomeKweri}}
       {{/if}}
     {{else}}
       {{#if addClass}}
@@ -48,7 +48,7 @@
               {{#if isProf}}
                 {{> profileAddLecture}}
               {{else}}
-                WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
+                {{> profileWelcomeClass}}
               {{/if}}
             {{else}}
               {{> profileQuestions}}
@@ -111,6 +111,30 @@
       {{else}}
       <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
       {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="profileWelcomeKweri">
+  <div id="wrapperdiv">
+    <div class="questions-container">
+      <div class="questions-header">
+        <h1>Welcome to Kweri!</h1>
+        <br>
+        <h3>Please enroll in a class to begin</h3>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="profileWelcomeClass">
+  <div id="wrapperdiv">
+    <div class="questions-container">
+      <div class="questions-header">
+        <h1>Welcome to {{cDpt}} {{cNum}}: {{cName}}</h1>
+        <br>
+        <h3>There are no lectures in this class at the moment</h3>
+      </div>
     </div>
   </div>
 </template>
