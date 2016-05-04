@@ -188,6 +188,10 @@ Template.profileAbout.helpers({
   classLectures: function() {
     var id = Session.get('class');
     return Lectures.find({class_id: id}, {sort: {number: -1}});
+  },
+  classDate: function() {
+    var date = Classes.findOne(Session.get('class')).date;
+    return date.toDateString();
   }
 });
 
@@ -246,6 +250,7 @@ Template.profileAddClass.events({
       department: department,
       number: number,
       name: name,
+      date: new Date(),
       profs: [Meteor.userId()], 
       students: []
     });
@@ -314,6 +319,13 @@ var confusionButton;
 
 Template.profile.events({
   'click .questions-con-button': function(){
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) {
+      alert("Sorry, this lecture is from a previous day and changes have been disabled.");
+      return false;
+    }
+
     var lecture =  Lectures.findOne(Session.get('lecture'));
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Session.get('lecture'), 
@@ -353,6 +365,9 @@ Template.profileAbout.events({
     var cont = confirm("Are you sure you want to delete this class?");
     if (cont) {
       Classes.remove(c);
+      Session.set('class', "addClass");
+      Meteor.users.update(Meteor.userId(), 
+        {$set: {"profile.selectedClass": "addClass"}});
     }
   },
   'click .profile-add-lecture': function(event) {
@@ -368,7 +383,7 @@ Template.profileAbout.events({
   enterClass();
   
 }
-})
+});
 
 Template.classlist.helpers({
   /* classes returns a list of classes */
@@ -726,7 +741,7 @@ Template.questionbox.events({
     var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
     var cur_date = new Date();
     if (cur_date.toDateString() != lecture_date) {
-      alert("Sorry, this lecture is from a previous day and posting has been disabled");
+      alert("Sorry, this lecture is from a previous day and posting has been disabled.");
       return false;
     }
 
