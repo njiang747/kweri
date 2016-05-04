@@ -366,8 +366,16 @@
 .panel-lecture-title {
   font-weight: bold;
 }
+.vertical-lect-list {
 
+  vertical-align: middle;
+  display: inline-block;
+}
 
+.glyphicon-remove-circle {
+  float: right;
+  vertical-align: middle;
+}
 
 /* Add Lecture Page */
 

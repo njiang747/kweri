@@ -29,33 +29,33 @@
   <section id="profile-questions">
     {{load}}
     {{#if noClass}}
-      {{#if isProf}}
-        {{> profileAddClass}}
-      {{else}}
-        WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
-      {{/if}}
+    {{#if isProf}}
+    {{> profileAddClass}}
     {{else}}
-      {{#if addClass}}
-        {{> profileAddClass}}
-      {{else}}
-        {{#if addLecture}}
-          {{> profileAddLecture}}
-        {{else}}
-          {{#if aboutClass}}
-            {{> profileAbout}}
-          {{else}}
-            {{#if noLecture}}
-              {{#if isProf}}
-                {{> profileAddLecture}}
-              {{else}}
-                WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
-              {{/if}}
-            {{else}}
-              {{> profileQuestions}}
-            {{/if}}
-          {{/if}}
-        {{/if}}
-      {{/if}}
+    WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
+    {{/if}}
+    {{else}}
+    {{#if addClass}}
+    {{> profileAddClass}}
+    {{else}}
+    {{#if addLecture}}
+    {{> profileAddLecture}}
+    {{else}}
+    {{#if aboutClass}}
+    {{> profileAbout}}
+    {{else}}
+    {{#if noLecture}}
+    {{#if isProf}}
+    {{> profileAddLecture}}
+    {{else}}
+    WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
+    {{/if}}
+    {{else}}
+    {{> profileQuestions}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
     {{/if}}
   </section>
 
@@ -96,9 +96,10 @@
           </div>
           <ul class="list-group">
             {{#each classLectures}}
-            <button type="button" class="list-group-item about-indiv-lects">
-              {{number}}: {{name}}
-            </button>
+              <button type="button" class="list-group-item about-indiv-lects">
+                {{number}}: {{name}}
+                <span class="glyphicon glyphicon-remove-circle profile-delete-lecture"></span>    
+              </button>
             {{/each}}
           </ul>
         </div>
