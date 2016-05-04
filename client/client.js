@@ -440,7 +440,7 @@ Template.searchlist.helpers({
     var arr = key.split(" ").filter(function(n) {return n != ''});
     var dept = new RegExp();
     var num = new RegExp();
-    if (arr.length <= 2) {
+    if (arr.length <= 2 && arr.length > 0) {
       for (index in arr) {
         if (isNaN(arr[index])) {
           dept = new RegExp(arr[index], 'i');
@@ -989,7 +989,6 @@ var enterClass = function() {
       });
     }
   } catch(err){
-
   }
 };
 
