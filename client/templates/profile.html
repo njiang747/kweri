@@ -17,7 +17,7 @@
     <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-classlist">
         {{#each classes}}
-        {{> classElem}}
+          {{> classElem}}
         {{/each}}
       </ul>
     </div>
@@ -29,33 +29,34 @@
   <section id="profile-questions">
     {{load}}
     {{#if noClass}}
-    {{#if isProf}}
-    {{> profileAddClass}}
+      {{#if isProf}}
+        {{> profileAddClass}}
+      {{else}}
+        {{> profileWelcomeKweri}}
+      {{/if}}
     {{else}}
-    WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
-    {{/if}}
-    {{else}}
-    {{#if addClass}}
-    {{> profileAddClass}}
-    {{else}}
-    {{#if addLecture}}
-    {{> profileAddLecture}}
-    {{else}}
-    {{#if aboutClass}}
-    {{> profileAbout}}
-    {{else}}
-    {{#if noLecture}}
-    {{#if isProf}}
-    {{> profileAddLecture}}
-    {{else}}
-    WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
-    {{/if}}
-    {{else}}
-    {{> profileQuestions}}
-    {{/if}}
-    {{/if}}
-    {{/if}}
-    {{/if}}
+      {{#if addClass}}
+        {{> profileAddClass}}
+      {{else}}
+        {{#if addLecture}}
+          {{> profileAddLecture}}
+        {{else}}
+          {{#if aboutClass}}
+            {{> profileAbout}}
+          {{else}}
+            {{#if noLecture}}
+              {{#if isProf}}
+                {{> profileAddLecture}}
+              {{else}}
+                {{> profileWelcomeClass}}
+              {{/if}}
+            {{else}}
+              {{loadLecture}}
+              {{> profileQuestions}}
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
     {{/if}}
   </section>
 
@@ -79,9 +80,7 @@
 <template name="profileAbout">
   <div class="row">
     <div class="col-sm-9 profile-about-header">
-      <h2>{{cDpt}} {{cNum}}: {{cName}}</h2>
-    </div>
-    <div class="col-md-2">
+      <h2 class="header-inline">{{cDpt}} {{cNum}}: {{cName}}</h2>
       <button type="button" class="btn btn-warning-outline profile-delete-class">Delete this Class</button>
     </div>
   </div>
@@ -92,15 +91,12 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title panel-lecture-title">Your Lectures</h3>
-            <!-- <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button> -->
           </div>
           <ul class="list-group">
             <button type="button" class="list-group-item profile-add-lecture">
                 Add New Lecture
                 <span class="glyphicon glyphicon-plus"></span> 
             </button>
-          </ul>
-          <ul class="list-group">
             {{#each classLectures}}
               <button type="button" class="list-group-item about-indiv-lects">
                 {{number}}: {{name}}
@@ -120,6 +116,30 @@
       {{else}}
       <h4>There are currently <b>{{numEnrolled}}</b> students enrolled in this class.</h4>
       {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="profileWelcomeKweri">
+  <div id="wrapperdiv">
+    <div class="questions-container">
+      <div class="questions-header">
+        <h1>Welcome to Kweri!</h1>
+        <br>
+        <h3>Please enroll in a class to begin</h3>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="profileWelcomeClass">
+  <div id="wrapperdiv">
+    <div class="questions-container">
+      <div class="questions-header">
+        <h1>Welcome to {{cDpt}} {{cNum}}: {{cName}}</h1>
+        <br>
+        <h3>There are no lectures in this class at the moment</h3>
+      </div>
     </div>
   </div>
 </template>
@@ -195,22 +215,26 @@
         {{name}}
       </div>
     </a>
+    {{#unless isProf}}
     <div id="profile-sidebar-lecturelist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-lecturelist">
-        {{#if isProf}}
-        <li id="profile-sidebar-lecturelist-element-addlecture">
-          <a>
-            <div id="profile-sidebar-lecturelist-element-listing">
-              Add Lecture
-            </div>
-          </a>
-        </li>
-        {{/if}}
-        {{#each lectures _id}}
-        {{> lectureElem}}
-        {{/each}}
+        <!-- {{#if isProf}}
+          <li id="profile-sidebar-lecturelist-element-addlecture">
+            <a>
+              <div id="profile-sidebar-lecturelist-element-listing">
+                Add Lecture
+              </div>
+            </a>
+          </li>
+        {{/if}} -->
+        {{#unless isProf}}
+          {{#each lectures _id}}
+            {{> lectureElem}}
+          {{/each}}
+        {{/unless}}
       </ul>
     </div>
+    {{/unless}}
   </li>
 </template>
 

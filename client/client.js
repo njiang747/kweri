@@ -5,8 +5,8 @@
  * Helpers define variables/functions used within templates
  * Events define actions to be taken upon events within templates */
 
- /***** Main Layout ************************************************************/
- Template.main.helpers({
+/***** Main Layout ************************************************************/
+Template.main.helpers({
   username: function() {
     if (Meteor.user().profile.profStatus) {
       return Meteor.user().profile.name;
@@ -14,28 +14,24 @@
   }
 });
 
- Template.registerHelper('isProf', function(){
+Template.registerHelper('isProf', function(){
   return Meteor.user().profile.profStatus;
 });
 
- Template.registerHelper('inLecture', function(){
-  return Session.get('class') && Session.get('lecture');
-});
-
- Template.main.events({
+Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
   }
 });
 
- Template.navbar.helpers({
+Template.navbar.helpers({
   username: function() {
     return Meteor.user().profile.name;
   }
 });
 
- Template.navbar.events({
+Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       leaveClass();
@@ -61,16 +57,21 @@
 
 });
 
- Template.navbar.helpers({
+Template.navbar.helpers({
   username: function() {
     if (Meteor.user()) return Meteor.user().profile.name;
     else return;
   }
 });
 
- /***** Home Page **************************************************************/
- Template.home.events({
+/***** Home Page **************************************************************/
+Template.home.events({
   'click .btnloginProf': function(event) {
+    if ( Meteor.user() && Meteor.user().profile.profStatus == 0 ) {
+      alert("Your are logged-in as a student.");
+      return false;
+    }
+
     if (Meteor.user()){
       Router.go('profile');
     } else {
@@ -87,6 +88,11 @@
     return false;
   },
   'click .btnloginStud': function(event) {
+    if ( Meteor.user() && Meteor.user().profile.profStatus == 1 ) {
+      alert("Your are logged-in as a professor.");
+      return false;
+    }
+
     if(Meteor.user()){
       Router.go('profile');
     } else {
@@ -104,8 +110,8 @@
   }
 });
 
- /***** Profile Page ***********************************************************/
- Template.profile.helpers({
+/***** Profile Page ***********************************************************/
+Template.profile.helpers({
   load: function() {
     var selectedClass = Meteor.user().profile.selectedClass
     if (selectedClass) {
@@ -131,6 +137,14 @@
       Session.setDefault('questionsortkey', 'byvotes');
     } else {
       Session.setDefault('questionsortkey', 'bytime');
+    }
+  },
+  loadLecture: function() {
+    var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+    if (Session.get('lecture') == "" && lecture) {
+      Session.set('lecture', lecture._id);
+      Meteor.users.update(Meteor.userId(), 
+        {$set: {"profile.selectedLecture": lecture._id}});
     }
   },
   noClass: function() {
@@ -194,6 +208,18 @@ Template.profileAbout.helpers({
     return date.toDateString();
   }
 });
+
+Template.profileWelcomeClass.helpers({
+  cDpt: function() {
+    return Classes.findOne(Session.get('class')).department;
+  },
+  cNum: function() {
+    return Classes.findOne(Session.get('class')).number;
+  },
+  cName: function() {
+    return Classes.findOne(Session.get('class')).name;
+  }
+})
 
 Template.profileQuestions.helpers({
   cDpt: function() {
@@ -327,6 +353,13 @@ Template.profile.events({
     }
 
     var lecture =  Lectures.findOne(Session.get('lecture'));
+    var lecture_date = lecture.date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) {
+      alert("Sorry, this lecture is from a previous day");
+      return false;
+    }
+
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Session.get('lecture'), 
       {
@@ -369,6 +402,9 @@ Template.profileAbout.events({
       Meteor.users.update(Meteor.userId(), 
         {$set: {"profile.selectedClass": "addClass"}});
     }
+    else {
+      return false;
+    }
   },
   'click .profile-add-lecture': function(event) {
    Meteor.users.update(Meteor.userId(), 
@@ -388,6 +424,9 @@ Template.profileAbout.events({
     var cont = confirm("Are you sure you want to delete this lecture?");
     if (cont) {
       Lectures.remove(lect);
+    }
+    else {
+      return false;
     }
 }
 });
