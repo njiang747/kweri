@@ -161,7 +161,7 @@
 #profile-sidebar-classlist-element-listing {
   margin: 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: bold;
   color: #FFFFFF;
   background: transparent;
@@ -335,14 +335,25 @@
 }
 
 .profile-about-header {
-  margin-top: 5px;
-  margin-left: 5px;
+  margin-left: 2%;
+}
+
+.profile-about-header h1 {
+  margin: 0;
 }
 .profile-delete-class {
   min-width: 130px;
+  vertical-align: middle;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  color: #E5EBF2;
+
 }
 .profile-add-lecture {
-  min-width: 130px;
+  min-width: 100px;
+  display: inline-block;
+  overflow: hidden;
 }
+
 /* Add Lecture Page */
 

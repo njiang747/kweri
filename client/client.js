@@ -5,8 +5,8 @@
  * Helpers define variables/functions used within templates
  * Events define actions to be taken upon events within templates */
 
-/***** Main Layout ************************************************************/
-Template.main.helpers({
+ /***** Main Layout ************************************************************/
+ Template.main.helpers({
   username: function() {
     if (Meteor.user().profile.profStatus) {
       return Meteor.user().profile.name;
@@ -14,28 +14,28 @@ Template.main.helpers({
   }
 });
 
-Template.registerHelper('isProf', function(){
+ Template.registerHelper('isProf', function(){
   return Meteor.user().profile.profStatus;
 });
 
-Template.registerHelper('inLecture', function(){
+ Template.registerHelper('inLecture', function(){
   return Session.get('class') && Session.get('lecture');
 });
 
-Template.main.events({
+ Template.main.events({
   'click .title-login': function(event) {
     Meteor.loginWithCas(function(err){if(err)alert("Failed to login")});
     return false;
   }
 });
 
-Template.navbar.helpers({
+ Template.navbar.helpers({
   username: function() {
     return Meteor.user().profile.name;
   }
 });
 
-Template.navbar.events({
+ Template.navbar.events({
   'click .menu-logout': function(event) {
     if(Meteor.user()){
       leaveClass();
@@ -61,15 +61,15 @@ Template.navbar.events({
 
 });
 
-Template.navbar.helpers({
+ Template.navbar.helpers({
   username: function() {
     if (Meteor.user()) return Meteor.user().profile.name;
     else return;
   }
 });
 
-/***** Home Page **************************************************************/
-Template.home.events({
+ /***** Home Page **************************************************************/
+ Template.home.events({
   'click .btnloginProf': function(event) {
     if (Meteor.user()){
       Router.go('profile');
@@ -104,8 +104,8 @@ Template.home.events({
   }
 });
 
-/***** Profile Page ***********************************************************/
-Template.profile.helpers({
+ /***** Profile Page ***********************************************************/
+ Template.profile.helpers({
   load: function() {
     var selectedClass = Meteor.user().profile.selectedClass
     if (selectedClass) {
@@ -139,7 +139,7 @@ Template.profile.helpers({
   },
   noLecture: function() {
     return Classes.find({_id: Session.get('class')}).count() != 0 &&
-           Lectures.find({class_id: Session.get('class')}).count() == 0;
+    Lectures.find({class_id: Session.get('class')}).count() == 0;
   },
   addClass: function() {
     return Session.get('class') == "addClass";
@@ -184,6 +184,10 @@ Template.profileAbout.helpers({
   oneEnrolled: function() {
     var c = Classes.findOne(Session.get('class'));
     return c.students.length == 1;
+  },
+  classLectures: function() {
+    var id = Session.get('class');
+    return Lectures.find({class_id: id}, {sort: {number: -1}});
   }
 });
 
@@ -352,10 +356,18 @@ Template.profileAbout.events({
     }
   },
   'click .profile-add-lecture': function(event) {
-     Meteor.users.update(Meteor.userId(), 
-      {$set: {"profile.selectedLecture": "addLecture"}});
-    Session.set('lecture', "addLecture");
-  }
+   Meteor.users.update(Meteor.userId(), 
+    {$set: {"profile.selectedLecture": "addLecture"}});
+   Session.set('lecture', "addLecture");
+ },
+ 'click .about-indiv-lects': function(event) {
+  Meteor.users.update(Meteor.userId(), 
+    {$set: {"profile.selectedLecture": this._id}});
+  leaveClass();
+  Session.set('lecture', this._id);
+  enterClass();
+  
+}
 })
 
 Template.classlist.helpers({
@@ -753,8 +765,8 @@ CountDownTimer.prototype.start = function() {
 
   this.running = true;
   var start = Date.now(),
-      that = this,
-      diff, obj;
+  that = this,
+  diff, obj;
 
   (function timer() {
     diff = that.duration - (((Date.now() - start) / 1000) | 0);
@@ -905,60 +917,60 @@ Template.question.events({
         $set: {value: this.value - 1}, 
         $pull: {upvotedBy: Meteor.userId()}
       });
-    }
-    return false;
-  },
-
-  'click .questions-delete': function () {
-    Questions.remove(this._id);
-  },
-
-  'click .questions-selfdelete': function () {
-    Questions.remove(this._id);
-  },
-
-  'click .questions-markasimportant': function() {
-    if ( Questions.findOne({_id: this._id}).important == 0 ) {
-      Questions.update(this._id, 
-        {
-          $set: {important: 1}
-        });      
-    }
-    else {
-      Questions.update(this._id, 
-        {
-          $set: {important: 0}
-        });   
-    }
-
-    return false;
-  },
-  'click .questions-upvote': function() {
-    if (this.upvotedBy == undefined || 
-      this.upvotedBy.indexOf(Meteor.userId()) == -1) {
-      Questions.update(this._id, 
-      {
-        $inc: {value: 1}, 
-        $push: {upvotedBy: Meteor.userId()}
-      });
-    }
-    return false;
-  },
-  'click .questions-unvote': function() {
-    if (this.upvotedBy != undefined && 
-      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-      Questions.update(this._id, 
-      {
-        $inc: {value: -1}, 
-        $pull: {upvotedBy: Meteor.userId()}
-        });
-    }
-  return false;
-  },
-
-  'click .questions-delete': function () {
-    Questions.remove(this._id);
   }
+  return false;
+},
+
+'click .questions-delete': function () {
+  Questions.remove(this._id);
+},
+
+'click .questions-selfdelete': function () {
+  Questions.remove(this._id);
+},
+
+'click .questions-markasimportant': function() {
+  if ( Questions.findOne({_id: this._id}).important == 0 ) {
+    Questions.update(this._id, 
+    {
+      $set: {important: 1}
+    });      
+  }
+  else {
+    Questions.update(this._id, 
+    {
+      $set: {important: 0}
+    });   
+  }
+
+  return false;
+},
+'click .questions-upvote': function() {
+  if (this.upvotedBy == undefined || 
+    this.upvotedBy.indexOf(Meteor.userId()) == -1) {
+    Questions.update(this._id, 
+    {
+      $inc: {value: 1}, 
+      $push: {upvotedBy: Meteor.userId()}
+    });
+}
+return false;
+},
+'click .questions-unvote': function() {
+  if (this.upvotedBy != undefined && 
+    this.upvotedBy.indexOf(Meteor.userId()) != -1) {
+    Questions.update(this._id, 
+    {
+      $inc: {value: -1}, 
+      $pull: {upvotedBy: Meteor.userId()}
+    });
+}
+return false;
+},
+
+'click .questions-delete': function () {
+  Questions.remove(this._id);
+}
 });
 
 Template.questionConCounter.helpers({
@@ -985,7 +997,7 @@ Template.questionConCounter.helpers({
 
   totalListLength: function(){
     var lecture =  Lectures.findOne(Session.get('lecture'));
-     return lecture.totalList.length;
+    return lecture.totalList.length;
   }
 });
 
@@ -1062,20 +1074,20 @@ var isStud = function(){
 
 // Function to enable confusion button
 var enableConButton = function() {
-   try{
-      confusionButton.disabled = false;
-    } catch(err){
+ try{
+  confusionButton.disabled = false;
+} catch(err){
 
-    }
+}
 }
 
 // Function to disable confusion button
 var disableConButton = function() {
-     try{
-      confusionButton.disabled = true;
-      //confusionButton.innnerHTML = "{{time}}";
+ try{
+  confusionButton.disabled = true;
+      //confusionButton.innnerHTML = "metime}}";
       //confusionButton.style.color = "#B5C2C7";
     } catch(err){
 
     }
-}
+  }
