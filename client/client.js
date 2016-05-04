@@ -143,12 +143,54 @@ Template.profile.helpers({
   addLecture: function() {
     return Session.get('lecture') == "addLecture";
   },
+  aboutClass: function() {
+    return Session.get('lecture') == "aboutClass";
+  },
   classes: function() {
     if (Meteor.user().profile.profStatus) 
       return Classes.find({profs: Meteor.userId()}, {sort: {department: 1, number: 1}});
     else 
       return Classes.find({students: Meteor.userId()}, {sort: {department: 1, number: 1}})
   },
+  cDpt: function() {
+    return Classes.findOne(Session.get('class')).department;
+  },
+  cNum: function() {
+    return Classes.findOne(Session.get('class')).number;
+  },
+  cName: function() {
+    return Classes.findOne(Session.get('class')).name;
+  },
+  buttonText: function() {
+    var lecture =  Lectures.findOne(Session.get("lecture"));
+    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
+      return "Set my status to confused";
+    }
+    return "I'm confused for " + Session.get("time");
+  }
+});
+
+Template.profileAbout.helpers({
+  cDpt: function() {
+    return Classes.findOne(Session.get('class')).department;
+  },
+  cNum: function() {
+    return Classes.findOne(Session.get('class')).number;
+  },
+  cName: function() {
+    return Classes.findOne(Session.get('class')).name;
+  },
+  numEnrolled: function() {
+    var c = Classes.findOne(Session.get('class'));
+    return c.students.length;
+  },
+  oneEnrolled: function() {
+    var c = Classes.findOne(Session.get('class'));
+    return c.students.length == 1;
+  }
+});
+
+Template.profileQuestions.helpers({
   cDpt: function() {
     return Classes.findOne(Session.get('class')).department;
   },
@@ -167,13 +209,6 @@ Template.profile.helpers({
   dateString: function() {
     var date = Lectures.findOne(Session.get('lecture')).date;
     return date.toDateString();
-  },
-  buttonText: function() {
-    var lecture =  Lectures.findOne(Session.get("lecture"));
-    if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
-      return "Set my status to confused";
-    }
-    return "I'm confused for " + Session.get("time");
   }
 });
 
@@ -288,6 +323,16 @@ Template.profile.events({
   }
 });
 
+Template.profileAbout.events({
+  'click .profile-delete-class': function(event) {
+    var c = Session.get('class');
+    var cont = confirm("Are you sure you want to delete this class?");
+    if (cont) {
+      Classes.remove(c);
+    }
+  }
+})
+
 Template.classlist.helpers({
   /* classes returns a list of classes */
   classes: function() {
@@ -317,21 +362,29 @@ Template.classElem.events({
       {$set: {"profile.selectedClass": this._id}});
   }, 
   'click #profile-sidebar-classlist-element-classinfo': function() {
-    var lecture = Lectures.findOne({class_id: this._id}, {sort: {number: -1}});
-    if (lecture) {
-      Meteor.users.update(Meteor.userId(), 
-        {$set: {"profile.selectedLecture": lecture._id}});
-      leaveClass();
-      
-      Session.set('lecture', lecture._id);
-      enterClass();
-      
-    } else {
+    if (Meteor.user().profile.profStatus) {
       Meteor.users.update(Meteor.userId(), 
         {$set: {"profile.selectedLecture": ""}});
       leaveClass();
-      Session.set('lecture', "");
-      enterClass();
+      Session.set('lecture', "aboutClass");
+    }
+    else {
+      var lecture = Lectures.findOne({class_id: this._id}, {sort: {number: -1}});
+      if (lecture) {
+        Meteor.users.update(Meteor.userId(), 
+          {$set: {"profile.selectedLecture": lecture._id}});
+        leaveClass();
+        
+        Session.set('lecture', lecture._id);
+        enterClass();
+        
+      } else {
+        Meteor.users.update(Meteor.userId(), 
+          {$set: {"profile.selectedLecture": ""}});
+        leaveClass();
+        Session.set('lecture', "");
+        enterClass();
+      }
     }
   },
   'click #profile-sidebar-lecturelist-element-addlecture': function() {
@@ -889,7 +942,6 @@ Template.questionConCounter.helpers({
     var lecture =  Lectures.findOne(Session.get('lecture'));
      return lecture.totalList.length;
   }
-
 });
 
 // Function to create popup, used for logout

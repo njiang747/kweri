@@ -35,35 +35,26 @@
         WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
       {{/if}}
     {{else}}
-      {{#if noLecture}}
-        {{#if isProf}}
+      {{#if addClass}}
+        {{> profileAddClass}}
+      {{else}}
+        {{#if addLecture}}
           {{> profileAddLecture}}
         {{else}}
-          WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
+          {{#if aboutClass}}
+            {{> profileAbout}}
+          {{else}}
+            {{#if noLecture}}
+              {{#if isProf}}
+                {{> profileAddLecture}}
+              {{else}}
+                WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
+              {{/if}}
+            {{else}}
+              {{> profileQuestions}}
+            {{/if}}
+          {{/if}}
         {{/if}}
-      {{/if}}
-    {{/if}}
-    {{#if addClass}}
-      {{> profileAddClass}}
-    {{else}}
-      {{#if addLecture}}
-        {{> profileAddLecture}}
-      {{else}}
-        <div class="questions-container">
-          <header class="questions-header">
-            <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
-            <br>
-            <h3>Lecture {{lNum}}: {{lName}}</h3>
-            <h3 class="questions-dateString">{{dateString}}</h3>
-            {{#unless isProf}}
-              {{> questionbox}}
-            {{/unless}}
-          </header>
-          <div class="questions-sorter">
-            {{> questionsort}}
-          </div>
-          {{> questionlist}}
-        </div>
       {{/if}}
     {{/if}}
   </section>
@@ -75,6 +66,35 @@
       <button class="questions-con-button">{{buttonText}}</button>
     {{/if}}
   </section>
+</template>
+
+<template name="profileAbout">
+  <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+  <p>This is the about page for a class.</p>
+  {{#if oneEnrolled}}
+    <p>There is currently 1 student enrolled in this class.</p>
+  {{else}}
+    <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
+  {{/if}}
+  <button type="button" class="btn btn-warning-outline profile-delete-class">Delete this Class</button>
+</template>
+
+<template name="profileQuestions">
+  <div class="questions-container">
+    <header class="questions-header">
+      <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+      <br>
+      <h3>Lecture {{lNum}}: {{lName}}</h3>
+      <h3 class="questions-dateString">{{dateString}}</h3>
+      {{#unless isProf}}
+        {{> questionbox}}
+      {{/unless}}
+    </header>
+    <div class="questions-sorter">
+      {{> questionsort}}
+    </div>
+    {{> questionlist}}
+  </div>
 </template>
 
 <template name="profileAddClass">
