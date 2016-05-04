@@ -122,7 +122,7 @@
         <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
         <br>
         <h3>Lecture {{lNum}}: {{lName}}</h3>
-        <h3 class="questions-dateString questions-outdateddate">{{dateString}}</h3>
+        <h3 class="questions-dateString {{outdateddate}}">{{dateString}}</h3>
         {{#unless isProf}}
         {{> questionbox}}
         {{/unless}}

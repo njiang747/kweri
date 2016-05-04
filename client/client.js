@@ -314,6 +314,13 @@ var confusionButton;
 
 Template.profile.events({
   'click .questions-con-button': function(){
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) {
+      alert("Sorry, this lecture is from a previous day and changes have been disabled.");
+      return false;
+    }
+
     var lecture =  Lectures.findOne(Session.get('lecture'));
     if (lecture.confuseList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Session.get('lecture'), 
@@ -726,7 +733,7 @@ Template.questionbox.events({
     var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
     var cur_date = new Date();
     if (cur_date.toDateString() != lecture_date) {
-      alert("Sorry, this lecture is from a previous day and posting has been disabled");
+      alert("Sorry, this lecture is from a previous day and posting has been disabled.");
       return false;
     }
 
