@@ -51,6 +51,7 @@
                 {{> profileWelcomeClass}}
               {{/if}}
             {{else}}
+              {{loadLecture}}
               {{> profileQuestions}}
             {{/if}}
           {{/if}}
@@ -213,18 +214,20 @@
     </a>
     <div id="profile-sidebar-lecturelist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-lecturelist">
-        {{#if isProf}}
-        <li id="profile-sidebar-lecturelist-element-addlecture">
-          <a>
-            <div id="profile-sidebar-lecturelist-element-listing">
-              Add Lecture
-            </div>
-          </a>
-        </li>
-        {{/if}}
-        {{#each lectures _id}}
-        {{> lectureElem}}
-        {{/each}}
+        <!-- {{#if isProf}}
+          <li id="profile-sidebar-lecturelist-element-addlecture">
+            <a>
+              <div id="profile-sidebar-lecturelist-element-listing">
+                Add Lecture
+              </div>
+            </a>
+          </li>
+        {{/if}} -->
+        {{#unless isProf}}
+          {{#each lectures _id}}
+            {{> lectureElem}}
+          {{/each}}
+        {{/unless}}
       </ul>
     </div>
   </li>

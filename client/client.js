@@ -129,6 +129,14 @@ Template.profile.helpers({
       Session.setDefault('questionsortkey', 'bytime');
     }
   },
+  loadLecture: function() {
+    var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+    if (Session.get('lecture') == "" && lecture) {
+      Session.set('lecture', lecture._id);
+      Meteor.users.update(Meteor.userId(), 
+        {$set: {"profile.selectedLecture": lecture._id}});
+    }
+  },
   noClass: function() {
     if (Meteor.user().profile.profStatus) return Classes.find({profs: Meteor.userId()}).count() == 0;
     else return Classes.find({students: Meteor.userId()}).count() == 0;
