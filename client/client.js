@@ -188,6 +188,10 @@ Template.profileAbout.helpers({
   classLectures: function() {
     var id = Session.get('class');
     return Lectures.find({class_id: id}, {sort: {number: -1}});
+  },
+  classDate: function() {
+    var date = Classes.findOne(Session.get('class')).date;
+    return date.toDateString();
   }
 });
 
@@ -246,6 +250,7 @@ Template.profileAddClass.events({
       department: department,
       number: number,
       name: name,
+      date: new Date(),
       profs: [Meteor.userId()], 
       students: []
     });
@@ -360,6 +365,9 @@ Template.profileAbout.events({
     var cont = confirm("Are you sure you want to delete this class?");
     if (cont) {
       Classes.remove(c);
+      Session.set('class', "addClass");
+      Meteor.users.update(Meteor.userId(), 
+        {$set: {"profile.selectedClass": "addClass"}});
     }
   },
   'click .profile-add-lecture': function(event) {
@@ -375,7 +383,7 @@ Template.profileAbout.events({
   enterClass();
   
 }
-})
+});
 
 Template.classlist.helpers({
   /* classes returns a list of classes */
