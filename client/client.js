@@ -71,7 +71,7 @@
  /***** Home Page **************************************************************/
  Template.home.events({
   'click .btnloginProf': function(event) {
-    if ( Meteor.user().profile.profStatus == 0 ) {
+    if ( Meteor.user() && Meteor.user().profile.profStatus == 0 ) {
       alert("Your are logged-in as a student.");
       return false;
     }
@@ -92,7 +92,7 @@
     return false;
   },
   'click .btnloginStud': function(event) {
-    if ( Meteor.user().profile.profStatus == 1 ) {
+    if ( Meteor.user() && Meteor.user().profile.profStatus == 1 ) {
       alert("Your are logged-in as a professor.");
       return false;
     }
