@@ -123,7 +123,7 @@ Template.profile.helpers({
         Session.setDefault('lecture', lecture._id);
       }
     }
-    if (Meteor.user.profile.profStatus) {
+    if (Meteor.user().profile.profStatus) {
       Session.setDefault('questionsortkey', 'byvotes');
     } else {
       Session.setDefault('questionsortkey', 'bytime');
@@ -143,12 +143,47 @@ Template.profile.helpers({
   addLecture: function() {
     return Session.get('lecture') == "addLecture";
   },
+  aboutClass: function() {
+    return Session.get('lecture') == "aboutClass";
+  },
   classes: function() {
     if (Meteor.user().profile.profStatus) 
       return Classes.find({profs: Meteor.userId()}, {sort: {department: 1, number: 1}});
     else 
       return Classes.find({students: Meteor.userId()}, {sort: {department: 1, number: 1}})
   },
+  cDpt: function() {
+    return Classes.findOne(Session.get('class')).department;
+  },
+  cNum: function() {
+    return Classes.findOne(Session.get('class')).number;
+  },
+  cName: function() {
+    return Classes.findOne(Session.get('class')).name;
+  }
+});
+
+Template.profileAbout.helpers({
+  cDpt: function() {
+    return Classes.findOne(Session.get('class')).department;
+  },
+  cNum: function() {
+    return Classes.findOne(Session.get('class')).number;
+  },
+  cName: function() {
+    return Classes.findOne(Session.get('class')).name;
+  },
+  numEnrolled: function() {
+    var c = Classes.findOne(Session.get('class'));
+    return c.students.length;
+  },
+  oneEnrolled: function() {
+    var c = Classes.findOne(Session.get('class'));
+    return c.students.length == 1;
+  }
+});
+
+Template.profileQuestions.helpers({
   cDpt: function() {
     return Classes.findOne(Session.get('class')).department;
   },
@@ -174,10 +209,79 @@ Template.profile.helpers({
       return "Set my status to confused";
     }
     return "I'm confused for " + Session.get("time");
+  }
+});
+
+Template.profileAddClass.events({
+  /* insert a new class into the Classes collection */
+  'submit .new-class': function(event) {
+    var department = event.target.department.value.toUpperCase();
+    var number = event.target.number.value;
+    var name = event.target.name.value;
+    Classes.insert({
+      department: department,
+      number: number,
+      name: name,
+      profs: [Meteor.userId()], 
+      students: []
+    });
+    event.target.department.value = "";
+    event.target.number.value = "";
+    event.target.name.value = "";
+    var class_id = Classes.findOne({
+      department: department,
+      number: number,
+      name: name,
+      profs: Meteor.userId()})._id;
+    Session.set('class', class_id);
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedClass": class_id}});
+    return false
+  }
+});
+
+Template.profileAddLecture.helpers({
+  cDpt: function() {
+    return Classes.findOne(Session.get('class')).department;
   },
-  nextLectNum: function() {
-      var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+  cNum: function() {
+    return Classes.findOne(Session.get('class')).number;
+  },
+  cName: function() {
+    return Classes.findOne(Session.get('class')).name;
+  },
+  nLectNum: function() {
+    var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+    if (!lecture) return 1;
     return lecture.number + 1;
+  }
+});
+
+Template.profileAddLecture.events({
+  /* insert a new lecture into the Lectures collection */
+  'submit .new-lecture': function(event) {
+    var number = parseInt(event.target.number.value);
+    var name = event.target.name.value;
+    Lectures.insert({
+      class_id: Session.get('class'),
+      number: number,
+      name: name,
+      confuseList: [],
+      totalList: [],
+      date: new Date(),
+      openStatus: true
+
+    });
+    event.target.number.value = "";
+    event.target.name.value = "";
+    var lecture_id = Lectures.findOne({
+      class_id: Session.get('class'),
+      number: number,
+      name: name})._id;
+    Session.set('lecture', lecture_id);
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedLecture": lecture_id}});
+    return false
   }
 });
 
@@ -216,54 +320,18 @@ Template.profile.events({
     Session.set('class', "addClass");
     Meteor.users.update(Meteor.userId(), 
       {$set: {"profile.selectedClass": "addClass"}});
-  }, 
-  /* insert a new class into the Classes collection */
-  'submit .new-class': function(event) {
-    var department = event.target.department.value.toUpperCase();
-    var number = event.target.number.value;
-    var name = event.target.name.value;
-    Classes.insert({
-      department: department,
-      number: number,
-      name: name,
-      profs: [Meteor.userId()], 
-      students: []
-    });
-    event.target.department.value = "";
-    event.target.number.value = "";
-    event.target.name.value = "";
-    var class_id = Classes.find({
-      department: department,
-      number: number,
-      name: name,
-      profs: Meteor.userId()})._id;
-    Session.set('class', class_id);
-    return false
-  }, 
-  /* insert a new lecture into the Lectures collection */
-  'submit .new-lecture': function(event) {
-    var number = parseInt(event.target.number.value);
-    var name = event.target.name.value;
-    Lectures.insert({
-      class_id: Session.get('class'),
-      number: number,
-      name: name,
-      confuseList: [],
-      totalList: [],
-      date: new Date(),
-      openStatus: true
-
-    });
-    event.target.number.value = "";
-    event.target.name.value = "";
-    var lecture_id = Classes.find({
-      class_id: Session.get('class'),
-      number: number,
-      name: name})._id;
-    Session.set('lecture', lecture_id);
-    return false
   }
 });
+
+Template.profileAbout.events({
+  'click .profile-delete-class': function(event) {
+    var c = Session.get('class');
+    var cont = confirm("Are you sure you want to delete this class?");
+    if (cont) {
+      Classes.remove(c);
+    }
+  }
+})
 
 Template.classlist.helpers({
   /* classes returns a list of classes */
@@ -294,21 +362,29 @@ Template.classElem.events({
       {$set: {"profile.selectedClass": this._id}});
   }, 
   'click #profile-sidebar-classlist-element-classinfo': function() {
-    var lecture = Lectures.findOne({class_id: this._id}, {sort: {number: -1}});
-    if (lecture) {
-      Meteor.users.update(Meteor.userId(), 
-        {$set: {"profile.selectedLecture": lecture._id}});
-      leaveClass();
-      
-      Session.set('lecture', lecture._id);
-      enterClass();
-      
-    } else {
+    if (Meteor.user().profile.profStatus) {
       Meteor.users.update(Meteor.userId(), 
         {$set: {"profile.selectedLecture": ""}});
       leaveClass();
-      Session.set('lecture', "");
-      enterClass();
+      Session.set('lecture', "aboutClass");
+    }
+    else {
+      var lecture = Lectures.findOne({class_id: this._id}, {sort: {number: -1}});
+      if (lecture) {
+        Meteor.users.update(Meteor.userId(), 
+          {$set: {"profile.selectedLecture": lecture._id}});
+        leaveClass();
+        
+        Session.set('lecture', lecture._id);
+        enterClass();
+        
+      } else {
+        Meteor.users.update(Meteor.userId(), 
+          {$set: {"profile.selectedLecture": ""}});
+        leaveClass();
+        Session.set('lecture', "");
+        enterClass();
+      }
     }
   },
   'click #profile-sidebar-lecturelist-element-addlecture': function() {
@@ -364,7 +440,7 @@ Template.searchlist.helpers({
     var arr = key.split(" ").filter(function(n) {return n != ''});
     var dept = new RegExp();
     var num = new RegExp();
-    if (arr.length <= 2) {
+    if (arr.length <= 2 && arr.length > 0) {
       for (index in arr) {
         if (isNaN(arr[index])) {
           dept = new RegExp(arr[index], 'i');
@@ -393,7 +469,10 @@ Template.searchlist.helpers({
 
 Template.searchElem.events({
   'click #profile-sidebar-enroll': function() {
-    Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}})
+    Session.set('class', this._id);
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedClass": this._id}});
+    Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}});
   }
 });
 
@@ -483,6 +562,9 @@ Template.searchClassElem.helpers({
 
 Template.searchClassElem.events({
   'click .enroll': function() {
+    Session.set('class', this._id);
+    Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedClass": this._id}});
     Classes.update({_id: this._id}, {$push: {students: Meteor.userId()}})
   }
 });
@@ -866,7 +948,6 @@ Template.questionConCounter.helpers({
     var lecture =  Lectures.findOne(Session.get('lecture'));
      return lecture.totalList.length;
   }
-
 });
 
 // Function to create popup, used for logout
@@ -908,7 +989,6 @@ var enterClass = function() {
       });
     }
   } catch(err){
-
   }
 };
 
