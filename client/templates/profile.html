@@ -29,33 +29,33 @@
   <section id="profile-questions">
     {{load}}
     {{#if noClass}}
-    {{#if isProf}}
-    {{> profileAddClass}}
+      {{#if isProf}}
+        {{> profileAddClass}}
+      {{else}}
+        WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
+      {{/if}}
     {{else}}
-    WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
-    {{/if}}
-    {{else}}
-    {{#if addClass}}
-    {{> profileAddClass}}
-    {{else}}
-    {{#if addLecture}}
-    {{> profileAddLecture}}
-    {{else}}
-    {{#if aboutClass}}
-    {{> profileAbout}}
-    {{else}}
-    {{#if noLecture}}
-    {{#if isProf}}
-    {{> profileAddLecture}}
-    {{else}}
-    WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
-    {{/if}}
-    {{else}}
-    {{> profileQuestions}}
-    {{/if}}
-    {{/if}}
-    {{/if}}
-    {{/if}}
+      {{#if addClass}}
+        {{> profileAddClass}}
+      {{else}}
+        {{#if addLecture}}
+          {{> profileAddLecture}}
+        {{else}}
+          {{#if aboutClass}}
+            {{> profileAbout}}
+          {{else}}
+            {{#if noLecture}}
+              {{#if isProf}}
+                {{> profileAddLecture}}
+              {{else}}
+                WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
+              {{/if}}
+            {{else}}
+              {{> profileQuestions}}
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
     {{/if}}
   </section>
 
@@ -78,7 +78,7 @@
 
 <template name="profileAbout">
   <div class="row">
-    <div class="col-sm-9">
+    <div class="col-sm-9 profile-about-header">
       <h2>{{cDpt}} {{cNum}}: {{cName}}</h2>
     </div>
     <div class="col-md-2">
@@ -87,29 +87,30 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-2 col-md-offset-2">
-      <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button>
-    </div>
-  </div>
-
-  {{#if oneEnrolled}}
-    <p>There is currently 1 student enrolled in this class.</p>
-  {{else}}
-    <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
-  {{/if}}
-  
-  <div class="aboutLectureList">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Your Lectures</h3>
+    <div class="col-md-4 col-md-offset-1">
+      <div class="aboutLectureList">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title panel-lecture-title">Your Lectures</h3>
+            <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button>
+          </div>
+          <ul class="list-group">
+            {{#each classLectures}}
+            <button type="button" class="list-group-item about-indiv-lects">
+              {{number}}: {{name}}
+            </button>
+            {{/each}}
+          </ul>
+        </div>
       </div>
-      <ul class="list-group">
-        {{#each classLectures}}
-        <button type="button" class="list-group-item about-indiv-lects">
-          Lecture {{number}}: {{name}}
-        </button>
-        {{/each}}
-      </ul>
+    </div>
+
+    <div class="col-md-7">
+      {{#if oneEnrolled}}
+      <p>There is currently 1 student enrolled in this class.</p>
+      {{else}}
+      <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
+      {{/if}}
     </div>
   </div>
 </template>
