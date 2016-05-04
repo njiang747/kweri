@@ -32,6 +32,15 @@
   font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.stud-right-side {
+  /*background-color:#fff;
+  height:100%;
+  width:0%;
+  float:left;*/
+  /*padding: 51px 0px 0px 0px;*/
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 #profile-sidebar-search {
   width: 100%;
   margin: 5px 0px;
@@ -48,6 +57,10 @@
 
   padding: 5px 8px;
   font-size: 0.9em;
+}
+
+.questions-container h3.questions-outdateddate {
+  color: #FF0000 !important;
 }
 
 #profile-sidebar-classlist-container {
@@ -148,7 +161,7 @@
 #profile-sidebar-classlist-element-listing {
   margin: 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: bold;
   color: #FFFFFF;
   background: transparent;
@@ -162,11 +175,18 @@
   background: transparent;
 }
 
+#profile-sidebar-lecturelist-container {
+  overflow-y: auto;
+  overflow: hidden;
+}
+
 #profile-sidebar-lecturelist {
   list-style-type: none;
   margin: 0;
   padding: 0;
   max-height: 0px;
+  max-width: 100%;
+  /*overflow-x: hidden;*/
   overflow: hidden;
   -webkit-transition: max-height 0.5s ease;
   -moz-transition: max-height 0.5s ease;
@@ -312,6 +332,27 @@
   border: none;
   border-radius: 3px;
   width: 45%;
+}
+
+.profile-about-header {
+  margin-left: 2%;
+}
+
+.profile-about-header h1 {
+  margin: 0;
+}
+.profile-delete-class {
+  min-width: 130px;
+  vertical-align: middle;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  color: #E5EBF2;
+
+}
+.profile-add-lecture {
+  min-width: 100px;
+  display: inline-block;
+  overflow: hidden;
 }
 
 /* Add Lecture Page */
