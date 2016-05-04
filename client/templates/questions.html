@@ -28,19 +28,19 @@
 
 <template name="question">
 
-  <li class="questions-listItem {{markedasimportant}}">
+  <li class="questions-listItem {{createdbyself}} {{markedasimportant}}">
 
     <div class="question-score">
       {{value}}
     </div>
     <div class="questions-infoContainer">
-      <p class="questions-text">{{qText}}</p>
+      <div class="questions-text">{{qText}}</div>
     </div>
 
     <div class="questions-options">
       {{#unless isProf}}
         {{#if upvoted}}
-          <button class="questions-unvote">Undo Upvote</button>
+          <button class="questions-unvote">Unvote</button>
         {{else}}
           <button class="questions-upvote">Upvote</button>
         {{/if}}
@@ -53,16 +53,28 @@
           <button class="questions-markasimportant">Mark as Important</button>
         {{/if}}
       {{/if}}
-
       <span class="questions-date">{{createdAtToString}}</span>
+      {{#unless isProf}}
+        {{#if selfdeletebutton}}
+          <button class="questions-selfdelete">Delete</button>
+        {{/if}}
+      {{/unless}}
     </div>
   </li>
 </template>
 
 <template name="questionConCounter">
-  <div class="questions-barContainer">
-    <div class="questions-vertical progress">
-      <div class="progress-bar {{color}}" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;"></div>
-    </div>
-  </div>
+      <div id = "questions-progressbar-container">
+        <div class = "questions-confused-title-text"><h4>Confusion Counter</h4></div>
+        <div class = "questions-confused-text">{{confuseListLength}}/{{totalListLength}}</div>
+        <div class="progress progress-bar-vertical">
+          <div class="progress-bar {{color}}" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="height: {{percent}}%;">
+            <span class="sr-only">30% Complete</span>
+          </div>
+        </div>
+        <div class="questions-conSpace"></div>
+        <div class="questions-conReset">
+          <button class="questions-conReset-button">Reset</button>
+        </div>
+      </div>
 </template>

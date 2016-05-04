@@ -12,7 +12,6 @@ Template.main.helpers({
       return Meteor.user().profile.name;
     }
   }
-  
 });
 
 Template.registerHelper('isProf', function(){
@@ -104,9 +103,6 @@ Template.home.events({
 /***** Profile Page ***********************************************************/
 Template.profile.helpers({
   load: function() {
-    // var count = 0;
-    // if (isProf) count = Classes.find({profs: Meteor.userId()}).count();
-    // else count = Classes.find({students: Meteor.userId()}).count();
     var selectedClass = Meteor.user().profile.selectedClass
     if (selectedClass) {
       Session.setDefault('class', selectedClass);
@@ -127,8 +123,19 @@ Template.profile.helpers({
         Session.setDefault('lecture', lecture._id);
       }
     }
-    Session.set('questionsortkey', 'bytime');
-    return true;
+    if (Meteor.user.profile.profStatus) {
+      Session.setDefault('questionsortkey', 'byvotes');
+    } else {
+      Session.setDefault('questionsortkey', 'bytime');
+    }
+  },
+  noClass: function() {
+    if (Meteor.user().profile.profStatus) return Classes.find({profs: Meteor.userId()}).count() == 0;
+    else return Classes.find({students: Meteor.userId()}).count() == 0;
+  },
+  noLecture: function() {
+    return Classes.find({_id: Session.get('class')}).count() != 0 &&
+           Lectures.find({class_id: Session.get('class')}).count() == 0;
   },
   addClass: function() {
     return Session.get('class') == "addClass";
@@ -168,15 +175,9 @@ Template.profile.helpers({
     }
     return "I'm confused for " + Session.get("time");
   },
-  
-  confuseListLength: function(){
-    var lecture =  Lectures.findOne(Session.get('lecture'));
-    return lecture.confuseList.length;
-  },
-
-  totalListLength: function(){
-    var lecture =  Lectures.findOne(Session.get('lecture'));
-     return lecture.totalList.length;
+  nextLectNum: function() {
+      var lecture = Lectures.findOne({class_id: Session.get('class')}, {sort: {number: -1}});
+    return lecture.number + 1;
   }
 });
 
@@ -214,7 +215,7 @@ Template.profile.events({
   'click #profile-sidebar-classlist-element-addclass': function() {
     Session.set('class', "addClass");
     Meteor.users.update(Meteor.userId(), 
-      {$set: {"profile.selectedClass": ""}});
+      {$set: {"profile.selectedClass": "addClass"}});
   }, 
   /* insert a new class into the Classes collection */
   'submit .new-class': function(event) {
@@ -231,6 +232,12 @@ Template.profile.events({
     event.target.department.value = "";
     event.target.number.value = "";
     event.target.name.value = "";
+    var class_id = Classes.find({
+      department: department,
+      number: number,
+      name: name,
+      profs: Meteor.userId()})._id;
+    Session.set('class', class_id);
     return false
   }, 
   /* insert a new lecture into the Lectures collection */
@@ -249,6 +256,11 @@ Template.profile.events({
     });
     event.target.number.value = "";
     event.target.name.value = "";
+    var lecture_id = Classes.find({
+      class_id: Session.get('class'),
+      number: number,
+      name: name})._id;
+    Session.set('lecture', lecture_id);
     return false
   }
 });
@@ -301,7 +313,7 @@ Template.classElem.events({
   },
   'click #profile-sidebar-lecturelist-element-addlecture': function() {
     Meteor.users.update(Meteor.userId(), 
-      {$set: {"profile.selectedLecture": ""}});
+      {$set: {"profile.selectedLecture": "addLecture"}});
     Session.set('lecture', "addLecture");
   }
 })
@@ -370,6 +382,7 @@ Template.searchlist.helpers({
           {$and: [{department: dept}, {number: num}]}, 
           {name: name}
           ]},
+          {profs: {$ne: Meteor.userId()}}, 
           {students: {$ne: Meteor.userId()}}
           ]}, 
           {sort: {department: 1, number: 1}});
@@ -577,12 +590,13 @@ Template.questionlist.helpers({
   }
 });
 
-Template.questionbox.helpers({
-});
-
 Template.questionbox.events({
   /* submit a new question. return false means don't reload the page */
   'submit .questions-newQuestion': function(event) {
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) return false;
+
     /* get the text of the question */
     var qText = event.target.qText.value;
     if (qText == "") return false;
@@ -592,9 +606,8 @@ Template.questionbox.events({
       qText: qText,
       important: 0,
       value: 0,
-      createdAt: new Date(),
+      createdAt: cur_date,
       createdBy: Meteor.userId(),
-      // upvotedBy: [Meteor.userId()]
       upvotedBy: []
     });
     // clear the question field
@@ -717,9 +730,9 @@ Template.questionsort.events({
     return false;
   }
 });
+
 Template.questionsort.onRendered(function () {enterClass()});
 //Template.questionsort.onDestroyed(function () {leaveClass()});
-
 
 Template.question.helpers({
   /* Function that converts a date to a string */
@@ -734,7 +747,6 @@ Template.question.helpers({
   upvoted: function() {
     return this.upvotedBy && this.upvotedBy.indexOf(Meteor.userId()) != -1;
   },
-
   markedasimportant: function() {
     if ( Questions.findOne({ _id: this._id }).important == 1 ) {
       return "questions-markedasimportant";
@@ -746,7 +758,20 @@ Template.question.helpers({
       return true;
     }
     return false;
+  },
+  createdbyself: function() {
+    if ( Questions.findOne({ _id: this._id }).createdBy == Meteor.userId() ) {
+      return "questions-createdbyself";
+    }
+    return "";
+  },
+  selfdeletebutton: function() {
+    if ( Questions.findOne({ _id: this._id }).createdBy == Meteor.userId() ) {
+      return true;
+    }
+    return false;
   }
+
 });
 
 Template.question.events({
@@ -759,11 +784,15 @@ Template.question.events({
         $set: {value: this.value - 1}, 
         $pull: {upvotedBy: Meteor.userId()}
       });
-  }
-  return false;
-},
+    }
+    return false;
+  },
 
   'click .questions-delete': function () {
+    Questions.remove(this._id);
+  },
+
+  'click .questions-selfdelete': function () {
     Questions.remove(this._id);
   },
 
@@ -788,33 +817,21 @@ Template.question.events({
       this.upvotedBy.indexOf(Meteor.userId()) == -1) {
       Questions.update(this._id, 
       {
-        $set: {value: this.value + 1}, 
+        $inc: {value: 1}, 
         $push: {upvotedBy: Meteor.userId()}
       });
-  }
-  return false;
-  },
-  /* clicking the downvote button decreases the question's value by 1 */
-  'click .questions-down': function() {
-    if (this.upvotedBy != undefined && 
-      this.upvotedBy.indexOf(Meteor.userId()) != -1) {
-      Questions.update(this._id, 
-      {
-        $set: {value: this.value - 1}, 
-        $pull: {upvotedBy: Meteor.userId()}
-      });
-  }
-  return false;
+    }
+    return false;
   },
   'click .questions-unvote': function() {
     if (this.upvotedBy != undefined && 
       this.upvotedBy.indexOf(Meteor.userId()) != -1) {
       Questions.update(this._id, 
       {
-        $set: {value: this.value - 1}, 
+        $inc: {value: -1}, 
         $pull: {upvotedBy: Meteor.userId()}
-      });
-  }
+        });
+    }
   return false;
   },
 
@@ -839,9 +856,20 @@ Template.questionConCounter.helpers({
     } else {
       return "progress-bar-danger";
     }
+  },
+  confuseListLength: function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+    return lecture.confuseList.length;
+  },
+
+  totalListLength: function(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+     return lecture.totalList.length;
   }
+
 });
 
+// Function to create popup, used for logout
 var openCenteredPopup = function(url, width, height) {
   var screenX = typeof window.screenX !== 'undefined'
   ? window.screenX : window.screenLeft;
@@ -866,14 +894,13 @@ var openCenteredPopup = function(url, width, height) {
   return newwindow;
 };
 
-/* Function to add in users to a lecture on entering */
+/* Function to add in users to a lecture on entering a lecture*/
 var enterClass = function() {
   if(!isStud()){
     return
   }
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    // alert("ENTER");
     if (lecture.totalList.indexOf(Meteor.userId()) == -1) {
       Lectures.update(Session.get('lecture'), 
       {
@@ -885,14 +912,13 @@ var enterClass = function() {
   }
 };
 
-/* Function to remove users from a lecture on leaving */
+/* Function to remove users from a lecture on leaving the lecture*/
 var leaveClass = function() {
   if(!isStud()){
     return
   }
   try{
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    // alert("LEAVE");
     if (lecture.totalList.indexOf(Meteor.userId()) != -1) {
       Lectures.update(Session.get('lecture'), 
       {
@@ -910,24 +936,25 @@ var leaveClass = function() {
   }
 };
 
+// Function to check if user is student
 var isStud = function(){
   return !Meteor.user().profile.profStatus;
 }
 
+// Function to enable confusion button
 var enableConButton = function() {
    try{
       confusionButton.disabled = false;
-      //confusionButton.innnerHTML = "Set my status to confused";
-      //confusionButton.style.color = "#FFFFFF";
     } catch(err){
 
     }
 }
 
+// Function to disable confusion button
 var disableConButton = function() {
      try{
       confusionButton.disabled = true;
-//      confusionButton.innnerHTML = "{{time}}";
+      //confusionButton.innnerHTML = "{{time}}";
       //confusionButton.style.color = "#B5C2C7";
     } catch(err){
 
