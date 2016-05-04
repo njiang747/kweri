@@ -342,6 +342,11 @@ Template.profileAbout.events({
     if (cont) {
       Classes.remove(c);
     }
+  },
+  'click .profile-add-lecture': function(event) {
+     Meteor.users.update(Meteor.userId(), 
+      {$set: {"profile.selectedLecture": "addLecture"}});
+    Session.set('lecture', "addLecture");
   }
 })
 

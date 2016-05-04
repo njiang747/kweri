@@ -334,5 +334,15 @@
   width: 45%;
 }
 
+.profile-about-header {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+.profile-delete-class {
+  min-width: 130px;
+}
+.profile-add-lecture {
+  min-width: 130px;
+}
 /* Add Lecture Page */
 
