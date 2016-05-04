@@ -221,6 +221,14 @@ Template.profileQuestions.helpers({
       return "questions-outdateddate";
     }
     return "";
+  },
+  outdatedbutton: function() {
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) {
+      return "questions-outdatedbutton";
+    }
+    return "";
   }
 });
 
@@ -690,11 +698,11 @@ Template.questionlist.helpers({
 });
 
 Template.questionbox.helpers({
-  outdatedsubmit: function() {
+  outdatedbutton: function() {
     var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
     var cur_date = new Date();
     if (cur_date.toDateString() != lecture_date) {
-      return "questions-questionoutdated";
+      return "questions-outdatedbutton";
     }
     return "";
   }
