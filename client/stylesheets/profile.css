@@ -376,10 +376,20 @@
   float: right;
   vertical-align: middle;
 }
+
+.glyphicon-remove-circle:hover {
+  color: #FF0000;
+}
+
 .glyphicon-plus {
   float: right;
   vertical-align: middle;
 }
+
+.glyphicon-plus:hover {
+  color: #30a5ff;
+}
+
 
 /* Add Lecture Page */
 

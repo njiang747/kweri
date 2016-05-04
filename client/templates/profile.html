@@ -17,7 +17,7 @@
     <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-classlist">
         {{#each classes}}
-        {{> classElem}}
+          {{> classElem}}
         {{/each}}
       </ul>
     </div>
@@ -195,6 +195,7 @@
         {{name}}
       </div>
     </a>
+    {{#unless isProf}}
     <div id="profile-sidebar-lecturelist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-lecturelist">
         {{#if isProf}}
@@ -211,6 +212,7 @@
         {{/each}}
       </ul>
     </div>
+    {{/unless}}
   </li>
 </template>
 
