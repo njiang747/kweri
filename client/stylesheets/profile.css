@@ -59,6 +59,10 @@
   font-size: 0.9em;
 }
 
+.questions-container h3.questions-outdateddate {
+  color: #FF0000 !important;
+}
+
 #profile-sidebar-classlist-container {
   max-height:40%;
   overflow-y: auto;
@@ -157,7 +161,7 @@
 #profile-sidebar-classlist-element-listing {
   margin: 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: bold;
   color: #FFFFFF;
   background: transparent;
@@ -328,6 +332,27 @@
   border: none;
   border-radius: 3px;
   width: 45%;
+}
+
+.profile-about-header {
+  margin-left: 2%;
+}
+
+.profile-about-header h1 {
+  margin: 0;
+}
+.profile-delete-class {
+  min-width: 130px;
+  vertical-align: middle;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  color: #E5EBF2;
+
+}
+.profile-add-lecture {
+  min-width: 100px;
+  display: inline-block;
+  overflow: hidden;
 }
 
 /* Add Lecture Page */
