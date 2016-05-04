@@ -59,6 +59,10 @@
   font-size: 0.9em;
 }
 
+.questions-container h3.questions-outdateddate {
+  color: #FF0000 !important;
+}
+
 #profile-sidebar-classlist-container {
   max-height:40%;
   overflow-y: auto;

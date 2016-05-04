@@ -213,6 +213,22 @@ Template.profileQuestions.helpers({
       return "Set my status to confused";
     }
     return "I'm confused for " + Session.get("time");
+  },
+  outdateddate: function() {
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) {
+      return "questions-outdateddate";
+    }
+    return "";
+  },
+  outdatedbutton: function() {
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) {
+      return "questions-outdatedbutton";
+    }
+    return "";
   }
 });
 
@@ -678,6 +694,17 @@ Template.questionlist.helpers({
       return true;
     }
     return false;
+  }
+});
+
+Template.questionbox.helpers({
+  outdatedbutton: function() {
+    var lecture_date = Lectures.findOne(Session.get('lecture')).date.toDateString();
+    var cur_date = new Date();
+    if (cur_date.toDateString() != lecture_date) {
+      return "questions-outdatedbutton";
+    }
+    return "";
   }
 });
 
