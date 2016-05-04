@@ -109,23 +109,27 @@
 </template>
 
 <template name="profileQuestions">
-  <div class="questions-container">
-    <header class="questions-header">
-      <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
-      <br>
-      <h3>Lecture {{lNum}}: {{lName}}</h3>
-      <h3 class="questions-dateString">{{dateString}}</h3>
-      {{#unless isProf}}
-      {{> questionbox}}
-      {{/unless}}
-    </header>
-    <div class="questions-sorter">
-      {{> questionsort}}
-      {{#unless isProf}}
-      <button class="questions-con-button">{{buttonText}}</button>
-      {{/unless}}
+  <div id="wrapperdiv">
+    <div class="questions-container">
+      <div class="questions-header">
+        <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+        <br>
+        <h3>Lecture {{lNum}}: {{lName}}</h3>
+        <h3 class="questions-dateString questions-outdateddate">{{dateString}}</h3>
+        {{#unless isProf}}
+          {{> questionbox}}
+        {{/unless}}
+      </div>
+      <div class="questions-sorter">
+        {{> questionsort}}
+        {{#unless isProf}}
+          <button class="questions-con-button {{outdatedbutton}}">{{buttonText}}</button>
+        {{/unless}}
+      </div>
+      <div class="questions-questionslist">
+      {{> questionlist}}
+      </div>
     </div>
-    {{> questionlist}}
   </div>
 </template>
 
