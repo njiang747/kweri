@@ -381,7 +381,14 @@ Template.profileAbout.events({
   leaveClass();
   Session.set('lecture', this._id);
   enterClass();
-  
+},
+'click .profile-delete-lecture': function() {
+    var lect = this._id;
+    console.log(this._id);
+    var cont = confirm("Are you sure you want to delete this lecture?");
+    if (cont) {
+      Lectures.remove(lect);
+    }
 }
 });
 
