@@ -29,33 +29,33 @@
   <section id="profile-questions">
     {{load}}
     {{#if noClass}}
-      {{#if isProf}}
-        {{> profileAddClass}}
-      {{else}}
-        WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
-      {{/if}}
+    {{#if isProf}}
+    {{> profileAddClass}}
     {{else}}
-      {{#if addClass}}
-        {{> profileAddClass}}
-      {{else}}
-        {{#if addLecture}}
-          {{> profileAddLecture}}
-        {{else}}
-          {{#if aboutClass}}
-            {{> profileAbout}}
-          {{else}}
-            {{#if noLecture}}
-              {{#if isProf}}
-                {{> profileAddLecture}}
-              {{else}}
-                WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
-              {{/if}}
-            {{else}}
-              {{> profileQuestions}}
-            {{/if}}
-          {{/if}}
-        {{/if}}
-      {{/if}}
+    WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
+    {{/if}}
+    {{else}}
+    {{#if addClass}}
+    {{> profileAddClass}}
+    {{else}}
+    {{#if addLecture}}
+    {{> profileAddLecture}}
+    {{else}}
+    {{#if aboutClass}}
+    {{> profileAbout}}
+    {{else}}
+    {{#if noLecture}}
+    {{#if isProf}}
+    {{> profileAddLecture}}
+    {{else}}
+    WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
+    {{/if}}
+    {{else}}
+    {{> profileQuestions}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
     {{/if}}
   </section>
 
@@ -86,31 +86,39 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-4 col-md-offset-1">
+  <div class="row profile-about-body">
+    <div class="col-md-5 col-md-offset-1">
       <div class="aboutLectureList">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title panel-lecture-title">Your Lectures</h3>
-            <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button>
+            <!-- <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button> -->
           </div>
           <ul class="list-group">
-            {{#each classLectures}}
-            <button type="button" class="list-group-item about-indiv-lects">
-              {{number}}: {{name}}
+            <button type="button" class="list-group-item profile-add-lecture">
+                Add New Lecture
+                <span class="glyphicon glyphicon-plus"></span> 
             </button>
+          </ul>
+          <ul class="list-group">
+            {{#each classLectures}}
+              <button type="button" class="list-group-item about-indiv-lects">
+                {{number}}: {{name}}
+                <span class="glyphicon glyphicon-remove-circle profile-delete-lecture"></span>    
+              </button>
             {{/each}}
           </ul>
         </div>
       </div>
     </div>
 
-    <div class="col-md-7">
-      <p>Date created: {{classDate}}</p>
+    <div class="col-md-5 profile-about-body-desc">
+      <h4><b>Date created:</b> {{classDate}}</h4>
+      <br>
       {{#if oneEnrolled}}
-      <p>There is currently 1 student enrolled in this class.</p>
+      <h4>There is currently <b>1</b> student enrolled in this class.</h4>
       {{else}}
-      <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
+      <h4>There are currently <b>{{numEnrolled}}</b> students enrolled in this class.</h4>
       {{/if}}
     </div>
   </div>
