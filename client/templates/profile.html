@@ -3,59 +3,59 @@
   <div id="profile-topbar"></div>
   <div id="profile-sidebar">
     {{#unless isProf}}
-      {{> search}}
+    {{> search}}
     {{/unless}}
     {{#if isProf}}
-      <li id="profile-sidebar-classlist-element-addclass">
-        <a id="profile-sidebar-classlist-element-classinfo">
-          <div id="profile-sidebar-classlist-element-listing">
-            Add Class +
-          </div>
-        </a>
-      </li>
+    <li id="profile-sidebar-classlist-element-addclass">
+      <a id="profile-sidebar-classlist-element-classinfo">
+        <div id="profile-sidebar-classlist-element-listing">
+          Add Class +
+        </div>
+      </a>
+    </li>
     {{/if}}
     <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-classlist">
         {{#each classes}}
-          {{> classElem}}
+        {{> classElem}}
         {{/each}}
       </ul>
     </div>
     {{#unless isProf}}
-      {{> searchlist}}
+    {{> searchlist}}
     {{/unless}}
   </div>
 
   <section id="profile-questions">
     {{load}}
     {{#if noClass}}
-      {{#if isProf}}
-        {{> profileAddClass}}
-      {{else}}
-        WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
-      {{/if}}
+    {{#if isProf}}
+    {{> profileAddClass}}
     {{else}}
-      {{#if addClass}}
-        {{> profileAddClass}}
-      {{else}}
-        {{#if addLecture}}
-          {{> profileAddLecture}}
-        {{else}}
-          {{#if aboutClass}}
-            {{> profileAbout}}
-          {{else}}
-            {{#if noLecture}}
-              {{#if isProf}}
-                {{> profileAddLecture}}
-              {{else}}
-                WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
-              {{/if}}
-            {{else}}
-              {{> profileQuestions}}
-            {{/if}}
-          {{/if}}
-        {{/if}}
-      {{/if}}
+    WELCOME TO KWERI, STUDENT NICE TO SEE YOU HERE
+    {{/if}}
+    {{else}}
+    {{#if addClass}}
+    {{> profileAddClass}}
+    {{else}}
+    {{#if addLecture}}
+    {{> profileAddLecture}}
+    {{else}}
+    {{#if aboutClass}}
+    {{> profileAbout}}
+    {{else}}
+    {{#if noLecture}}
+    {{#if isProf}}
+    {{> profileAddLecture}}
+    {{else}}
+    WELCOME TO THE CLASS, STUDENT NICE TO SEE YOU HERE
+    {{/if}}
+    {{else}}
+    {{> profileQuestions}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
     {{/if}}
   </section>
 
@@ -77,14 +77,24 @@
 </template>
 
 <template name="profileAbout">
-  <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
-  <p>This is the about page for a class.</p>
+  <div class="profile-about-header">
+    <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2 col-md-offset-2">
+      <button type="button" class="btn btn-warning-outline profile-add-lecture">Add New Lecture</button>
+    </div>
+    <div class="col-sm-2 col-md-offset-2">
+      <button type="button" class="btn btn-warning-outline profile-delete-class">Delete this Class</button>
+    </div>
+  </div>
   {{#if oneEnrolled}}
-    <p>There is currently 1 student enrolled in this class.</p>
+  <p>There is currently 1 student enrolled in this class.</p>
   {{else}}
-    <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
+  <p>There are currently {{numEnrolled}} students enrolled in this class.</p>
   {{/if}}
-  <button type="button" class="btn btn-warning-outline profile-delete-class">Delete this Class</button>
+  
 </template>
 
 <template name="profileQuestions">
@@ -95,13 +105,13 @@
       <h3>Lecture {{lNum}}: {{lName}}</h3>
       <h3 class="questions-dateString">{{dateString}}</h3>
       {{#unless isProf}}
-        {{> questionbox}}
+      {{> questionbox}}
       {{/unless}}
     </header>
     <div class="questions-sorter">
       {{> questionsort}}
       {{#unless isProf}}
-        <button class="questions-con-button">{{buttonText}}</button>
+      <button class="questions-con-button">{{buttonText}}</button>
       {{/unless}}
     </div>
     {{> questionlist}}
@@ -157,16 +167,16 @@
     <div id="profile-sidebar-lecturelist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
       <ul id="profile-sidebar-lecturelist">
         {{#if isProf}}
-          <li id="profile-sidebar-lecturelist-element-addlecture">
-            <a>
-              <div id="profile-sidebar-lecturelist-element-listing">
-                Add Lecture
-              </div>
-            </a>
-          </li>
+        <li id="profile-sidebar-lecturelist-element-addlecture">
+          <a>
+            <div id="profile-sidebar-lecturelist-element-listing">
+              Add Lecture
+            </div>
+          </a>
+        </li>
         {{/if}}
         {{#each lectures _id}}
-          {{> lectureElem}}
+        {{> lectureElem}}
         {{/each}}
       </ul>
     </div>
@@ -196,7 +206,7 @@
   <div id="profile-sidebar-classlist-container" onmouseover="this.style.overflow='auto'" onmouseout="this.style.overflow='hidden'">
     <ul id="profile-sidebar-searchclasslist">
       {{#each classes}}
-        {{> searchElem}}
+      {{> searchElem}}
       {{/each}}
     </ul>
   </div>
@@ -218,21 +228,21 @@
 
 <template name="leaveTracker">
   <script language="JavaScript">
-    window.onbeforeunload = leave;
-    function leave(){
-      var lecture =  Lectures.findOne(Session.get('lecture'));
-      if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
-        Lectures.update(Session.get('lecture'), 
-        {
-          $pull: {totalList: Meteor.userId()}
-        });
-      }
-      if (lecture.confuseList.indexOf(Meteor.userId()) != -1) {
-        Lectures.update(Session.get('lecture'), 
-        {
-          $pull: {confuseList: Meteor.userId()}
-        });
-      }
+  window.onbeforeunload = leave;
+  function leave(){
+    var lecture =  Lectures.findOne(Session.get('lecture'));
+    if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
+      Lectures.update(Session.get('lecture'), 
+      {
+        $pull: {totalList: Meteor.userId()}
+      });
     }
+    if (lecture.confuseList.indexOf(Meteor.userId()) != -1) {
+      Lectures.update(Session.get('lecture'), 
+      {
+        $pull: {confuseList: Meteor.userId()}
+      });
+    }
+  }
   </script>
 </template>
