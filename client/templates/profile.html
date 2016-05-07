@@ -121,31 +121,23 @@
 </template>
 
 <template name="profileWelcomeKweri">
-  <div id="wrapperdiv">
-    <div class="questions-container">
-      <div class="questions-header">
-        <h1>Welcome to Kweri!</h1>
-        <br>
-        <h3>Please enroll in a class to begin</h3>
-      </div>
-    </div>
+  <div id="welcome-wrapper">
+    <h1>Hey there! Welcome to Kweri!</h1>
+    <hr>
+    <h3>Ready to make your lectures less intimidating?</h3>
+    <h3>Please enroll in a class to begin</h3>
   </div>
 </template>
 
 <template name="profileWelcomeClass">
-  <div id="wrapperdiv">
-    <div class="questions-container">
-      <div class="questions-header">
-        <h1>Welcome to {{cDpt}} {{cNum}}: {{cName}}</h1>
-        <br>
-        <h3>There are no lectures in this class at the moment</h3>
-      </div>
-    </div>
+  <div id="welcome-wrapper">
+    <h1>Welcome to {{cDpt}} {{cNum}}: {{cName}}</h1>
+    <hr>
+    <h3>There are no lectures in this class at the moment</h3>
   </div>
 </template>
 
 <template name="profileQuestions">
-  <div id="wrapperdiv">
     <div class="questions-container">
       <div class="questions-header">
         <h1>{{cDpt}} {{cNum}}: {{cName}}</h1>
@@ -162,11 +154,8 @@
         <button class="questions-con-button {{outdatedbutton}}">{{buttonText}}</button>
         {{/unless}}
       </div>
-      <div class="questions-questionslist">
-        {{> questionlist}}
-      </div>
+      {{> questionlist}}
     </div>
-  </div>
 </template>
 
 <template name="profileAddClass">
