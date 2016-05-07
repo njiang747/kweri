@@ -286,7 +286,7 @@
   window.onbeforeunload = leave;
   function leave(){
     var lecture =  Lectures.findOne(Session.get('lecture'));
-    if (lecture.totalList.indexOf(Meteor.userId()) == 1) {
+    if (lecture.totalList.indexOf(Meteor.userId()) != -1) {
       Lectures.update(Session.get('lecture'), 
       {
         $pull: {totalList: Meteor.userId()}
