@@ -1,6 +1,6 @@
 ## Synopsis
 
-Kweri is an in-class, realtime question-answer web application that provides streamlined communication between students and professors, allowing for instruction and clarification geared specifically toward the students in the classroom.
+Kweri is an in-class, realtime anonymous question web application that provides streamlined communication between students and professors, allowing for instruction and clarification geared specifically toward the students in the classroom.
 
 ## Project Members
 
